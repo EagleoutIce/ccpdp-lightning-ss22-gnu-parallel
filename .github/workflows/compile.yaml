@@ -21,7 +21,7 @@ jobs:
     - name: get pu for preview
       run: sudo apt install poppler-utils
     - name: use make docker to do the magic
-      run: make docker
+      run: cd slides/ && make docker
     - name: 'compiling the pdfs'
       run: |
         cd slides/
