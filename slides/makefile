@@ -6,7 +6,7 @@ SHELL := /usr/bin/env bash
 SLIDES_TEX             := $(shell ls source_*.tex)
 # OUTER_DEPENDENCIES     := $(shell ls ../data/*) $(shell ls ../overview/*.pdf)
 # mass-aware present-check https://unix.stackexchange.com/questions/79301/test-if-there-are-files-matching-a-pattern-in-order-to-execute-a-script#79304
-DEPENDENCIES           := ${SLIDES_TEX} preamble.tex $(shell compgen -G "*.java" > /dev/null && ls *.java) $(shell compgen -G "*.bib" > /dev/null && ls *.bib)
+DEPENDENCIES           := ${SLIDES_TEX} data/preamble.tex $(shell compgen -G "*.java" > /dev/null && ls *.java) $(shell compgen -G "*.bib" > /dev/null && ls *.bib)
 # for each 'source_*' we create n pdf versions which will be prepared here
 SLIDES_BASE            := $(basename $(SLIDES_TEX:source_%=%))
 SLIDES_VARIANTS_NOANIM := $(addprefix noanim_, ${SLIDES_BASE})
@@ -18,7 +18,7 @@ CLEANTARGETS           := log aux out ind bbl blg lof lot toc idx acn acr alg gl
 __FILENAME    := ""
 __FILECONTENT := ""
 
-.PHONY = all compile clean produce
+.PHONY = all compile clean produce docker
 
 all: compile clean
 
@@ -49,3 +49,11 @@ endef
 
 clean:
 	for fd in $(CLEANTARGETS); do rm -f *.$$fd; done
+
+docker:
+	docker build --pull --tag 'ccpdp-gnu-parallel-make' --file 'Dockerfile' .
+
+ifeq (${VERBOSE},0)
+MAKEFLAGS += --silent
+# Better than defining '.SILENT'
+endif
