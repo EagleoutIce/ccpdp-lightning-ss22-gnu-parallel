@@ -31,7 +31,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-         git add -f "slides/*.pdf" "preview-01.png"
+         git add -f "slides/*.pdf" "slides/*.png"
         git commit -m "Newly compiled data"
 # TODO: update 1.png if more slides
     - name: Push changes

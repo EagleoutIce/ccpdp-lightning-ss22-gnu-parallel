@@ -4,7 +4,7 @@
 
 Waddle waddle!
 
-[<img src="https://media.githubusercontent.com/media/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/blob/gh-pages/preview-1.png?raw=true" width="650"/>](https://media.githubusercontent.com/media/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/gh-pages/slides/noanim_ccpdp-gnu-parallel.pdf)
+[<img src="https://media.githubusercontent.com/media/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/blob/gh-pages/slides/preview-1.png?raw=true" width="650"/>](https://media.githubusercontent.com/media/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/gh-pages/slides/noanim_ccpdp-gnu-parallel.pdf)
 
 Die Folien sollten sich [hier](https://github.com/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/tree/build/slides) befinden:
 
