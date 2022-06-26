@@ -1,8 +1,10 @@
 #!/bin/bash
 
-javac Producer.java
-javac Consumer.java
+# yarn install
+
+cd java-side && mvn package && cd ..
+cp java-side/target/consumer.jar ./
+cp java-side/target/producer.jar ./
 
 
-
-java Producer 100 | parallel -k java Consumer | xargs yarn --silent start
+java -jar producer.jar 100 | parallel -k java -jar consumer.jar | xargs yarn --silent start
