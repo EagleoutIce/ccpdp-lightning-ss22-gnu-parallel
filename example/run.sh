@@ -5,4 +5,4 @@ javac Consumer.java
 
 
 
-java Producer | parallel -k java Consumer | xargs yarn --silent start
+java Producer 100 | parallel -k java Consumer | xargs yarn --silent start
