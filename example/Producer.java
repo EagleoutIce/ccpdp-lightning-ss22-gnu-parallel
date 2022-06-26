@@ -19,8 +19,8 @@ public class Producer {
             System.out.println(from + " " + to + " " + value);
         }
 
-        for (int i = 0; i < names.length; i++) {
-            System.out.println(names[i] + ": " + acc[i] + "€");
-        }
+        // for (int i = 0; i < names.length; i++) {
+        // System.out.println(names[i] + ": " + acc[i] + "€");
+        // }
     }
 }

@@ -19,7 +19,10 @@ public class Consumer {
         int from = Integer.parseInt(split[FROM]);
         int to = Integer.parseInt(split[TO]);
         int value = Integer.parseInt(split[VALUE]);
-        System.out.println(Producer.names[to] + " gets " + value + "€ from " + Producer.names[from]);
+        // System.out.println(Producer.names[to] + " gets " + value + "€ from " +
+        // Producer.names[from]);
+        System.out.println(Producer.names[to] + " " + value);
+        System.out.println(Producer.names[from] + " " + -value);
 
     }
 }
