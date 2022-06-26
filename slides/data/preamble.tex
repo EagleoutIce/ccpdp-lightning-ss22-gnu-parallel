@@ -35,7 +35,7 @@
 \usetheme[libs,nofootfade,centerfoot]{dividing-lines}
 \SetColorProfile*{paletteA}{paletteB}{paletteC}
 
-\usetikzlibrary{arrows.meta,decorations,decorations.pathreplacing,shapes.multipart,tikzmark,shapes.symbols}
+\usetikzlibrary{arrows.meta,decorations,tikzmark,matrix}
 
 \def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
 \SetAllLinkStyle{#1}
@@ -46,35 +46,54 @@
 \usetikzlibrary{decorations.text,graphs}
 \hypersetup{colorlinks=false}
 
-\title{GNU Parallel}
-\subtitle{Untertitel}
+\newsavebox\parallellogo
+\setbox\parallellogo=\hbox{\tikzpicture[xscale=1.25] % stretch me
+\foreach[count=\y from 0] \line in {0,.25,.5,.25,0,.25,.5,.25,0} {
+\scope[shift={(\line,-\y)}]
+  \foreach\i in {1,3,...,14} {
+    \fill (\i,0) rectangle ++(1,1);
+    % bars
+    \draw[gray,very thick] (\i,0) -- ++(0,1) (\i+1,0) -- ++(0,1);
+  }
+  \draw[gray,very thick] (0,0) rectangle ++(15,1);
+\endscope
+}
+\endtikzpicture}
+% no depth!
+\title{\texorpdfstring{\smash{\resizebox*!{\ht\strutbox}{\copy\parallellogo}}~}{}GNU parallel}
+\subtitle{Parallelizing and\texorpdfstring{\\}{\space}Distributing programs with the Shell}
 \institute{\textsc{ccpdp}, Universität Ulm}
 
-\author{Felix Rieg \& Florian Sihler}
+\author[Felix R. \& Florian S.]{Felix Rieg and Florian Sihler}
 \email{florian.sihler@uni-ulm.de}
 
 \date{\today}
 \outro{Ulm, \today}
 \license[]{All rights reserved}
 
-% TODO:
-% \def\PreTitlepage{\begingroup%
-% \let\oldinserttitle\inserttitle% allow it to be white on second slide
-% \let\oldinsertsubtitle\insertsubtitle% allow it to be white on second slide
-% \colorlet{PINGU@WHITE}{pingu@white}% hacksies for the whites
-% \only<2|handout:2>{\def\inserttitle{\color{pingu@white}\oldinserttitle}\def\insertsubtitle{\textcolor{pingu@white}{\oldinsertsubtitle}}}%
-% \onslide<2|handout:2>{%
-% \savebox0{\tikz{\pingu[lightsaber left=paletteC!90!white,left item angle=-20,eyes=shiny,right wing grab,cup=paletteA,body=paletteA!20!black,lightsaber left outer glow factor=.11]}}%
-% \begin{tikzpicture}[overlay,remember picture]%
-%     % beamer does not support changes of full background easily. so we do hacksies
-%     \pgfonlayer{background}
-%     \path[fill,black!99] (current page.north west) rectangle (current page.south east);
-%     \endpgfonlayer
-%     \node[above right=.15cm,scale=.65,xshift=.15cm] (pingu) at(current page.south west) {\usebox0};
-%     \node[below right,pingu@white,text width=.6\paperwidth,align=flush left] at(pingu.north east){Officially supported by the Pingu-Foundation for Emotional Support. There will be light and there will be more peeps to come!};
-% \end{tikzpicture}}%
-% }
-% \def\PostTitlepage{\endgroup}
+\colorlet{codeouthl}{gray!42!white}
+
+\newsavebox\titleimg
+\setbox\titleimg=\hbox{\begin{tikzpicture}[codeouthl]
+  \matrix[matrix of nodes,nodes={circle,fill},above right,ampersand replacement=\&,column sep=4em,row sep=.5em] {
+           \&        \& |(3a)|~ \&        \\
+           \&        \& |(3b)|~ \&        \\
+    |(1)|~ \& |(2)|~ \& |(3c)|~ \& |(4)|~ \\
+           \&        \& |(3d)|~ \&        \\
+           \&        \& |(3e)|~ \&        \\
+  };
+  % wellp: c\graph[edges={very thick,-Kite}]{(1) -> (2) -> {(3a),(3b),(3c),(3d),(3e)} -> (4)};
+  \scope[every path/.append style={draw,very thick,-Kite,rounded corners=2pt}]
+  \path(1) -- (2);  \path(2) -- (3c); \path(3c) -- (4);
+  \foreach\a in {a,b,d,e} {
+    \path (2) -- ([xshift=-1.5em]3\a.west) -- (3\a.west);
+    \path (3\a.east) -- ++(1.5em,0) -- (4);
+  }
+  \endscope
+\end{tikzpicture}}
+\def\PostTitlepage{\begin{tikzpicture}[overlay,remember picture]
+\node[above right=.5cm,xshift=1cm,scale=.875] at(current page.south west) {\copy\titleimg};
+\end{tikzpicture}}
 
 \addbibresource{./references.bib}
 
