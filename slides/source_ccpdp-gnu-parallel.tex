@@ -8,10 +8,8 @@
 \end{frame}
 % \SidebarReset
 \section{Running Example}
-\begin{frame}{Example Run!}
-% FELIX (pfusch von Flo, gson kram)
-
-\begin{minted}{Java}
+\begin{frame}[fragile]{Example Run!}
+\begin{minted}{java}
    int n = args.length == 1 ? Integer.parseInt(args[0]) : 10;
    final var rand = new Random();
 
@@ -29,7 +27,7 @@
        System.out.println(from + " " + to + " " + value);
    }
 \end{minted}
-\begin{minted}{Java}
+\begin{minted}{java}
    Scanner scan = new Scanner(System.in);
 
    while (scan.hasNextLine()) {
@@ -43,7 +41,7 @@
    }
    scan.close();
 \end{minted}
-\begin{minted}{Java}
+\begin{minted}{java}
    Scanner scan = new Scanner(System.in);
    HashMap<String, Integer> acc = new HashMap<>();
 
@@ -74,6 +72,7 @@
    #java -jar producer.jar 100000 | parallel --pipe java -jar consumer.jar | java -jar accountant.jar
 \end{minted}
 \end{frame}
+
 \section{\texorpdfstring{\textsc{gnu}}{GNU} Para\textit{ll}\/el}
 \subsection{History}
 \begin{frame}{History}
@@ -213,7 +212,7 @@
 \end{frame}
 
 \subsection{Distribution}
-\begin{frame}{Distributed}
+\begin{frame}[fragile]{Distributed}
    GNU parallel can run jobs on remote servers. It uses ssh to communicate with the remote machines.\\
    \begin{minted}{bash}
       parallel -S $SERVER echo running on ::: $SERVER
@@ -239,7 +238,7 @@
    \begin{minted}{bash}
       --controlmaster
    \end{minted}
-   
+
 
    %grafik und Code
    % erweiterungen wei verteilt mehrere Systeme % FELIX (-ssh oder so)
@@ -250,7 +249,7 @@
    % objekte % FLORIAN (gson und so)
 \end{frame}
 \subsection{Other Languages}
-\begin{frame}{Other Languages}
+\begin{frame}[fragile]{Other Languages}
    %Grafik und Code
    \begin{minted}{javascript}
       import { createInterface } from "readline";
