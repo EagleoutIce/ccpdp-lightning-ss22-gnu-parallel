@@ -73,17 +73,20 @@
 \end{minted}
 \end{frame}
 
-\section{\texorpdfstring{\textsc{gnu}}{GNU} Para\textit{ll}\/el}
+\section{GNU \LogoParallel}
 \subsection{History}
 \begin{frame}{History}
-   Originally two tools: xxargs and parallel. \\
-   % TODO Inline Code : make -j
-   Parallel was originally a wrapper that generated a makefile and used make -j to do the parallelization.\\
-   xxargs and parallel got merged into parallel.\\
-   New objectives: replace xargs and run commands in parallel.\\
-   In 2010 parallel was adopted as an official GNU tool, named GNU parallel.\\
-      % FELIX
-   % Single-file to work easily, perl because seems to be widespeared, problem: opverhead (--tag option+, https://www.gnu.org/software/parallel/parallel_design.pdf)
+   \begin{itemize}[<+(1)->]
+      \itemsep10pt
+      \item Originally two tools: xxargs and \LogoParallel. \begin{itemize}
+         \itemsep5pt
+         \item Parallel was originally a wrapper that generated a makefile and used \bbash{make -j} to do the parallelization
+         \item xxargs and \LogoParallel got merged into parallel
+         \item New objectives\flo{(s)?}: replace xargs and run commands in \LogoParallel. \flo{klarer machen, dass xargs?}
+      \end{itemize}
+      \item In 2010, \LogoParallel was adopted as an official \textsc{gnu} tool, named \textsc{gnu} \LogoParallel.
+   \end{itemize}
+   % Single-file to work easily, perl because seems to be widespread, problem: overhead (--tag option+, https://www.gnu.org/software/parallel/parallel_design.pdf)
 \end{frame}
 
 \subsection{Usage in Bash}

@@ -118,3 +118,10 @@
 % \node[above left,btdl@color@white,scale=.475] at (current page.south east) {\href{https://github.com/EagleoutIce/Episode-Recursion}{Slides and \LaTeX-sources on GitHub!}};
 % \end{tikzpicture}
 }
+
+\long\def\commy#1{\smash{\tiny\fboxsep=1pt\fcolorbox{pingu@purple}{pingu@purple!10!white}{\bfseries #1}}}
+\long\def\flo#1{\commy{Flo:~#1}}
+\long\def\felix#1{\commy{Felix:~#1}}
+
+\usepackage{xspace}
+\def\LogoParallel{parallel\xspace}%{para\textit{ll}\/el\xspace}
