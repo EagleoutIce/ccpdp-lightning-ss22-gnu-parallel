@@ -6,6 +6,7 @@
 \begin{frame}{Motivation}
 % FELIX&FLO
 \end{frame}
+% \SidebarReset
 \section{Running Example}
 \begin{frame}{Example Run!}
 % FELIX (pfusch von Flo, gson kram)
@@ -28,6 +29,7 @@
    \onslide<4->{\draw[-{Kite[scale=.8]},very thick](@.east) to[edge node={node[above,black] {\textsc{stdout}}}] ++(2,0) coordinate (@O);}
    \onslide<5->{\draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};}
    \onslide<6->{\node[below,darkgray] (wc) at(@.south) {\sbfamily\bbash{wc -l}};}
+   \only<7->{
    \scope[xshift=-6cm]
    \onslide<7->{\node[circle,minimum size=1cm,fill] (@) at(0,0) {};
    \draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@I);
@@ -35,11 +37,12 @@
    \draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};}
    \onslide<8->{\node[below,darkgray] (cat) at(@.south) {\sbfamily\bbash{cat makefile}};}
    \endscope
-   \onslide<9->{
+   }
+   \only<9->{
       \draw[-Kite,very thick,codeouthl!70!white] (@o) -- (@i) coordinate[pos=.5] (@@);
       \path (@@|-wc) node[darkgray,xshift=-1mm] {\sbfamily\T{|}};
    }
-   \onslide<10->{
+   \only<10->{
       \draw[decorate,decoration={brace,mirror,amplitude=2pt},thick,black,sharp corners] ([yshift=-1.25cm]@I) to[edge node={node[below=2pt] {Producer}}] ([yshift=-1.25cm]@o);
       \draw[decorate,decoration={brace,mirror,amplitude=2pt},thick,black,sharp corners] ([yshift=-1.25cm]@i) to[edge node={node[below=2pt] {Consumer}}] ([yshift=-1.25cm]@O);
    }
@@ -123,6 +126,7 @@
       \draw[-Kite,very thick,codeouthl!70!white] (@o) -- (@i) coordinate[pos=.5] (@@);
       \path (@@|-wc) node[darkgray,xshift=-1mm] {\sbfamily\T{|}};
       % TODO: benchmarks
+       TODO: parallel wirklich aufteilen
    \end{tikzpicture}
 \end{frame}
 % TODO: nice example clock:
@@ -150,8 +154,14 @@
    % objekte % FLORIAN (gson und so)
 \end{frame}
 \subsection{Other Languages}
-\begin{frame}{Other Languages}
+\begin{frame}[fragile]{Other Languages}
    Grafik und Code
+\begin{uncoverenv}<2->
+\begin{minted}{javascript}
+const i = 32;
+let m = i - 3;
+\end{minted}
+\end{uncoverenv}
    % verschiedene Sprache % FELIX
    % TODO: timeout option?
 \end{frame}
@@ -179,7 +189,8 @@
    \item Execute each program in own subshell
    \item TODO: not sequential: \url{https://stackoverflow.com/a/32946581} os we execute al steps in parallel for free (producer-consumer) \url{https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html\#tag_02_09_02}
    \item TODO: talk about redirection and sockets?
-   \item % load balacning https://stackoverflow.com/questions/14039403/gnu-parallel-load-balancing
+   \item load balacning \url{https://stackoverflow.com/questions/14039403/gnu-parallel-load-balancing}
+   \item how does bash sync it?
 \end{itemize}
 % Semaphor => kann als solche verwendet werden
 % Semaphor, Rechner Sockets, % FLO
@@ -196,10 +207,12 @@
 % FELIX&FLO
 % praktische Anwendungen
 % optionen die wir nicht vorstellen
-% gibt es eine geplante Weiterentwicklung?
+% gibt es eine geplante Weiterentwicklung? <- ne
 % Alternativen: https://www.gnu.org/software/parallel/parallel_alternatives.pdf
 % -pipe vs pipepart, disk buffering
 % sql support --sql-master etc.
+% table support
+% shebang
 \end{frame}
 
 \end{document}
