@@ -1,0 +1,14 @@
+
+Ich hab mal einen ordner mit 171 Bilder von xargs und parallel gzipen lassen und die Zeit verglichen:
+
+gzip Example:
+ls | wc -w     -> 171
+
+felix@Felixs-Mac-mini wallpaper % time ( ls | parallel gzip)   
+( ls | parallel gzip; )  7.30s user 1.20s system 534% cpu 1.589 total
+
+felix@Felixs-Mac-mini wallpaper % time ( ls | parallel -X gzip )  
+( ls | parallel -X gzip; )  6.96s user 0.28s system 513% cpu 1.410 total
+
+felix@Felixs-Mac-mini wallpaper % time (ls | xargs gzip)   
+( ls | xargs gzip; )  5.18s user 0.13s system 95% cpu 5.537 total

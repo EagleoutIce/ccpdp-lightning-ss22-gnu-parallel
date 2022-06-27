@@ -1,0 +1,3 @@
+**/*.jar
+consumer.js
+yarn.lock
