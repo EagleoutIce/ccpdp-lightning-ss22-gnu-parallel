@@ -9,7 +9,7 @@ public class Consumer {
 
     public static void main(String[] args) {
         /* { Consumer main } */
-        Scanner scan = new Scanner(System.in);
+        final var scan = new Scanner(System.in);
         while (scan.hasNextLine()) {
             String[] s = scan.nextLine().split(" ");
             System.out.println(Constants.NAMES[Integer.parseInt(s[FROM])] + " " + -Integer.parseInt(s[VALUE]));
