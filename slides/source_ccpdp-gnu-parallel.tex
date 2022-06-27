@@ -9,11 +9,80 @@
 \section{Running Example}
 \begin{frame}{Example Run!}
 % FELIX (pfusch von Flo, gson kram)
+
+\begin{minted}{Java}
+   int n = args.length == 1 ? Integer.parseInt(args[0]) : 10;
+   final var rand = new Random();
+
+   for (int i = 0; i < n; i++) {
+
+       int from;
+       int to;
+       do {
+           from = rand.nextInt(Constants.names.length);
+           to = rand.nextInt(Constants.names.length);
+       } while (from == to);
+
+       int value = rand.nextInt(100) * 10;
+
+       System.out.println(from + " " + to + " " + value);
+   }
+\end{minted}
+\begin{minted}{Java}
+   Scanner scan = new Scanner(System.in);
+
+   while (scan.hasNextLine()) {
+       String input = scan.nextLine();
+
+       String[] s = input.split(" ");
+
+       System.out.println(Constants.names[Integer.parseInt(s[FROM])] + " " + -Integer.parseInt(s[VALUE]));
+       System.out.println(Constants.names[Integer.parseInt(s[TO])] + " " + Integer.parseInt(s[VALUE]));
+
+   }
+   scan.close();
+\end{minted}
+\begin{minted}{Java}
+   Scanner scan = new Scanner(System.in);
+   HashMap<String, Integer> acc = new HashMap<>();
+
+   while (scan.hasNextLine()) {
+       String input = scan.nextLine();
+       String[] transaction = input.split(" ");
+
+       if (transaction.length != 2) {
+           System.out.println(input);
+           continue;
+       }
+
+       if (!acc.containsKey(transaction[0])) {
+           acc.put(transaction[0], 0);
+       }
+
+       acc.put(transaction[0], acc.get(transaction[0]) + Integer.parseInt(transaction[1]));
+
+   }
+   scan.close();
+
+   acc.entrySet().forEach(entry -> {
+       System.out.println(entry.getKey() + ": " + entry.getValue());
+   });
+\end{minted}
+\begin{minted}{bash}
+   java -jar producer.jar 100000 | parallel --pipe java -jar consumer.jar | yarn --silent start
+   #java -jar producer.jar 100000 | parallel --pipe java -jar consumer.jar | java -jar accountant.jar
+\end{minted}
 \end{frame}
 \section{\texorpdfstring{\textsc{gnu}}{GNU} Para\textit{ll}\/el}
 \subsection{History}
 \begin{frame}{History}
-   % FELIX
+   Originally two tools: xxargs and parallel. \\
+   % TODO Inline Code : make -j
+   Parallel was originally a wrapper that generated a makefile and used make -j to do the parallelization.\\
+   xxargs and parallel got merged into parallel.\\
+   New objectives: replace xargs and run commands in parallel.\\
+   In 2010 parallel was adopted as an official GNU tool, named GNU parallel.\\
+      % FELIX
    % Single-file to work easily, perl because seems to be widespeared, problem: opverhead (--tag option+, https://www.gnu.org/software/parallel/parallel_design.pdf)
 \end{frame}
 
@@ -141,7 +210,34 @@
 
 \subsection{Distribution}
 \begin{frame}{Distributed}
-   grafik und Code
+   GNU parallel can run jobs on remote servers. It uses ssh to communicate with the remote machines.\\
+   \begin{minted}{bash}
+      parallel -S $SERVER echo running on ::: $SERVER
+   \end{minted}
+   Transfer Files using rsync:
+   \begin{minted}{bash}
+      parallel -S $SERVER1 --transferfile {} --return {}.out --cleanup cat {} ">"{}.out ::: input_file
+      // Shorthand
+      parallel -S $SERVER1 --trc {}.out cat {} ">"{}.out ::: input_file
+   \end{minted}
+   \begin{minted}{bash}
+      --basefile
+      --workdir
+      --onall
+      --nonall non argument onall
+      --tag for output
+   \end{minted}
+   Prevent sshd Overloading:
+   \begin{minted}{bash}
+      parallel -S $SERVER1 --sshdelay 0.2 echo ::: 1 2 3
+   \end{minted}
+   Multiplex connections:
+   \begin{minted}{bash}
+      --controlmaster
+   \end{minted}
+   
+
+   %grafik und Code
    % erweiterungen wei verteilt mehrere Systeme % FELIX (-ssh oder so)
 \end{frame}
 \subsection{Data Encoding}
@@ -151,7 +247,36 @@
 \end{frame}
 \subsection{Other Languages}
 \begin{frame}{Other Languages}
-   Grafik und Code
+   %Grafik und Code
+   \begin{minted}{javascript}
+      import { createInterface } from "readline";
+
+      const readline = createInterface({
+         input: process.stdin,
+      });
+
+      let accMap = new Map<String, number>();
+
+const handleLine = (input: String) => {
+  const s = input.split(" ");
+  if (s.length != 2) {
+    console.log(input);
+    return;
+  }
+  if (!accMap.has(s[0])) accMap.set(s[0], 0);
+  accMap.set(s[0], accMap.get(s[0])! + +s[1]);
+};
+
+readline.on("line", handleLine);
+
+readline.on("close", () => {
+  console.log(accMap);
+});
+   \end{minted}
+   \begin{minted}{bash}
+      java -jar producer.jar 100000 | parallel --pipe java -jar consumer.jar | yarn --silent start
+      #java -jar producer.jar 100000 | parallel --pipe java -jar consumer.jar | java -jar accountant.jar
+   \end{minted}
    % verschiedene Sprache % FELIX
    % TODO: timeout option?
 \end{frame}
