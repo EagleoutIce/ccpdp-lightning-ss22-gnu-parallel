@@ -8,80 +8,7 @@
 \end{frame}
 % \SidebarReset
 \section{Running Example}
-\begin{frame}[fragile]{A simple Bank}
-\begin{layout-imageonly}
-\begin{minted}{java}
-/*\CodeFileMarker{Producer.java}*/
-final var rand = new Random();
 
-for (int i = 0; i < /*\Snode{n@}*/n/*\Snode{n@}*/; i++) {
-   int from = rand.nextInt(/*\Snode{names}*/NAMES/*\Snode{names@}*/.length);
-   int to = rand.nextInt(NAMES.length);
-   System.out.format("%d %d %d%n", from, to, /*\Snode{value}*/rand.nextInt(100) * 10/*\Snode{value@}*/);
-}
-\end{minted}
-\end{layout-imageonly}
-\begin{minted}{java}
-   Scanner scan = new Scanner(System.in);
-
-   while (scan.hasNextLine()) {
-       String input = scan.nextLine();
-
-       String[] s = input.split(" ");
-
-       System.out.println(Constants.names[Integer.parseInt(s[FROM])] + " " + -Integer.parseInt(s[VALUE]));
-       System.out.println(Constants.names[Integer.parseInt(s[TO])] + " " + Integer.parseInt(s[VALUE]));
-
-   }
-   scan.close();
-\end{minted}
-\begin{minted}{java}
-   Scanner scan = new Scanner(System.in);
-   HashMap<String, Integer> acc = new HashMap<>();
-
-   while (scan.hasNextLine()) {
-       String input = scan.nextLine();
-       String[] transaction = input.split(" ");
-
-       if (transaction.length != 2) {
-           System.out.println(input);
-           continue;
-       }
-
-       if (!acc.containsKey(transaction[0])) {
-           acc.put(transaction[0], 0);
-       }
-
-       acc.put(transaction[0], acc.get(transaction[0]) + Integer.parseInt(transaction[1]));
-
-   }
-   scan.close();
-
-   acc.entrySet().forEach(entry -> {
-       System.out.println(entry.getKey() + ": " + entry.getValue());
-   });
-\end{minted}
-\begin{minted}{bash}
-   java -jar producer.jar 100000 | parallel --pipe java -jar consumer.jar | yarn --silent start
-   #java -jar producer.jar 100000 | parallel --pipe java -jar consumer.jar | java -jar accountant.jar
-\end{minted}
-\end{frame}
-
-\section{GNU \LogoParallel}
-\subsection{History}
-\begin{frame}{History}
-   \begin{itemize}[<+(1)->]
-      \itemsep10pt
-      \item Originally two tools: xxargs and \LogoParallel. \begin{itemize}
-         \itemsep5pt
-         \item Parallel was originally a wrapper that generated a makefile and used \bbash{make -j} to do the parallelization
-         \item xxargs and \LogoParallel got merged into parallel
-         \item New objectives\flo{(s)?}: replace xargs and run commands in \LogoParallel. \flo{klarer machen, dass xargs?}
-      \end{itemize}
-      \item In 2010, \LogoParallel was adopted as an official \textsc{gnu} tool, named \textsc{gnu} \LogoParallel.
-   \end{itemize}
-   % Single-file to work easily, perl because seems to be widespread, problem: overhead (--tag option+, https://www.gnu.org/software/parallel/parallel_design.pdf)
-\end{frame}
 
 \subsection{Usage in Bash}
 \makeatletter % faulheit!
@@ -256,12 +183,89 @@ for (int i = 0; i < /*\Snode{n@}*/n/*\Snode{n@}*/; i++) {
 % TODO: even with grouping, e.g by piping with 'sort' - a stateful operation which operates as "Flaschenhals"
 % TODO: auch auf ::: und so eingehen % FLORIAN
 
+
+\section{GNU \LogoParallel}
+\begin{frame}[fragile]{A simple Bank}
+\begin{layout-imageonly}
+\begin{minted}{java}
+/*\CodeFileMarker{Producer.java}*/
+final var rand = new Random();
+
+for (int i = 0; i < /*\Snode{n@}*/n/*\Snode{n@}*/; i++) {
+   int from = rand.nextInt(/*\Snode{names}*/NAMES/*\Snode{names@}*/.length);
+   int to = rand.nextInt(NAMES.length);
+   System.out.format("%d %d %d%n", from, to, /*\Snode{value}*/rand.nextInt(100) * 10/*\Snode{value@}*/);
+}
+\end{minted}
+\end{layout-imageonly}
+\begin{minted}{java}
+   Scanner scan = new Scanner(System.in);
+
+   while (scan.hasNextLine()) {
+       String input = scan.nextLine();
+
+       String[] s = input.split(" ");
+
+       System.out.println(Constants.names[Integer.parseInt(s[FROM])] + " " + -Integer.parseInt(s[VALUE]));
+       System.out.println(Constants.names[Integer.parseInt(s[TO])] + " " + Integer.parseInt(s[VALUE]));
+
+   }
+   scan.close();
+\end{minted}
+\begin{minted}{java}
+   Scanner scan = new Scanner(System.in);
+   HashMap<String, Integer> acc = new HashMap<>();
+
+   while (scan.hasNextLine()) {
+       String input = scan.nextLine();
+       String[] transaction = input.split(" ");
+
+       if (transaction.length != 2) {
+           System.out.println(input);
+           continue;
+       }
+
+       if (!acc.containsKey(transaction[0])) {
+           acc.put(transaction[0], 0);
+       }
+
+       acc.put(transaction[0], acc.get(transaction[0]) + Integer.parseInt(transaction[1]));
+
+   }
+   scan.close();
+
+   acc.entrySet().forEach(entry -> {
+       System.out.println(entry.getKey() + ": " + entry.getValue());
+   });
+\end{minted}
+\begin{minted}{bash}
+   java -jar producer.jar 100000 | parallel --pipe java -jar consumer.jar | yarn --silent start
+   #java -jar producer.jar 100000 | parallel --pipe java -jar consumer.jar | java -jar accountant.jar
+\end{minted}
+\end{frame}
+
 % \subsection{The Running-Example}
 \begin{frame}{Fun!}
    grafik und Code
 % wann sinnvoll usw.
 % bank beispiel mit java  %  FELIX
 \end{frame}
+
+\subsection{History}
+\begin{frame}{History}
+   \begin{itemize}[<+(1)->]
+      \itemsep10pt
+      \item Originally two tools: xxargs and \LogoParallel. \begin{itemize}
+         \itemsep5pt
+         \item Parallel was originally a wrapper that generated a makefile and used \bbash{make -j} to do the parallelization
+         \item xxargs and \LogoParallel got merged into parallel
+         \item New objectives\flo{(s)?}: replace xargs and run commands in \LogoParallel. \flo{klarer machen, dass xargs?}
+      \end{itemize}
+      \item In 2010, \LogoParallel was adopted as an official \textsc{gnu} tool, named \textsc{gnu} \LogoParallel.
+   \end{itemize}
+   % Single-file to work easily, perl because seems to be widespread, problem: overhead (--tag option+, https://www.gnu.org/software/parallel/parallel_design.pdf)
+\end{frame}
+
 
 \subsection{Distribution}
 \begin{frame}[fragile]{Distributed}
