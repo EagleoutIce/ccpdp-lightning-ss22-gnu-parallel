@@ -1,7 +1,7 @@
 \errorcontextlines 999999
 \PassOptionsToPackage{table}{xcolor}
 \PassOptionsToPackage{defernumbers=true}{biblatex}
-\documentclass[aspectratio=169,usepdftitle=true,11pt,fleqn,english,t]{beamer}
+\documentclass[aspectratio=169,usepdftitle=true,11pt,fleqn,english,c]{beamer}
 
 \usepackage[ngerman]{babel}
 
@@ -15,7 +15,6 @@
 ]{lithie-util}
 
 \solLoadLanguage{bash,javascript}
-\solsetmintedstyle{plain number}
 \makeatletter
 \sol@list@define@styles{%
   {keywordA: \@declaredcolor{sol@colors@lst@keywordA}\bfseries},%
@@ -125,3 +124,13 @@
 
 \usepackage{xspace}
 \def\LogoParallel{parallel\xspace}%{para\textit{ll}\/el\xspace}
+\makeatletter
+\def\sol@minted@setup#1#2#3{\lstset{style=#1,language=#2,lineskip=4pt,#3,escapeinside={/*}{*/}}}
+\solsetmintedstyle{plain}% number}
+
+\def\HStrut{\vphantom{\{\}g}}
+% we do not nest inside tikzmarknode as this is not possible
+\def\Snode#1{\tikzmarknode{#1}\HStrut}
+\def\bnode#1#2{\rnode{#1}{\sbasic{#2}}}%
+\def\rnode#1#2{\Snode{#1}#2\Snode{#1@}}
+\def\CodeFileMarker#1{{\color{gray}\sffamily\tiny\llap{\faFileCodeO~\thinspace}#1}}

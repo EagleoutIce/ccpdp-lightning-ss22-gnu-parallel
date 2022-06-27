@@ -8,25 +8,19 @@
 \end{frame}
 % \SidebarReset
 \section{Running Example}
-\begin{frame}[fragile]{Example Run!}
+\begin{frame}[fragile]{A simple Bank}
+\begin{layout-imageonly}
 \begin{minted}{java}
-   int n = args.length == 1 ? Integer.parseInt(args[0]) : 10;
-   final var rand = new Random();
+/*\CodeFileMarker{Producer.java}*/
+final var rand = new Random();
 
-   for (int i = 0; i < n; i++) {
-
-       int from;
-       int to;
-       do {
-           from = rand.nextInt(Constants.names.length);
-           to = rand.nextInt(Constants.names.length);
-       } while (from == to);
-
-       int value = rand.nextInt(100) * 10;
-
-       System.out.println(from + " " + to + " " + value);
-   }
+for (int i = 0; i < /*\Snode{n@}*/n/*\Snode{n@}*/; i++) {
+   int from = rand.nextInt(/*\Snode{names}*/NAMES/*\Snode{names@}*/.length);
+   int to = rand.nextInt(NAMES.length);
+   System.out.format("%d %d %d%n", from, to, /*\Snode{value}*/rand.nextInt(100) * 10/*\Snode{value@}*/);
+}
 \end{minted}
+\end{layout-imageonly}
 \begin{minted}{java}
    Scanner scan = new Scanner(System.in);
 
@@ -128,31 +122,32 @@
 % \end{tikzpicture}
 \end{frame}
 
+% TODO: example from: https://www.usenix.org/system/files/login/articles/105438-Tange.pdf
 \begin{frame}[c]{Pipes\rhead{II}}
 \centering
 % \begin{layout-imageonly}
 \begin{tikzpicture}[,codeouthl,every path/.append style={line cap=round,rounded corners=2pt}]
-   \node[circle,minimum size=1cm,fill] (@) at(0,0) {};
+   \only<-4|handout:0>{\node[circle,minimum size=1cm,fill] (@) at(0,0) {};}
+   \only<5-|handout:0>{\node[rectangle,minimum width=3cm,minimum height=2cm,fill] (@) at(0,0) {};}
    \draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@i);
    \draw[-{Kite[scale=.8]},very thick](@.east) to[edge node={node[above,black] {\textsc{stdout}}}] ++(2,0) coordinate (@O);
    \draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};
    \onslide<4->{\node[below,darkgray] (wc) at(@.south) {\sbfamily\bbash{xargs gzip}};
-      \foreach \a in {0,60,...,359} {
-         \path ([yshift=-1mm]@)++(\a:2mm) node[btdl@color@background] {\huge\textbullet};
-      }
-   }% use --keep! and maybe --recursive for data
+
+   }
+   % NOTE: use --keep! and maybe --recursive for data
 
    \scope[xshift=-6cm]
    \node[circle,minimum size=1cm,fill] (@) at(0,0) {};
    \draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@I);
    \draw[-{Kite[scale=.8]},very thick](@.east) to[edge node={node[above,black] {\textsc{stdout}}}] ++(2,0)  coordinate (@o);
    \draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};
-   \onslide<2->{\node[below,darkgray] (ls) at(@.south) {\sbfamily\bbash{ls}};}
+   \onslide<2->{\node[below,darkgray] (ls) at(@.south) {\sbfamily\bbash{find . -type f}};}
    \onslide<3->{\node[below=2mm,inner sep=1.5mm,fill=gray!10!white,rounded corners=2pt,text width=3cm,text=black,align=left,font=\ttfamily,scale=.85] at([xshift=1cm]ls.south) {%
-      Dockerfile\\
-      run-docker\\
-      data\\
-      makefile\\
+      ./Dockerfile\\
+      ./run-docker\\
+      ./data\\
+      ./makefile\\
       \ldots
    };}
    % ls hat Probleme, ist hier nur als einfaches Beispiel:
@@ -168,7 +163,7 @@
 
 \begin{frame}[c]{Pipes\rhead{III}}
    \centering
-   % \begin{layout-imageonly}
+\begin{layout-imageonly}
    \begin{tikzpicture}[,codeouthl,every path/.append style={line cap=round,rounded corners=2pt}]
       \node[circle,minimum size=1cm,fill] (@) at(0,0) {};
       \draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@i);
@@ -185,12 +180,12 @@
       \draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@I);
       \draw[-{Kite[scale=.8]},very thick](@.east) to[edge node={node[above,black] {\textsc{stdout}}}] ++(2,0)  coordinate (@o);
       \draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};
-      \onslide<2->{\node[below,darkgray] (ls) at(@.south) {\sbfamily\bbash{ls}};}
+      \onslide<2->{\node[below,darkgray] (ls) at(@.south) {\sbfamily\bbash{find . -type f}};}
       \onslide<3->{\node[below=2mm,inner sep=1.5mm,fill=gray!10!white,rounded corners=2pt,text width=3cm,text=black,align=left,font=\ttfamily,scale=.85] at([xshift=1cm]ls.south) {%
-         Dockerfile\\
-         run-docker\\
-         data\\
-         makefile\\
+         ./Dockerfile\\
+         ./run-docker\\
+         ./data\\
+         ./makefile\\
          \ldots
       };}
       \endscope
@@ -199,6 +194,9 @@
       % TODO: benchmarks
        TODO: parallel wirklich aufteilen
    \end{tikzpicture}
+\end{layout-imageonly}
+% TODO: übergang pipe animation
+% Nicer: https://www.usenix.org/system/files/login/articles/105438-Tange.pdf
 \end{frame}
 % TODO: nice example clock:
 % parallel -k echo {1}'{=3 $_=$_%2?":":" "=}'{2}{3} \
