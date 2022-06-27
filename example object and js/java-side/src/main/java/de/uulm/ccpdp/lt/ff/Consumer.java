@@ -7,20 +7,18 @@ import com.google.gson.GsonBuilder;
 public class Consumer {
 
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-
+        final var scan = new Scanner(System.in);
+        final var gson = new GsonBuilder().create();
+        /* { Consumer main } */
         while (scan.hasNextLine()) {
             String input = scan.nextLine();
-
-            final var gson = new GsonBuilder().create();
             final var transaction = gson.fromJson(input, Transaction.class);
-
-            System.out.println(Constants.names[transaction.to] + " " + transaction.value);
-            System.out.println(Constants.names[transaction.from] + " " + -transaction.value);
-
+            System.out.println(Constants.NAMES[transaction.to] + " " + transaction.value);
+            System.out.println(Constants.NAMES[transaction.from] + " -" + transaction.value);
         }
+        /* { Consumer } */
         scan.close();
-        System.out.println("INFO: Consumer closed!");
-
+        System.err.println("INFO: Consumer closed!");
     }
 }
+// Note: we assume pos values etc.

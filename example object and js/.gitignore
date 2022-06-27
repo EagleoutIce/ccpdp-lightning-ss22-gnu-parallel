@@ -1,3 +1,3 @@
 **/*.jar
-consumer.js
+*.js
 yarn.lock

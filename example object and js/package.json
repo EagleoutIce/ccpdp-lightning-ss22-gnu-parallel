@@ -3,7 +3,7 @@
   "main": "consumer.js",
   "license": "MIT",
   "scripts": {
-    "start": "tsc && node consumer.js"
+    "start-consumer": "tsc && node consumer.js"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
