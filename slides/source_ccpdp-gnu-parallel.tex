@@ -10,24 +10,181 @@
 \begin{frame}{Example Run!}
 % FELIX (pfusch von Flo, gson kram)
 \end{frame}
-\section{\texorpdfstring{GNU}{\textsc{gnu}} Para\textit{ll}\/el}
+\section{\texorpdfstring{\textsc{gnu}}{GNU} Para\textit{ll}\/el}
+\subsection{History}
+\begin{frame}{History}
+   % FELIX
+   % Single-file to work easily, perl because seems to be widespeared, problem: opverhead (--tag option+, https://www.gnu.org/software/parallel/parallel_design.pdf)
+\end{frame}
+
+\subsection{Usage in Bash}
+\makeatletter % faulheit!
+\begin{frame}[c]{Pipes}
+\centering
+% \begin{layout-imageonly}
+\begin{tikzpicture}[,codeouthl,every path/.append style={line cap=round,rounded corners=2pt}]
+   \onslide<2->{\node[circle,minimum size=1cm,fill] (@) at(0,0) {};}
+   \onslide<3->{\draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@i);}
+   \onslide<4->{\draw[-{Kite[scale=.8]},very thick](@.east) to[edge node={node[above,black] {\textsc{stdout}}}] ++(2,0) coordinate (@O);}
+   \onslide<5->{\draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};}
+   \onslide<6->{\node[below,darkgray] (wc) at(@.south) {\sbfamily\bbash{wc -l}};}
+   \scope[xshift=-6cm]
+   \onslide<7->{\node[circle,minimum size=1cm,fill] (@) at(0,0) {};
+   \draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@I);
+   \draw[-{Kite[scale=.8]},very thick](@.east) to[edge node={node[above,black] {\textsc{stdout}}}] ++(2,0)  coordinate (@o);
+   \draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};}
+   \onslide<8->{\node[below,darkgray] (cat) at(@.south) {\sbfamily\bbash{cat makefile}};}
+   \endscope
+   \onslide<9->{
+      \draw[-Kite,very thick,codeouthl!70!white] (@o) -- (@i) coordinate[pos=.5] (@@);
+      \path (@@|-wc) node[darkgray,xshift=-1mm] {\sbfamily\T{|}};
+   }
+   \onslide<10->{
+      \draw[decorate,decoration={brace,mirror,amplitude=2pt},thick,black,sharp corners] ([yshift=-1.25cm]@I) to[edge node={node[below=2pt] {Producer}}] ([yshift=-1.25cm]@o);
+      \draw[decorate,decoration={brace,mirror,amplitude=2pt},thick,black,sharp corners] ([yshift=-1.25cm]@i) to[edge node={node[below=2pt] {Consumer}}] ([yshift=-1.25cm]@O);
+   }
+   % TODO: next slide, connect them with the pipe symbol
+   % TODO: make programs black to read them better
+\end{tikzpicture}
+% \end{layout-imageonly}
+% each program run in the command line has three data streams connected to it:
+% \begin{tikzpicture}[overlay,remember picture]
+% \scope[shift={(current page.south west)},shift={(\beamer@leftmargin,1cm)}]
+% \endscope
+% \end{tikzpicture}
+\end{frame}
+
+\begin{frame}[c]{Pipes\rhead{II}}
+\centering
+% \begin{layout-imageonly}
+\begin{tikzpicture}[,codeouthl,every path/.append style={line cap=round,rounded corners=2pt}]
+   \node[circle,minimum size=1cm,fill] (@) at(0,0) {};
+   \draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@i);
+   \draw[-{Kite[scale=.8]},very thick](@.east) to[edge node={node[above,black] {\textsc{stdout}}}] ++(2,0) coordinate (@O);
+   \draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};
+   \onslide<4->{\node[below,darkgray] (wc) at(@.south) {\sbfamily\bbash{xargs gzip}};
+      \foreach \a in {0,60,...,359} {
+         \path ([yshift=-1mm]@)++(\a:2mm) node[btdl@color@background] {\huge\textbullet};
+      }
+   }% use --keep! and maybe --recursive for data
+
+   \scope[xshift=-6cm]
+   \node[circle,minimum size=1cm,fill] (@) at(0,0) {};
+   \draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@I);
+   \draw[-{Kite[scale=.8]},very thick](@.east) to[edge node={node[above,black] {\textsc{stdout}}}] ++(2,0)  coordinate (@o);
+   \draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};
+   \onslide<2->{\node[below,darkgray] (ls) at(@.south) {\sbfamily\bbash{ls}};}
+   \onslide<3->{\node[below=2mm,inner sep=1.5mm,fill=gray!10!white,rounded corners=2pt,text width=3cm,text=black,align=left,font=\ttfamily,scale=.85] at([xshift=1cm]ls.south) {%
+      Dockerfile\\
+      run-docker\\
+      data\\
+      makefile\\
+      \ldots
+   };}
+   % ls hat Probleme, ist hier nur als einfaches Beispiel:
+   % https://unix.stackexchange.com/questions/128985/why-not-parse-ls-and-what-to-do-instead
+   \endscope
+   \draw[-Kite,very thick,codeouthl!70!white] (@o) -- (@i) coordinate[pos=.5] (@@);
+   \path (@@|-wc) node[darkgray,xshift=-1mm] {\sbfamily\T{|}};
+   % TODO: benchmarks
+\end{tikzpicture}
+% \end{layout-imageonly}
+% each program run in the command line has three data streams connected to it:
+\end{frame}
+
+\begin{frame}[c]{Pipes\rhead{III}}
+   \centering
+   % \begin{layout-imageonly}
+   \begin{tikzpicture}[,codeouthl,every path/.append style={line cap=round,rounded corners=2pt}]
+      \node[circle,minimum size=1cm,fill] (@) at(0,0) {};
+      \draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@i);
+      \draw[-{Kite[scale=.8]},very thick](@.east) to[edge node={node[above,black] {\textsc{stdout}}}] ++(2,0) coordinate (@O);
+      \draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};
+      \onslide<4->{\node[below,darkgray] (wc) at(@.south) {\sbfamily\bbash{parallel gzip}};
+         \foreach \a in {0,60,...,359} {
+            \path ([yshift=-1mm]@)++(\a:2mm) node[btdl@color@background] {\huge\textbullet};
+         }
+      }% use --keep! and maybe --recursive for data
+
+      \scope[xshift=-6cm]
+      \node[circle,minimum size=1cm,fill] (@) at(0,0) {};
+      \draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@I);
+      \draw[-{Kite[scale=.8]},very thick](@.east) to[edge node={node[above,black] {\textsc{stdout}}}] ++(2,0)  coordinate (@o);
+      \draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};
+      \onslide<2->{\node[below,darkgray] (ls) at(@.south) {\sbfamily\bbash{ls}};}
+      \onslide<3->{\node[below=2mm,inner sep=1.5mm,fill=gray!10!white,rounded corners=2pt,text width=3cm,text=black,align=left,font=\ttfamily,scale=.85] at([xshift=1cm]ls.south) {%
+         Dockerfile\\
+         run-docker\\
+         data\\
+         makefile\\
+         \ldots
+      };}
+      \endscope
+      \draw[-Kite,very thick,codeouthl!70!white] (@o) -- (@i) coordinate[pos=.5] (@@);
+      \path (@@|-wc) node[darkgray,xshift=-1mm] {\sbfamily\T{|}};
+      % TODO: benchmarks
+   \end{tikzpicture}
+\end{frame}
+% TODO: nice example clock:
+% parallel -k echo {1}'{=3 $_=$_%2?":":" "=}'{2}{3} \
+% ::: {0..12} ::: {0..5} ::: {0..9}
+% from manual
+% TODO: even with grouping, e.g by piping with 'sort' - a stateful operation which operates as "Flaschenhals"
+% TODO: auch auf ::: und so eingehen % FLORIAN
+
+% \subsection{The Running-Example}
 \begin{frame}{Fun!}
-% geschichte von gnu parallel % FELIX
-% basisbeispiel  bash (gzip pipe etc. wie gehen pipes und so) auch auf ::: und so eingehen % FLORIAN
 % wann sinnvoll usw.
 % bank beispiel mit java  %  FELIX
-% erweiterungen wei verteilt mehrere Systeme % FELIX (-ssh oder so)
-% objekte % FLORIAN (gson und so)
-% verschiedene Sprache % FELIX
+\end{frame}
 
-% Recap / grober Überblick
-% vor und nachteiel wie bei event basierten NAchrichtigen: großer Vorteil unabhöngig da producer consumer
-% Vorlesungsbezug (Architektur etc) % FLO
+\subsection{Distribution}
+\begin{frame}{Distributed}
+   % erweiterungen wei verteilt mehrere Systeme % FELIX (-ssh oder so)
+\end{frame}
+\subsection{Data Encoding}
+\begin{frame}{Data Encoding}
+   % objekte % FLORIAN (gson und so)
+\end{frame}
+\subsection{Other Languages}
+\begin{frame}{Other Languages}
+   % verschiedene Sprache % FELIX
+   % TODO: timeout option?
+\end{frame}
+
+\subsection{Recap} % maybe not as separate bot in the bottom?
+\begin{frame}{Recap}
+   \begin{itemize}[<+(1)->]
+      \itemsep12pt
+      \item Producer-Consumer
+      \item stream-based communication \begin{itemize}
+         \item cf. Javas functional streams
+         \item serialization and deserialization % TODO: talk about advantages and disadvantages
+         \item decoupled programs (e.g., no shared memory)
+      \end{itemize}
+      \item TODO: distribution @Felix (chapter F)
+      \item lock-free etc because producer-consumer
+      \item TODO: other stuff?
+   \end{itemize}
 \end{frame}
 
 \section{Inner Workings}
-\begin{frame}{Work!}
+% TOOD: siebar note for bash only https://devdocs.io/bash/pipelines | https://www.gnu.org/software/bash/manual/bash.pdf
+\begin{frame}{About pipes}
+\begin{itemize}
+   \item Execute each program in own subshell
+   \item TODO: not sequential: \url{https://stackoverflow.com/a/32946581} os we execute al steps in parallel for free (producer-consumer) \url{https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_09_02}
+   \item TODO: talk about redirection and sockets?
+   \item % load balacning https://stackoverflow.com/questions/14039403/gnu-parallel-load-balancing
+\end{itemize}
+% Semaphor => kann als solche verwendet werden
 % Semaphor, Rechner Sockets, % FLO
+% parallel nutzt die host-shell aus (deisgn: which shell to use, p11)
+\end{frame}
+\begin{frame}
+ TODO: SPREADING BLOCKS OF DATA
+ in \url{https://www.gnu.org/software/parallel/parallel.pdf}
+ %  synchinc
 \end{frame}
 
 \section{Outlook?}
@@ -36,6 +193,9 @@
 % praktische Anwendungen
 % optionen die wir nicht vorstellen
 % gibt es eine geplante Weiterentwicklung?
+% Alternativen: https://www.gnu.org/software/parallel/parallel_alternatives.pdf
+% -pipe vs pipepart, disk buffering
+% sql support --sql-master etc.
 \end{frame}
 
 \end{document}

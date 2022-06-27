@@ -14,6 +14,7 @@
     lecture-registers={disable}% would interfere with beamer
 ]{lithie-util}
 
+\solLoadLanguage{bash}
 \makeatletter
 \sol@list@define@styles{%
   {keywordA: \@declaredcolor{sol@colors@lst@keywordA}\bfseries},%
@@ -35,8 +36,7 @@
 \usetheme[libs,nofootfade,centerfoot]{dividing-lines}
 \SetColorProfile*{paletteA}{paletteB}{paletteC}
 
-\usetikzlibrary{arrows.meta,decorations,tikzmark,matrix}
-
+\usetikzlibrary{arrows.meta,decorations,tikzmark,matrix,decorations.pathmorphing, decorations.pathreplacing, decorations.shapes}
 \def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
 \SetAllLinkStyle{#1}
 \def\fillfont{\def\mdseries@sf{medium}\sffamily}
@@ -45,6 +45,7 @@
 \usepackage[glows]{tikzpingus}
 \usetikzlibrary{decorations.text,graphs}
 \hypersetup{colorlinks=false}
+\def\rhead#1{\hfill\textcolor{shadeA}{\sbfamily#1}}
 
 \newsavebox\parallellogo
 \setbox\parallellogo=\hbox{\tikzpicture[xscale=1.25] % stretch me
@@ -83,7 +84,7 @@
            \&        \& |(3e)|~ \&        \\
   };
   % wellp: c\graph[edges={very thick,-Kite}]{(1) -> (2) -> {(3a),(3b),(3c),(3d),(3e)} -> (4)};
-  \scope[every path/.append style={draw,very thick,-Kite,rounded corners=2pt}]
+  \scope[every path/.append style={draw,very thick,-Kite,rounded corners=2pt,line cap=round}]
   \path(1) -- (2);  \path(2) -- (3c); \path(3c) -- (4);
   \foreach\a in {a,b,d,e} {
     \path (2) -- ([xshift=-1.5em]3\a.west) -- (3\a.west);
@@ -104,6 +105,7 @@
 \newcommand*\mh[2][0]{\only<#2|handout:#1>{\color{shadeA}\textbullet}}
 \newcommand*\mdl[2][0]{\only<#2|handout:#1>{\llap{\smash{\raisebox{-.5\baselineskip}{\tikz{\fill[shadeA,rounded corners=1pt] (0,-.65mm) rectangle ++(2.15\p@,\baselineskip+.65mm);}}~}}}}
 \makeatother
+
 
 \setcounter{tocdepth}{4}
 \newsavebox\pinguA \newsavebox\pinguB \newsavebox\pinguC
