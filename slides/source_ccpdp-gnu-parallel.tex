@@ -104,8 +104,10 @@ for (int i = 0; i < /*\Snode{n@}*/n/*\Snode{n@}*/; i++) {
    \endscope
    }
    \only<9->{
+      \pgfinterruptboundingbox
       \draw[-Kite,very thick,codeouthl!70!white] (@o) -- (@i) coordinate[pos=.5] (@@);
       \path (@@|-wc) node[darkgray,xshift=-1mm] {\sbfamily\T{|}};
+      \endpgfinterruptboundingbox
    }
    \only<10->{
       \draw[decorate,decoration={brace,mirror,amplitude=2pt},thick,black,sharp corners] ([yshift=-1.25cm]@I) to[edge node={node[below=2pt] {Producer}}] ([yshift=-1.25cm]@o);
@@ -124,29 +126,42 @@ for (int i = 0; i < /*\Snode{n@}*/n/*\Snode{n@}*/; i++) {
 
 % TODO: example from: https://www.usenix.org/system/files/login/articles/105438-Tange.pdf
 \begin{frame}[c]{Pipes\rhead{II}}
-\centering
-% \begin{layout-imageonly}
+\centering\vspace*{.125em}
+\begin{layout-imageonly}
 \begin{tikzpicture}[,codeouthl,every path/.append style={line cap=round,rounded corners=2pt}]
-   \only<-4|handout:0>{\node[circle,minimum size=1cm,fill] (@) at(0,0) {};}
-   \only<5-|handout:0>{\node[rectangle,minimum width=3cm,minimum height=2cm,fill] (@) at(0,0) {};}
-   \draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@i);
-   \draw[-{Kite[scale=.8]},very thick](@.east) to[edge node={node[above,black] {\textsc{stdout}}}] ++(2,0) coordinate (@O);
+   \only<-4|handout:0>{\node[circle,minimum size=1cm,fill] (@) at(0,0) {};
+   \pgfinterruptboundingbox
    \draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};
-   \onslide<4->{\node[below,darkgray] (wc) at(@.south) {\sbfamily\bbash{xargs gzip}};
-
+   \endpgfinterruptboundingbox
    }
+   \only<5->{
+      \pgfinterruptboundingbox
+      \node[rectangle,minimum width=3cm,minimum height=2cm,very thick,draw] (@) at(0,0) {};
+      \draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};
+      \endpgfinterruptboundingbox
+   }
+   \onslide<6->{
+      \node[circle,minimum size=1cm,fill] (@sub) at(0,0) {};
+      \draw[{Kite[scale=.8]}-,very thick,line cap=rect](@sub.west) -- ++(-1cm+.1mm,0) coordinate (@i);
+      \draw[-{Kite[scale=.8]},very thick](@sub.east) -- ++(1,0) coordinate (@O);
+      \draw[-{Kite[scale=.8]},very thick](@sub.north) -- ++(0,.5);
+      \node[below,darkgray,scale=.8] (wc) at(@sub.south) {\sbfamily\bbash{gzip}};
+   }
+   % no O1 for xargs: https://www.mankier.com/7/parallel_alternatives#DIFFERENCES_BETWEEN_GNU_Parallel_AND_ALTERNATIVES-DIFFERENCES_BETWEEN_xargs_AND_GNU_Parallel
+   \draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@i);
+   \draw[-{Kite[scale=.8]},very thick,line cap=rect](@.east) to[edge node={node[above,black] {\textsc{stdout}}}] ++(2,0) coordinate (@O);
+   \onslide<4->{\node[below,darkgray] (wc) at(@.south) {\sbfamily\bbash{xargs gzip}};}
    % NOTE: use --keep! and maybe --recursive for data
 
-   \scope[xshift=-6cm]
+   \scope[xshift=-7cm]
    \node[circle,minimum size=1cm,fill] (@) at(0,0) {};
    \draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@I);
    \draw[-{Kite[scale=.8]},very thick](@.east) to[edge node={node[above,black] {\textsc{stdout}}}] ++(2,0)  coordinate (@o);
    \draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};
-   \onslide<2->{\node[below,darkgray] (ls) at(@.south) {\sbfamily\bbash{find . -type f}};}
+   \onslide<2->{\node[below,darkgray] (ls) at(@.south|-wc.north) {\sbfamily\bbash{find . -type f}};}
    \onslide<3->{\node[below=2mm,inner sep=1.5mm,fill=gray!10!white,rounded corners=2pt,text width=3cm,text=black,align=left,font=\ttfamily,scale=.85] at([xshift=1cm]ls.south) {%
       ./Dockerfile\\
       ./run-docker\\
-      ./data\\
       ./makefile\\
       \ldots
    };}
@@ -157,42 +172,78 @@ for (int i = 0; i < /*\Snode{n@}*/n/*\Snode{n@}*/; i++) {
    \path (@@|-wc) node[darkgray,xshift=-1mm] {\sbfamily\T{|}};
    % TODO: benchmarks
 \end{tikzpicture}
-% \end{layout-imageonly}
+\end{layout-imageonly}
 % each program run in the command line has three data streams connected to it:
 \end{frame}
 
 \begin{frame}[c]{Pipes\rhead{III}}
-   \centering
+   \centering\vspace*{.125em}
 \begin{layout-imageonly}
    \begin{tikzpicture}[,codeouthl,every path/.append style={line cap=round,rounded corners=2pt}]
-      \node[circle,minimum size=1cm,fill] (@) at(0,0) {};
-      \draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@i);
-      \draw[-{Kite[scale=.8]},very thick](@.east) to[edge node={node[above,black] {\textsc{stdout}}}] ++(2,0) coordinate (@O);
-      \draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};
-      \onslide<4->{\node[below,darkgray] (wc) at(@.south) {\sbfamily\bbash{parallel gzip}};
-         \foreach \a in {0,60,...,359} {
-            \path ([yshift=-1mm]@)++(\a:2mm) node[btdl@color@background] {\huge\textbullet};
-         }
-      }% use --keep! and maybe --recursive for data
+      \onslide<-2>{\pgfinterruptboundingbox
+      \node[rectangle,minimum width=3cm,minimum height=2cm,very thick,draw] (@) at(0,0) {};
+      \endpgfinterruptboundingbox}
+      % keeps old @ to avoid jumps
+      \onslide<2->{\node[below,darkgray] (wc) at(@.south) {\only<-2|handout:0>{\sbfamily\bbash{parallel gzip}}\only<3->{\phantom{\sbfamily\bbash{parallel gzip}}}};}
+      \only<-2|handout:0>{
+         \node[circle,minimum size=1cm,fill] (@sub) at(0,0) {};
+         \draw[{Kite[scale=.8]}-,very thick,line cap=rect](@sub.west) -- ++(-1cm+.1mm,0) coordinate (@i);
+         \draw[-{Kite[scale=.8]},very thick](@sub.east) -- ++(1,0) coordinate (@O);
+         \draw[-{Kite[scale=.8]},very thick](@sub.north) -- ++(0,.5);
+         \node[below,darkgray,scale=.8] (gz-wc) at(@sub.south) {\sbfamily\bbash{gzip}};
+      % TODO: multiples
+      }
+      \only<3->{
+         \pgfinterruptboundingbox
+         \node[rectangle,minimum width=3cm,minimum height=5.5cm,very thick,draw] (@) at(0,0) {};
+         \endpgfinterruptboundingbox
+         \fill (@.west)++(0,.25) arc(90:-90:.25);
+         \fill (@.east)++(0,.25) arc(90:270:.25);
+         \fill (@.north)++(.25,0) arc(0:-180:.25);
 
-      \scope[xshift=-6cm]
+         % hardcode copy-paste love
+         \node[circle,minimum size=1cm,fill] (@sub2) at(0,-1.75) {};
+         \draw[{Kite[scale=.8]}-,very thick,line cap=rect](@sub2.west) -- ++(-1cm+.1mm+5mm,0) -- ++(-5mm,1.75);
+         \draw[-{Kite[scale=.8]},very thick,shorten >=.25cm](@sub2.east) -- ++(1-.5,0) -- ++(.5,1.75);
+         \draw[-{Kite[scale=.8]},very thick,codeouthl!60!white](@sub2.north) to[bend left=8] ++(0,.5+2*1.75-.25);
+         \node[below,darkgray,scale=.8] (gz-wc) at(@sub2.south) {\sbfamily\bbash{gzip}};
+         \node[circle,minimum size=1cm,fill] (@sub) at(0,0) {};
+         \draw[{Kite[scale=.8]}-,very thick,line cap=rect](@sub.west) -- ++(-1cm+.1mm,0) coordinate (@i);
+         \draw[-{Kite[scale=.8]},very thick](@sub.east) -- ++(1-.25,0) coordinate (@O);
+         \draw[-{Kite[scale=.8]},very thick,codeouthl!60!white](@sub.north) to[bend right=8] ++(0,.5+1.75-.25);
+         \node[below,darkgray,scale=.8] (gz-wc) at(@sub.south) {\sbfamily\bbash{gzip}};
+         \node[circle,minimum size=1cm,fill] (@sub1) at(0,1.75) {};
+         \draw[{Kite[scale=.8]}-,very thick,line cap=rect](@sub1.west) -- ++(-1cm+.1mm+5mm,0) -- ++(-5mm,-1.75);
+         \draw[-{Kite[scale=.8]},very thick,shorten >=.25cm](@sub1.east) -- ++(1-.5,0)  -- ++(.5,-1.75);
+         \draw[-{Kite[scale=.8]},very thick](@sub1.north) -- ++(0,.5);
+         \node[below,darkgray,scale=.8] (gz-wc) at(@sub1.south) {\sbfamily\bbash{gzip}};
+      }
+      \draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@i);
+      \draw[-{Kite[scale=.8]},very thick,line cap=rect](@.east) to[edge node={node[above,black] {\textsc{stdout}}}] ++(2,0) coordinate (@O);
+      \pgfinterruptboundingbox
+      \draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};
+      \endpgfinterruptboundingbox
+
+      \onslide<3->{\node[below,darkgray] (pgz) at(@.south) {\sbfamily\bbash{parallel gzip}};}
+      % NOTE: use --keep! and maybe --recursive for data
+
+      \scope[xshift=-7cm]
       \node[circle,minimum size=1cm,fill] (@) at(0,0) {};
       \draw[{Kite[scale=.8]}-,very thick](@.west) to[edge node={node[above,black] {\textsc{stdin}}}] ++(-2,0) coordinate (@I);
       \draw[-{Kite[scale=.8]},very thick](@.east) to[edge node={node[above,black] {\textsc{stdout}}}] ++(2,0)  coordinate (@o);
       \draw[-{Kite[scale=.8]},very thick](@.north) |- ++(2,.5) node[pos=.75,above,black] {\textsc{stderr}};
-      \onslide<2->{\node[below,darkgray] (ls) at(@.south) {\sbfamily\bbash{find . -type f}};}
-      \onslide<3->{\node[below=2mm,inner sep=1.5mm,fill=gray!10!white,rounded corners=2pt,text width=3cm,text=black,align=left,font=\ttfamily,scale=.85] at([xshift=1cm]ls.south) {%
+      \node[below,darkgray] (ls) at(@.south|-wc.north) {\sbfamily\bbash{find . -type f}};
+      \node[below=2mm,inner sep=1.5mm,fill=gray!10!white,rounded corners=2pt,text width=3cm,text=black,align=left,font=\ttfamily,scale=.85] at([xshift=1cm]ls.south) {%
          ./Dockerfile\\
          ./run-docker\\
-         ./data\\
          ./makefile\\
          \ldots
-      };}
+      };
       \endscope
       \draw[-Kite,very thick,codeouthl!70!white] (@o) -- (@i) coordinate[pos=.5] (@@);
       \path (@@|-wc) node[darkgray,xshift=-1mm] {\sbfamily\T{|}};
+
       % TODO: benchmarks
-       TODO: parallel wirklich aufteilen
    \end{tikzpicture}
 \end{layout-imageonly}
 % TODO: übergang pipe animation
@@ -328,6 +379,7 @@ readline.on("close", () => {
 % optionen die wir nicht vorstellen
 % gibt es eine geplante Weiterentwicklung? <- ne
 % Alternativen: https://www.gnu.org/software/parallel/parallel_alternatives.pdf
+% xargs hat -P, makefiles etc.
 % -pipe vs pipepart, disk buffering
 % sql support --sql-master etc.
 % table support
