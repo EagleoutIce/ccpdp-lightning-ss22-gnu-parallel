@@ -1,8 +1,6 @@
 package de.uulm.ccpdp.lt.ff;
 
-
-import com.google.gson.GsonBuilder;
-
+import java.util.Scanner;
 
 public class Consumer {
     static final int FROM = 0;
@@ -10,19 +8,19 @@ public class Consumer {
     static final int VALUE = 2;
 
     public static void main(String[] args) {
-        // TODO: umstieg auf scanner  und vielleicht mit kill-pill?
-        // consumer sollten ja auch mehrere verarbeiten können und nicht direkt sterben!
+        Scanner scan = new Scanner(System.in);
 
-        if (args.length != 1)
-            System.exit(0);
+        while (scan.hasNextLine()) {
+            String input = scan.nextLine();
 
-        final var gson = new GsonBuilder().create();
-        final var transaction = gson.fromJson(args[0], Transaction.class);
+            String[] s = input.split(" ");
 
-        // System.out.println(Producer.names[to] + " gets " + value + "€ from " +
-        // Producer.names[from]);
-        System.out.println(Producer.names[transaction.to] + " " + transaction.value);
-        System.out.println(Producer.names[transaction.from] + " " + -transaction.value);
+            System.out.println(Constants.names[Integer.parseInt(s[FROM])] + " " + -Integer.parseInt(s[VALUE]));
+            System.out.println(Constants.names[Integer.parseInt(s[TO])] + " " + Integer.parseInt(s[VALUE]));
+
+        }
+        scan.close();
+        System.out.println("INFO: Consumer closed!");
 
     }
 }
