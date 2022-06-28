@@ -5,4 +5,5 @@ function sleepy_echo {
 }
 export -f  sleepy_echo # export to subshell
 
-parallel sleepy_echo ::: {1..20}
+time cat parallel.in | parallel sleepy_echo
+# time cat parallel.in | xargs -I{} bash -c 'sleepy_echo {}'

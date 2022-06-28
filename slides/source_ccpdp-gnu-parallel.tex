@@ -1,5 +1,7 @@
 \input{data/preamble}
 
+\nocite{parallel-tool}
+
 \begin{document}
 \section{Motivation}
 % \SidebarCite{book:javase15-std}
@@ -229,7 +231,6 @@ TODO: sources
 \begin{onlyenv}<9-|handout:2->
 \begin{tikzpicture}[overlay,remember picture]
 \scope[shift={(current page.north east)},shift={(-4cm,-2cm)},codeouthl,xscale=2,K/.style={circle,fill,scale=1.25},scale=.5,every ndoe/.append style={transform shape}]
-% TODO: highlight with code
       {\only<10-13|handout:2>{\color{shadeA}} \node[K] (1) at (0,0) {};}
       \node[K,codeouthl!60!white] (2) at (1,0) {};
       {\only<14-17|handout:3>{\color{shadeA}}
@@ -243,7 +244,7 @@ TODO: sources
          \node[K] (4) at (3,0) {};
       }
 
-      \scope[every path/.append style={draw,very thick,-Kite,rounded corners=2pt,line cap=round}]
+      \scope[every path/.append style={draw,very thick,-{Kite[scale=.8]},rounded corners=2pt,line cap=round}]
    \path(1) -- (2) coordinate[pos=.5] (@12);
 
    \path[codeouthl!60!white] (2) -- (3c); \path(3c) -- (4);
@@ -305,18 +306,73 @@ System.out.println(accounts);
 \end{frame}
 
 % \subsection{The Running-Example}
-\begin{frame}[fragile]{Fun!}
-   grafik und Code
-TODO: wie zusammenschustern
-% java -jar producer.jar 100000 | parallel --pipe java -jar consumer.jar | yarn --silent start
+{
+   \lstset{add to literate={\\}{{{\color{codeouthl}{\textbackslash}}}}1}
+\begin{frame}[fragile]{Running the Example}
+\centering\vspace*{.5em}
+\SetupLstHl
+\begin{onlyenv}<2-5|handout:1>
 \begin{minted}{bash}
-   java -jar producer.jar 100000 | parallel --pipe java -jar consumer.jar | java -jar accountant.jar
+/*\onslide<3->*/java -jar producer.jar 1000000/*\onslide<4->*/\
+	| java -jar consumer.jar/*\onslide<5->*/\
+	| java -jar accountant.jar
 \end{minted}
+\end{onlyenv}
+\begin{onlyenv}<6|handout:0>
+\begin{minted}{bash}
+&ihl&java -jar producer.jar 1000000\&ihl&
+&ihl&	| java -jar consumer.jar&ihl&
+&ihl&	| java -jar accountant.jar&ihl&
+\end{minted}
+\end{onlyenv}
+\begin{onlyenv}<7-|handout:2>
+\begin{minted}{bash}
+&ihl&java -jar producer.jar 1000000\&ihl&
+&ihl&	| &ihl&parallel --pipe &ihl&java -jar consumer.jar\&ihl&
+&ihl&	| java -jar accountant.jar&ihl&
+\end{minted}
+\end{onlyenv}
+%    grafik und Code
 % wann sinnvoll usw.
 % bank beispiel mit java  %  FELIX
+\begin{tikzpicture}[overlay,remember picture]
+\scope[shift={(current page.north east)},shift={(-4cm,-2cm)},codeouthl,xscale=2,K/.style={circle,fill,scale=1.25},scale=.5,every ndoe/.append style={transform shape}]
+      \only<2-6|handout:1>{{\only<3|handout:0>{\color{shadeA}}\node[K] (1) at (0,0) {};}
+      {\only<4|handout:0>{\color{shadeA}}\node[K] (2) at (1,0) {};}
+      {\only<5|handout:0>{\color{shadeA}}\node[K] (3c) at (2,0) {};}
+
+      \scope[every path/.append style={draw,very thick,-{Kite[scale=.8]},rounded corners=2pt,line cap=round}]
+        \path(1) -- (2) coordinate[pos=.5] (@12);
+        \path (2) -- (3c);
+   \endscope}
+   \only<7-|handout:2>{
+      \node[K] (1) at (0,0) {};
+      \node[K,codeouthl!60!white] (2) at (1,0) {};
+      \node[K] (3a) at (2,2) {};
+      \node[K] (3b) at (2,1) {};
+      \node[K] (3c) at (2,0) {};
+      \node[K] (3d) at (2,-1) {};
+      \node[K] (3e) at (2,-2) {};
+      \node[K] (4) at (3,0) {};
+
+      \scope[every path/.append style={draw,very thick,-{Kite[scale=.8]},rounded corners=2pt,line cap=round}]
+   \path(1) -- (2) coordinate[pos=.5] (@12);
+
+   \path[codeouthl!60!white] (2) -- (3c); \path(3c) -- (4);
+   \foreach[count=\i]\a in {a,b,d,e} {
+      \path[codeouthl!60!white] (2) -- ([xshift=-1.5em]3\a.west) -- (3\a.west);
+       \path (3\a.east) -- ++(1.5em,0) coordinate(@) -- (4);
+   }
+   \endscope
+   }
+\endscope
+\end{tikzpicture}
+% TODO: somewhat like a sleepy consumer 1? so that we can see, how parallel does work
 \end{frame}
+}
 
 \subsection{History}
+\SidebarCite{Tange2011a}
 \begin{frame}{History}
    \begin{itemize}[<+(1)->]
       \itemsep10pt
@@ -330,7 +386,7 @@ TODO: wie zusammenschustern
    \end{itemize}
    % Single-file to work easily, perl because seems to be widespread, problem: overhead (--tag option+, https://www.gnu.org/software/parallel/parallel_design.pdf)
 \end{frame}
-
+\SidebarReset
 
 \subsection{Distribution}
 \begin{frame}[fragile]{Distributed}
@@ -393,8 +449,8 @@ readline.on("close", () => {
 });
    \end{minted}
    \begin{minted}{bash}
-      java -jar producer.jar 100000 | parallel --pipe java -jar consumer.jar | yarn --silent start
-      #java -jar producer.jar 100000 | parallel --pipe java -jar consumer.jar | java -jar accountant.jar
+      java -jar producer.jar 1000000 | parallel --pipe java -jar consumer.jar | yarn --silent start
+      #java -jar producer.jar 1000000 | parallel --pipe java -jar consumer.jar | java -jar accountant.jar
    \end{minted}
    % verschiedene Sprache % FELIX
    % TODO: timeout option?
@@ -431,6 +487,8 @@ readline.on("close", () => {
    \item TODO: talk about redirection and sockets?
    \item load balacning \url{https://stackoverflow.com/questions/14039403/gnu-parallel-load-balancing}
    \item how does bash sync it?
+   \item Parallel --pipe max out at 1Gbs in 100Mbs out
+   \item TODO: --roundrobin etc -L for multiple lines
 \end{itemize}
 % Semaphor => kann als solche verwendet werden
 % Semaphor, Rechner Sockets, % FLO

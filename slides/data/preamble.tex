@@ -30,7 +30,7 @@
 {Blau,bläulich: RGB(22, 105, 122)}
 {Lila,lilafarben: RGB(93, 45, 108)}
 {Grün,grünlich: RGB(21, 150, 90)}
-\SetShadeContrast{45}
+\SetShadeContrast{51}
 \UsePalette{Rekursion}
 
 \usetheme[libs,nofootfade,centerfoot]{dividing-lines}
@@ -134,3 +134,9 @@
 \def\bnode#1#2{\rnode{#1}{\sbasic{#2}}}%
 \def\rnode#1#2{\Snode{#1}#2\Snode{#1@}}
 \def\CodeFileMarker#1{{\color{gray}\sffamily\fontseries{l}\tiny\llap{\faFileCodeO~\thinspace}#1}}
+
+\def\SetupLstHl{%
+\lstcolorlet{highlight}{codeouthl}%
+\sol@list@define@styles{%
+ {highlight: \@declaredcolor{sol@colors@lst@highlight}\upshape},%
+}}
