@@ -7,3 +7,5 @@ export -f  sleepy_echo # export to subshell
 
 time cat parallel.in | parallel sleepy_echo
 # time cat parallel.in | xargs -I{} bash -c 'sleepy_echo {}'
+
+#ps -F e
