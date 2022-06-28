@@ -133,12 +133,12 @@ TODO: sources
          \node[circle,minimum size=1cm,fill] (@sub2) at(0,-1.75) {};
          \draw[{Kite[scale=.8]}-,very thick,line cap=rect](@sub2.west) -- ++(-1cm+.1mm+5mm,0) -- ++(-5mm,1.75);
          \draw[-{Kite[scale=.8]},very thick,shorten >=.25cm](@sub2.east) -- ++(1-.5,0) -- ++(.5,1.75);
-         \draw[-{Kite[scale=.8]},very thick,codeouthl!60!white](@sub2.north) to[bend left=8] ++(0,.5+2*1.75-.25);
+         \draw[-{Kite[scale=.8]},very thick,codeouthl!60!white,shorten >=.25cm](@sub2.north) to[bend left=8] ++(0,.5+2*1.75);
          \node[below,darkgray,scale=.8] (gz-wc) at(@sub2.south) {\sbfamily\bbash{gzip}};
          \node[circle,minimum size=1cm,fill] (@sub) at(0,0) {};
          \draw[{Kite[scale=.8]}-,very thick,line cap=rect](@sub.west) -- ++(-1cm+.1mm,0) coordinate (@i);
          \draw[-{Kite[scale=.8]},very thick](@sub.east) -- ++(1-.25,0) coordinate (@O);
-         \draw[-{Kite[scale=.8]},very thick,codeouthl!60!white](@sub.north) to[bend right=8] ++(0,.5+1.75-.25);
+         \draw[-{Kite[scale=.8]},very thick,codeouthl!60!white,shorten >=.25cm](@sub.north) to[bend right=8] ++(0,.5+1.75);
          \node[below,darkgray,scale=.8] (gz-wc) at(@sub.south) {\sbfamily\bbash{gzip}};
          \node[circle,minimum size=1cm,fill] (@sub1) at(0,1.75) {};
          \draw[{Kite[scale=.8]}-,very thick,line cap=rect](@sub1.west) -- ++(-1cm+.1mm+5mm,0) -- ++(-5mm,-1.75);
