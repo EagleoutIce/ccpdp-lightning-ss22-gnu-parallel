@@ -140,3 +140,14 @@
 \sol@list@define@styles{%
  {highlight: \@declaredcolor{sol@colors@lst@highlight}\upshape},%
 }}
+
+% rank refs
+\def\printBibCommand{%
+  \renewcommand*{\bibfont}{\scriptsize}\labelnumberwidth2.85ex\relax
+  \printbibliography[title={},notcategory={@hide}]%
+  \renewcommand*{\bibfont}{\fontsize{4}{5}\selectfont}%
+  \medskip\par\labelnumberwidth1.65ex\relax
+\begin{multicols}{3}
+  \printbibliography[title={},category={@hide}]%
+\end{multicols}\vspace*{-1.5\baselineskip}
+}
