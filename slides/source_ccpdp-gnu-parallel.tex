@@ -424,29 +424,16 @@ System.out.println(accounts);
 \begin{frame}[fragile]{Other Languages}
    %Grafik und Code
    \begin{minted}{javascript}
-      import { createInterface } from "readline";
-
-      const readline = createInterface({
-         input: process.stdin,
-      });
-
       let accMap = new Map<String, number>();
 
-const handleLine = (input: String) => {
-  const s = input.split(" ");
-  if (s.length != 2) {
-    console.log(input);
-    return;
-  }
-  if (!accMap.has(s[0])) accMap.set(s[0], 0);
-  accMap.set(s[0], accMap.get(s[0])! + +s[1]);
-};
+      const handleLine = (input: String) => {
+         const s = input.split(" ");
+         if (!accMap.has(s[0])) accMap.set(s[0], 0);
+         accMap.set(s[0], accMap.get(s[0])! + +s[1]);
+      };
 
-readline.on("line", handleLine);
+      readline.on("line", handleLine);
 
-readline.on("close", () => {
-  console.log(accMap);
-});
    \end{minted}
    \begin{minted}{bash}
       java -jar producer.jar 1000000 | parallel --pipe java -jar consumer.jar | yarn --silent start
