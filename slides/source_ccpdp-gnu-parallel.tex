@@ -191,8 +191,8 @@ TODO: sources
 \centering\begin{tikzpicture}[codeouthl,xscale=2]
    \scope[K/.style={circle,fill,scale=1.25}]
       {\only<3-4|handout:0>{\color{shadeA}}\node[K] (1) at (0,0) {};
-         \onslide<3-4>{\node[gray,below=-.25mm] at(1.south) {\faUser};
-         \node[black,above] at(1.north) {Producer};}
+         \onslide<3-4>{\node[gray,below=-.25mm] at(1.south) {\faUser};}
+         \onslide<3->{\node[black,above] at(1.north) {Producer};}
       }
       \node[K,codeouthl!60!white] (2) at (1,0) {};
       {\only<5-6|handout:0>{\color{shadeA}}
@@ -201,13 +201,12 @@ TODO: sources
          \node[K] (3c) at (2,0) {};
          \node[K] (3d) at (2,-1) {};
          \node[K] (3e) at (2,-2) {};
-         \onslide<5-6>{
-            \foreach \a in {a,b,c,d,e} {\node[gray,below=-.25mm] at(3\a.south) {\faUser};}
-         \node[black,above] at(3a.north) {Consumer~1};}
+         \onslide<5-6>{\foreach \a in {a,b,c,d,e} {\node[gray,below=-.25mm] at(3\a.south) {\faUser};}}
+         \onslide<5->{\node[black,above] at(3a.north) {Consumer~1};}
       }
       {\only<7-8|handout:0>{\color{shadeA}}
          \node[K] (4) at (3,0) {};
-         \node[black,right] (4d) at(4.east) {Consumer~2};
+         \onslide<7->{\node[black,right] (4d) at(4.east) {Consumer~2};}
          \onslide<8->{
             \node[black,below=.5mm,align=left,font=\ttfamily] at(4d.south) {Abby: \kern.8pt-11\\Bert: ~~3\\Carlos: 2\\\vdots};
          }
