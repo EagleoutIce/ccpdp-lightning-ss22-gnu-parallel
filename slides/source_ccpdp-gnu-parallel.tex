@@ -377,7 +377,6 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
 &ihl&	| &ihl&parallel --pipe &ihl&java -jar consumer.jar\&ihl&
 &ihl&	| java -jar accountant.jar&ihl&/*\onslide<3->*/
 \end{minted}
-% TODO:  WHY parallel twice?
 % TODO: different colors? for ppid -> pid
 \end{onlyenv}
 \begin{tikzpicture}[@O,outer sep=0pt,inner sep=0pt]
@@ -414,9 +413,9 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
       \draw[-Kite,T] ([xshift=1.5cm,yshift=-.75cm]@2.north) to[bend right] ++(.4,-.4) node[below right,xshift=.5ex,align=left,yshift=.25\baselineskip] {Ran from within a makefile\\(directly done by shell otherwise)};
       \draw[-Kite,T] ([xshift=-2.5cm,yshift=-1.75cm]@2.north) to[bend right] ++(.4,-.4) node[below right,xshift=.5ex,align=left,yshift=.25\baselineskip] {Produces (a superset of) this table};
    }
-   \only<handout:2>{% TODO: make comment in presentation manually?
+   \only<handout:2>{%
       % tikzmark is problematic due to nested tikz and me being lzy
-      \draw[-Kite,T] ([xshift=-1cm,yshift=-3cm]@2.north) to[out=0,in=180] ++(.55,.125) node[below right,xshift=.5ex,align=left,yshift=.2\baselineskip,scale=.8] {Used for generic splitting magic\\(e.g., not done with \bbash{--roundrobin})};
+      \draw[-Kite,T] ([xshift=-1cm,yshift=-2.75cm]@2.north) to[out=0,in=180] ++(.65,-.125) node[below right,xshift=.5ex,align=left,yshift=.2\baselineskip,scale=.8] {Used for generic splitting magic\\(e.g., not done with \bbash{--roundrobin})};
    }
 \end{tikzpicture}
 % TODO: show roundrobin much simpler only java-jar etc-
@@ -470,7 +469,7 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
          \item xxargs and \LogoParallel got merged into parallel
          \item New objectives\flo{(s)?}: replace xargs and run commands in \LogoParallel. \flo{klarer machen, dass xargs?}
       \end{itemize}
-      \item In 2010, \LogoParallel was adopted as an official \textsc{gnu} tool, named \textsc{gnu} \LogoParallel.
+      \item In 2010, \LogoParallel was adopted as an official GNU tool, named GNU \LogoParallel.
    \end{itemize}
    % Single-file to work easily, perl because seems to be widespread, problem: overhead (--tag option+, https://www.gnu.org/software/parallel/parallel_design.pdf)
 \end{frame}
@@ -490,13 +489,19 @@ parallel -S $SERVER echo running on ::: $SERVER
       \end{minted}
    \end{itemize}
    \item Transfer Files using rsync:
-   \begin{minted}[deletekeywords={transferfile,return}]{bash}
-parallel -S $SERVER --return {}.out --transferfile\
-   {} --cleanup cat {} ">"{}.out ::: input_file
+\begin{itemize}
+   \item Long version:
+   \begin{minted}[deletekeywords={transferfile}]{bash}
+parallel -S $SERVER /*\T{-}*/-return {}.out --transferfile\
+   {} --cleanup cat {} "/*\T{\solGet{literals}{>}}*/"{}.out ::: input_file
    \end{minted}
-%       // Shorthand
-%       // parallel -S $SERVER --trc {}.out cat {} ">"{}.out ::: input_file
-   \item TODO: beautiful shortant
+   \item Shorthands:
+\begin{minted}[deletekeywords={transferfile}]{bash}
+parallel -S $SERVER /*\T{-}*/-trc {}.out cat {} "/*\T{\solGet{literals}{>}}*/"{}.out
+   ::: input_file
+\end{minted}
+\end{itemize}
+% \item TODO: beautiful shortant
 \end{itemize}
 TODO:
    % Transfer Files using rsync:
@@ -557,7 +562,7 @@ TODO:
          \item serialization and deserialization % TODO: talk about advantages and disadvantages
          \item decoupled programs (e.g., no shared memory)
       \end{itemize}
-      \item TODO: distribution @Felix (chapter F)
+      \item TODO: distribution @Felix (chapter F) stream based stuff
       \item lock-free etc because producer-consumer
       \item TODO: other stuff?
    \end{itemize}
