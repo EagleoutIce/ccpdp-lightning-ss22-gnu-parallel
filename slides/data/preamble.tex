@@ -92,7 +92,7 @@
   }
   \endscope
 \end{tikzpicture}}
-\def\PostTitlepage{\begin{tikzpicture}[overlay,remember picture]
+\def\PostTitlepage{\begin{tikzpicture}[@O]
 \node[above right=.5cm,xshift=1cm,scale=.875] at(current page.south west) {\copy\titleimg};
 \end{tikzpicture}}
 
@@ -153,6 +153,7 @@
 }
 
 
+\tikzset{T/.style={sol@colors@lst@comments,font=\footnotesize\itshape\sffamily},@O/.style={overlay, remember picture}}
 \def\hlcolor{paletteA}
 \def\hlopa{0.2}\def\hlhs{.2mm}% horizontal shift
 \newcommand\hlcode[3][1.9pt]{\fill[\hlcolor,opacity=\hlopa,rounded corners=1pt] ([shift={(-\hlhs,-#1)}]#2.south west) rectangle ([shift={(\hlhs,#1)}]#2.north east); \coordinate (#3) at (#2.east);}

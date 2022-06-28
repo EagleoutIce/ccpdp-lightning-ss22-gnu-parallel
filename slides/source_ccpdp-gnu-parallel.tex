@@ -46,7 +46,7 @@ TODO: sources
 \end{tikzpicture}
 % \end{layout-imageonly}
 % each program run in the command line has three data streams connected to it:
-% \begin{tikzpicture}[overlay,remember picture]
+% \begin{tikzpicture}[@O]
 % \scope[shift={(current page.south west)},shift={(\beamer@leftmargin,1cm)}]
 % \endscope
 % \end{tikzpicture}
@@ -228,7 +228,7 @@ TODO: sources
 \end{tikzpicture}
 \end{onlyenv}
 \begin{onlyenv}<9-|handout:2->
-\begin{tikzpicture}[overlay,remember picture]
+\begin{tikzpicture}[@O]
 \scope[shift={(current page.north east)},shift={(-4cm,-2cm)},codeouthl,xscale=2,K/.style={circle,fill,scale=1.25},scale=.5,every ndoe/.append style={transform shape}]
       {\only<10-13|handout:2>{\color{shadeA}} \node[K] (1) at (0,0) {};}
       \node[K,codeouthl!60!white] (2) at (1,0) {};
@@ -258,9 +258,17 @@ TODO: sources
 \begin{onlyenv}<10-|handout:2->
 \begin{layout-imageonly}
 \begin{onlyenv}<10-13|handout:2>
-\begin{tikzpicture}[overlay,remember picture]
+\begin{tikzpicture}[@O]
+   \onslide<11->{\hlbehindcodeunder{n}{@n>}
+      \draw[T,-Kite] (@n>_up) to[bend left] ++(.5,.35) node[right] {number of transactions};
+   }
+   \onslide<12->{\hlbehindcodeunder{names}{@names>}
+      \draw[T,-Kite] (@names>_up) to[bend left] ++(.5,.35) node[right] {known account names};
+   }
 
-   \onslide<11->{\hlbehindcodeunder{n}{@n>}}
+   \onslide<13->{\hlbehindcodeunder{value}{@value>}
+      \node[T,below] at (@value>_down) {value};
+   }
 \end{tikzpicture}
 \begin{minted}{java}
 /*\CodeFileMarker{Producer.java}*/
@@ -338,7 +346,7 @@ System.out.println(accounts);
 %    grafik und Code
 % wann sinnvoll usw.
 % bank beispiel mit java  %  FELIX
-\begin{tikzpicture}[overlay,remember picture]
+\begin{tikzpicture}[@O]
 \scope[shift={(current page.north east)},shift={(-4cm,-2cm)},codeouthl,xscale=2,K/.style={circle,fill,scale=1.25},scale=.5,every ndoe/.append style={transform shape}]
       \only<2-6|handout:1>{{\only<3|handout:0>{\color{shadeA}}\node[K] (1) at (0,0) {};}
       {\only<4|handout:0>{\color{shadeA}}\node[K] (2) at (1,0) {};}
