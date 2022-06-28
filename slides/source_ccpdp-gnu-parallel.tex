@@ -239,7 +239,7 @@ TODO: sources
          \node[K] (3d) at (2,-1) {};
          \node[K] (3e) at (2,-2) {};
       }
-      {\only<17-19|handout:4>{\color{shadeA}}
+      {\only<18-20|handout:4>{\color{shadeA}}
          \node[K] (4) at (3,0) {};
       }
 
@@ -310,13 +310,13 @@ while (scanner.hasNextLine()) {
 scanner.close();
 \end{minted}
 \end{onlyenv}
-\begin{onlyenv}<17-19|handout:4>
+\begin{onlyenv}<18-20|handout:4>
 \begin{tikzpicture}[@O]
-   \onslide<18->{
+   \onslide<19->{
       \hlbehindcodeunder{getOrDefault}{@getOrDefault>}
       \draw[T,-Kite] (@getOrDefault>_up) to[bend left] ++(.5,.35) node[right] {Arbitrary initialization};
    }
-   \onslide<19->{
+   \onslide<20->{
       \hlbehindcodeunder{accounts}{@accounts>}
       \draw[T,-Kite] (@accounts>_up) to[bend left] ++(.5,.35) node[right] {\T{AbstractMap.toString()}};
    }
@@ -354,7 +354,7 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
 \begin{minted}{bash}
 /*\onslide<3->*/java -jar producer.jar 1000000/*\onslide<4->*/\
 	| java -jar consumer.jar/*\onslide<5->*/\
-	| java -jar accountant.jar
+	| java -jar accountant.jar/*\onslide<1->*/
 \end{minted}
 \end{onlyenv}
 % TODO: did it in a makefile so that we see this statement as well (otherwise the host shell would do that)
@@ -368,14 +368,14 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
 \begin{minted}{bash}
 &ihl&java -jar producer.jar 1000000\&ihl&
 &ihl&	| java -jar consumer.jar&ihl&
-&ihl&	| java -jar accountant.jar&ihl&
+&ihl&	| java -jar accountant.jar&ihl&/*\onslide<3->*/
 \end{minted}
 \end{onlyenv}
 \begin{onlyenv}<10-|handout:2>
 \begin{minted}{bash}
 &ihl&java -jar producer.jar 1000000\&ihl&
 &ihl&	| &ihl&parallel --pipe &ihl&java -jar consumer.jar\&ihl&
-&ihl&	| java -jar accountant.jar&ihl&
+&ihl&	| java -jar accountant.jar&ihl&/*\onslide<3->*/
 \end{minted}
 % TODO:  WHY parallel twice?
 % TODO: different colors? for ppid -> pid
@@ -384,27 +384,27 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
 \onslide<11-|handout:2>{\node[above right,xshift=\beamer@leftmargin,yshift=1cm,font=\tiny\ttfamily,text width=14cm] (@) at(current page.south west) {\begin{tabular}{rrrl}
       {pid} & {ppid} & {cpuid} & {cmd} \\ % {lwp} & \rlap{\quad\ldots}
 \midrule
-  38279 & \M<13->38276 &  \Y{\M<13->3} & \Y{\MM<13->{\bbash{/bin/bash -c java -jar producer.jar 1000000 | parallel --pipe java -jar consumer.jar | java -jar a:ldots:}}}\kern-3pt\\
-  \Y{\M<13->38280} & 3\Y{8279} &  \Y{6} & \Y{\K{\bbash{java -jar producer.jar 1000000}}} \\
+  38279 & \M<13->38276 &  \M<13->3 & \MM<13->{\bbash{/bin/bash -c java -jar producer.jar 1000000 | parallel --pipe java -jar consumer.jar | java -jar a:ldots:}}\kern-3pt\\
+  \Y{\M<13->38280} & \Y{38279} &  \Y{6} & \Y{\K{\bbash{java -jar producer.jar 1000000}}} \\
   \Y{38281} & \Y{38279} & \Y{15} & \Y{\K{\bbash{perl /usr/bin/parallel --pipe java -jar consumer.jar}}} \\
   \Y{\M<13->38282} & \Y{38279} &  \Y{5} & \Y{\K{\bbash{java -jar accountant.jar}}} \\ % \smallskip\\
-  \Y{38344} & \Y{38281} & \Y{10} & \Y{\K{\bbash{perl -e if(sysread(STDIN,\$buf,1))\{open(\$fh }}}\textcolor{gray}{\,[\ldots]\!}\Y{\K{\} \bbash{/usr/bin/bash -c java -jar consumer.jar}}} \\
-  \Y{\M<13->38345} & \Y{38281} &   \Y{\M<13->4} & \MM<13->{\Y{\K{\bbash{perl -e if(sysread(STDIN,\$buf,1))\{open(\$fh }}}\textcolor{gray}{\,[\ldots]\!}\Y{\K{\} \bbash{/usr/bin/bash -c java -jar consumer.jar}}}} \\
-  \color{gray}\ldots & \color{gray}\ldots & \color{gray}\ldots & \color{gray}\ldots \\
-  \Y{\M<13->38363} & \Y{38281} &  \Y{\M<13->10} & \MM<13->{\Y{\K{\bbash{perl -e if(sysread(STDIN,\$buf,1))\{open(\$fh }}}\textcolor{gray}{\,[\ldots]\!}\Y{\K{\} \bbash{/usr/bin/bash -c java -jar consumer.jar}}}} \\
-  \Y{\M<13->38383}  & \Y{38281} &   \Y{\M<13->4} & \Y{\MM<8->{\bbash{perl /usr/bin/parallel --pipe java -jar consumer.jar}}} \\
+  \Y{38344} & \Y{38281} & \Y{10} & \Y{\K{\bbash{perl -e if(sysread(STDIN,\$buf,1))\{open(\$fh }}\textcolor{gray}{\,[\ldots]\!}\K{\} \bbash{/usr/bin/bash -c java -jar consumer.jar}}} \\
+  \Y{\M<13->38345} & \Y{38281} &   \Y{\M<13->4} & \MM<13->{\Y{\K{\bbash{perl -e if(sysread(STDIN,\$buf,1))\{open(\$fh }}\textcolor{gray}{\,[\ldots]\!}\K{\} \bbash{/usr/bin/bash -c java -jar consumer.jar}}}} \\
+  \Q{\color{gray}\ldots} & \Q{\color{gray}\ldots} & \Q{\color{gray}\ldots} & \Q{\color{gray}\ldots} \\
+  \Y{\M<13->38363} & \Y{38281} &  \Y{\M<13->10} & \MM<13->{\Y{\K{\bbash{perl -e if(sysread(STDIN,\$buf,1))\{open(\$fh }}\textcolor{gray}{\,[\ldots]\!}\K{\} \bbash{/usr/bin/bash -c java -jar consumer.jar}}}} \\
+  \Y{\M<13->38383}  & \Y{38281} &   \Y{\M<13->4} & \Y{\MM<13->{\bbash{perl /usr/bin/parallel --pipe java -jar consumer.jar}}} \\
   \Y{\M<13->38384}  & \Y{38344} &  \Y{2} & \Y{\K{\bbash{java -jar consumer.jar}}} \\
-  \Y{\M<13->38438}  & \Y{\M<13->38136} &  \Y{\M<13->12} & \Y{\MM<8->{\bbash{ps -o pid,ppid,cpuid,cmd}}}
+  \Y{\M<13->38438}  & \Y{\M<13->38136} &  \Y{\M<13->12} & \Y{\MM<13->{\bbash{ps -o pid,ppid,cpuid,cmd}}}
    \end{tabular}};}
 
 
    % below right for same position! so it does not jump
-   \onslide<6-|handout:1>{\node[below right,font=\tiny\ttfamily,text width=14cm] at(@.north west) {\begin{tabular}{rrrl}
+   \onslide<6-10|handout:1>{\node[below right,font=\tiny\ttfamily,text width=14cm] at(@.north west) {\begin{tabular}{rrrl}
          {pid} & {ppid} & {cpuid} & {cmd} \\ % {lwp} & \rlap{\quad\ldots}
    \midrule
-   25621 & \M<8->25618 &  \Q{\M<8->7} &\rlap{\Q{\MM<8->{\bbash{/bin/bash -c java -jar producer.jar 1000000 | java -jar consumer.jar | java -jar accountant.jar}}}}% align lap:
+   25621 & \M<8->25618 &  \M<8->7 &\rlap{\MM<8->{\bbash{/bin/bash -c java -jar producer.jar 1000000 | java -jar consumer.jar | java -jar accountant.jar}}}% align lap:
    \phantom{\bbash{/bin/bash -c java -jar producer.jar 1000000 | parallel --pipe java -jar consumer.jar | java -jar a:ldots:}\kern-3pt}\\
-   \Q{\M<8->25622} & \Q{25621}  &  2 & \Q{\K{\bbash{java -jar producer.jar 1000000}}} \\
+   \Q{\M<8->25622} & \Q{25621}  &  \Q{2} & \Q{\K{\bbash{java -jar producer.jar 1000000}}} \\
    \Q{\M<8->25623} & \Q{25621}  &  \Q{ 14} & \Q{\K{\bbash{java -jar consumer.jar}}} \\
    \Q{\M<8->25624} & \Q{25621}  &  \Q{ 13} & \Q{\K{\bbash{java -jar accountant.jar}}} \\
    \Q{\M<8->25738} & \Q{\M<8->5113} &  \Q{\M<8->9} & \Q{\MM<8->{\bbash{ps -o pid,ppid,cpuid,cmd}}}
