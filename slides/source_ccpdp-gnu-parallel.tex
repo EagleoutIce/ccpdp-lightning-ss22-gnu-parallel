@@ -397,9 +397,8 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
   \Y{\M<13->38438}  & \Y{\M<13->38136} &  \Y{\M<13->12} & \Y{\MM<13->{\bbash{ps -o pid,ppid,cpuid,cmd}}}
    \end{tabular}};}
 
-
    % below right for same position! so it does not jump
-   \onslide<6-10|handout:1>{\node[below right,font=\tiny\ttfamily,text width=14cm] at(@.north west) {\begin{tabular}{rrrl}
+   \onslide<6-10|handout:1>{\node[below right,font=\tiny\ttfamily,text width=14cm] (@2) at(@.north west) {\begin{tabular}{rrrl}
          {pid} & {ppid} & {cpuid} & {cmd} \\ % {lwp} & \rlap{\quad\ldots}
    \midrule
    25621 & \M<8->25618 &  \M<8->7 &\rlap{\MM<8->{\bbash{/bin/bash -c java -jar producer.jar 1000000 | java -jar consumer.jar | java -jar accountant.jar}}}% align lap:
@@ -408,8 +407,19 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
    \Q{\M<8->25623} & \Q{25621}  &  \Q{ 14} & \Q{\K{\bbash{java -jar consumer.jar}}} \\
    \Q{\M<8->25624} & \Q{25621}  &  \Q{ 13} & \Q{\K{\bbash{java -jar accountant.jar}}} \\
    \Q{\M<8->25738} & \Q{\M<8->5113} &  \Q{\M<8->9} & \Q{\MM<8->{\bbash{ps -o pid,ppid,cpuid,cmd}}}
-      \end{tabular}};}
+      \end{tabular}};
+   }
+   \only<handout:1>{% TODO: make comment in presentation manually?
+      % tikzmark is problematic due to nested tikz and me being lzy
+      \draw[-Kite,T] ([xshift=1.5cm,yshift=-.75cm]@2.north) to[bend right] ++(.4,-.4) node[below right,xshift=.5ex,align=left,yshift=.25\baselineskip] {Ran from within a makefile\\(directly done by shell otherwise)};
+      \draw[-Kite,T] ([xshift=-2.5cm,yshift=-1.75cm]@2.north) to[bend right] ++(.4,-.4) node[below right,xshift=.5ex,align=left,yshift=.25\baselineskip] {Produces (a superset of) this table};
+   }
+   \only<handout:2>{% TODO: make comment in presentation manually?
+      % tikzmark is problematic due to nested tikz and me being lzy
+      \draw[-Kite,T] ([xshift=-1cm,yshift=-3cm]@2.north) to[out=0,in=180] ++(.55,.125) node[below right,xshift=.5ex,align=left,yshift=.2\baselineskip,scale=.8] {Used for generic splitting magic\\(e.g., not done with \bbash{--roundrobin})};
+   }
 \end{tikzpicture}
+% TODO: show roundrobin much simpler only java-jar etc-
 %    grafik und Code
 % wann sinnvoll usw.
 % bank beispiel mit java  %  FELIX
@@ -572,6 +582,8 @@ TODO:
 \begin{frame}
  TODO: SPREADING BLOCKS OF DATA
  in \url{https://www.gnu.org/software/parallel/parallel.pdf}
+ \$Global::JobQueue
+ TODO: groupby
  %  synchinc
 \end{frame}
 

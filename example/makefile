@@ -6,6 +6,7 @@ SOURCES := $(shell find . -name '*.java')
 run: consumer.jar
 	java -jar producer.jar 1000000 | parallel --pipe java -jar consumer.jar | java -jar accountant.jar
 
+#  -j4 --roundrobin  no second parallel child
 # TODO: -X and -m option https://www.gnu.org/software/parallel/parallel_tutorial.html
 
 run-no-parallel: consumer.jar
