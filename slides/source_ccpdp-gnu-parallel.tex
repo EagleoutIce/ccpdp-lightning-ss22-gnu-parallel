@@ -307,7 +307,7 @@ System.out.println(accounts);
 
 % \subsection{The Running-Example}
 {
-   \lstset{add to literate={\\}{{{\color{codeouthl}{\textbackslash}}}}1}
+\lstset{add to literate={\\}{{{\color{codeouthl}{\textbackslash}}}}1}
 \begin{frame}[fragile]{Running the Example}
 \centering\vspace*{.5em}
 \SetupLstHl
@@ -390,35 +390,43 @@ System.out.println(accounts);
 
 \subsection{Distribution}
 {
-\lstset{add to literate={\$SERVER}{{{\color{gray}\textdollar SERVER}}}7 {\$SERVER1}{{{\color{gray}\textdollar SERVER1}}}7}
+\lstset{add to literate={\$SERVER}{{{\color{gray}\textdollar SERVER}}}7 {\$SERVER1}{{{\color{gray}\textdollar SERVER1}}}7 {\\}{{{\color{codeouthl}{\textbackslash}}}}1}
 \begin{frame}[fragile]{Distributed}
-   GNU \LogoParallel can run jobs on remote servers. It uses ssh to communicate with the remote machines.\\
-   \begin{minted}{bash}
-      parallel -S $SERVER echo running on ::: $SERVER
+\begin{itemize}[<+(1)->]
+   \itemsep6pt
+   \item \flo{Felix wo hast du die Beispiele her? Quellen!}
+   \item GNU \LogoParallel can run jobs on remote servers \begin{itemize}
+      \item It uses ssh to communicate with the remote machines
+      \begin{minted}{bash}
+parallel -S $SERVER echo running on ::: $SERVER
+      \end{minted}
+   \end{itemize}
+   \item Transfer Files using rsync:
+   \begin{minted}[deletekeywords={transferfile,return}]{bash}
+parallel -S $SERVER --return {}.out --transferfile\
+   {} --cleanup cat {} ">"{}.out ::: input_file
    \end{minted}
-   Transfer Files using rsync:
-   \begin{minted}{bash}
-      parallel -S $SERVER1 --transferfile {} --return {}.out --cleanup cat {} ">"{}.out ::: input_file
-      // Shorthand
-      parallel -S $SERVER1 --trc {}.out cat {} ">"{}.out ::: input_file
-   \end{minted}
-   \begin{minted}{bash}
-      --basefile
-      --workdir
-      --onall
-      --nonall non argument onall
-      --tag for output
-   \end{minted}
-   Prevent sshd Overloading:
-   \begin{minted}{bash}
-      parallel -S $SERVER1 --sshdelay 0.2 echo ::: 1 2 3
-   \end{minted}
-   Multiplex connections:
-   \begin{minted}{bash}
-      --controlmaster
-   \end{minted}
-
-
+%       // Shorthand
+%       // parallel -S $SERVER --trc {}.out cat {} ">"{}.out ::: input_file
+   \item TODO: beautiful shortant
+\end{itemize}
+TODO:
+   % Transfer Files using rsync:
+   % \begin{minted}{bash}
+   %    --basefile
+   %    --workdir
+   %    --onall
+   %    --nonall non argument onall
+   %    --tag for output
+   % \end{minted}
+   % Prevent sshd Overloading:
+   % \begin{minted}{bash}
+   %    parallel -S $SERVER1 --sshdelay 0.2 echo ::: 1 2 3
+   % \end{minted}
+   % Multiplex connections:
+   % \begin{minted}{bash}
+   %    --controlmaster
+   % \end{minted}
    %grafik und Code
    % erweiterungen wei verteilt mehrere Systeme % FELIX (-ssh oder so)
 \end{frame}
