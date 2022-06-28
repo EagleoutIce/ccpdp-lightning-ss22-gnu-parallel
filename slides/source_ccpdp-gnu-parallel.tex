@@ -292,7 +292,6 @@ for (int i = 0; i < /*\Snode{n}*/n/*\Snode{n@}*/; i++) {
       \hlbehindcodeunder{to}{@to>}
       \draw[T,-Kite] (@to>_up) to[bend left] ++(.5,.35) node[right] {1};
    }
-
    \onslide<17->{
       \hlbehindcodeunder{value}{@value>}
       \draw[T,-Kite] (@value>_up) to[bend left] ++(.5,.35) node[right] {2};
@@ -310,22 +309,31 @@ while (scanner.hasNextLine()) {
 }
 scanner.close();
 \end{minted}
-% TODO: markers for from to and value
 \end{onlyenv}
 \begin{onlyenv}<17-19|handout:4>
+\begin{tikzpicture}[@O]
+   \onslide<18->{
+      \hlbehindcodeunder{getOrDefault}{@getOrDefault>}
+      \draw[T,-Kite] (@getOrDefault>_up) to[bend left] ++(.5,.35) node[right] {Aribtrary initialization};
+   }
+   \onslide<19->{
+      \hlbehindcodeunder{accounts}{@accounts>}
+      \draw[T,-Kite] (@accounts>_up) to[bend left] ++(.5,.35) node[right] {\T{AbstractMap.toString()}};
+   }
+\end{tikzpicture}
 \begin{minted}{java}
 /*\CodeFileMarker{Accountant.java}*/
-final var scan = new Scanner(System.in);
+final var scanner = new Scanner(System.in);
 final var accounts = new HashMap<String, Integer>();
-while (scan.hasNextLine()) {
-   String[] trans = scan.nextLine().split(" ");
-   final var old = accounts.getOrDefault(trans[0], 0);
+while (scanner.hasNextLine()) {
+   String[] trans = scanner.nextLine().split(" ");
+
+   final var old = accounts./*\Snode{getOrDefault}*/getOrDefault(trans[0], 0)/*\Snode{getOrDefault@}*/;
    accounts.put(trans[0], old + Integer.parseInt(trans[1]));
 }
-scan.close();
-System.out.println(accounts);
+scanner.close();
+System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
 \end{minted}
-% TODO: expain sys.println and getOrDefault
 \end{onlyenv}
 \end{layout-imageonly}
 \end{onlyenv}
