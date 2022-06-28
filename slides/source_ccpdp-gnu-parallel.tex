@@ -343,11 +343,12 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
 {
 \lstset{add to literate={\\}{{{\color{codeouthl}{\textbackslash}}}}1}
 \def\K#1{\begin{colormixin}{30!black}#1\end{colormixin}}% i dunno, semes to look nice
-\def\M{\only<8->{\color{gray}}}
-\def\MM#1{\colorlet{@mixn}{black}\only<8->{\colorlet{@mixn}{gray}}\begin{colormixin}{0!@mixn}#1\end{colormixin}}% i dunno, semes to look nice
+\newcommand<>\M{\only#1{\color{gray}}}
+\newcommand<>\MM[1]{\colorlet{@mixn}{black}\only#2{\colorlet{@mixn}{gray}}\begin{colormixin}{0!@mixn}#1\end{colormixin}}% i dunno, semes to look nice
 \def\Q{\only<7->}
-\begin{frame}[fragile]{Running the Example}
-\centering\vspace*{.5em}
+\def\Y{\only<12->}
+\begin{frame}[fragile,t]{Running the Example} % top for second table?
+\centering\vspace*{2em}% top buffer
 \SetupLstHl
 \begin{onlyenv}<2-8|handout:1>
 \begin{minted}{bash}
@@ -355,17 +356,6 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
 	| java -jar consumer.jar/*\onslide<5->*/\
 	| java -jar accountant.jar
 \end{minted}
-\begin{tikzpicture}[@O]
-   \onslide<6->{\node[above right,xshift=\beamer@leftmargin,yshift=1cm,font=\tiny\ttfamily,text width=14cm] at(current page.south west) {\begin{tabular}{rrrl}
-      {pid} & {ppid} & {cpuid} & {cmd} \\ % {lwp} & \rlap{\quad\ldots}
-\midrule
-25621 & \M25618 &  7 & \Q{\MM{\bbash{/bin/bash -c java -jar producer.jar 1000000 | java -jar consumer.jar | java -jar accountant.jar}}} \\
-\Q{\M25622} & \Q{25621}  &  \Q{\M2} & \Q{\K{\bbash{java -jar producer.jar 1000000}}} \\
-\Q{\M25623} & \Q{25621}  &  \Q{ 14} & \Q{\K{\bbash{java -jar consumer.jar}}} \\
-\Q{\M25624} & \Q{25621}  &  \Q{ 13} & \Q{\K{\bbash{java -jar accountant.jar}}} \\
-\Q{\M25738} & \Q{\M5113} &  \Q{\M9} & \Q{\MM{\bbash{ps -o pid,ppid,cpuid,cmd}}} \\
-   \end{tabular}};}
-\end{tikzpicture}
 \end{onlyenv}
 % TODO: did it in a makefile so that we see this statement as well (otherwise the host shell would do that)
 % ❯ make run-no-parallel& ; sleep 1; ps -o pid,ppid,cpuid,cmd > run.data
@@ -387,7 +377,39 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
 &ihl&	| &ihl&parallel --pipe &ihl&java -jar consumer.jar\&ihl&
 &ihl&	| java -jar accountant.jar&ihl&
 \end{minted}
+% TODO:  WHY parallel twice?
+% TODO: different colors? for ppid -> pid
 \end{onlyenv}
+\begin{tikzpicture}[@O,outer sep=0pt,inner sep=0pt]
+\onslide<11-|handout:2>{\node[above right,xshift=\beamer@leftmargin,yshift=1cm,font=\tiny\ttfamily,text width=14cm] (@) at(current page.south west) {\begin{tabular}{rrrl}
+      {pid} & {ppid} & {cpuid} & {cmd} \\ % {lwp} & \rlap{\quad\ldots}
+\midrule
+  38279 & \M<13->38276 &  \Y{\M<13->3} & \Y{\MM<13->{\bbash{/bin/bash -c java -jar producer.jar 1000000 | parallel --pipe java -jar consumer.jar | java -jar a:ldots:}}}\kern-3pt\\
+  \Y{\M<13->38280} & 3\Y{8279} &  \Y{6} & \Y{\K{\bbash{java -jar producer.jar 1000000}}} \\
+  \Y{38281} & \Y{38279} & \Y{15} & \Y{\K{\bbash{perl /usr/bin/parallel --pipe java -jar consumer.jar}}} \\
+  \Y{\M<13->38282} & \Y{38279} &  \Y{5} & \Y{\K{\bbash{java -jar accountant.jar}}} \\ % \smallskip\\
+  \Y{38344} & \Y{38281} & \Y{10} & \Y{\K{\bbash{perl -e if(sysread(STDIN,\$buf,1))\{open(\$fh }}}\textcolor{gray}{\,[\ldots]\!}\Y{\K{\} \bbash{/usr/bin/bash -c java -jar consumer.jar}}} \\
+  \Y{\M<13->38345} & \Y{38281} &   \Y{\M<13->4} & \MM<13->{\Y{\K{\bbash{perl -e if(sysread(STDIN,\$buf,1))\{open(\$fh }}}\textcolor{gray}{\,[\ldots]\!}\Y{\K{\} \bbash{/usr/bin/bash -c java -jar consumer.jar}}}} \\
+  \color{gray}\ldots & \color{gray}\ldots & \color{gray}\ldots & \color{gray}\ldots \\
+  \Y{\M<13->38363} & \Y{38281} &  \Y{\M<13->10} & \MM<13->{\Y{\K{\bbash{perl -e if(sysread(STDIN,\$buf,1))\{open(\$fh }}}\textcolor{gray}{\,[\ldots]\!}\Y{\K{\} \bbash{/usr/bin/bash -c java -jar consumer.jar}}}} \\
+  \Y{\M<13->38383}  & \Y{38281} &   \Y{\M<13->4} & \Y{\MM<8->{\bbash{perl /usr/bin/parallel --pipe java -jar consumer.jar}}} \\
+  \Y{\M<13->38384}  & \Y{38344} &  \Y{2} & \Y{\K{\bbash{java -jar consumer.jar}}} \\
+  \Y{\M<13->38438}  & \Y{\M<13->38136} &  \Y{\M<13->12} & \Y{\MM<8->{\bbash{ps -o pid,ppid,cpuid,cmd}}}
+   \end{tabular}};}
+
+
+   % below right for same position! so it does not jump
+   \onslide<6-|handout:1>{\node[below right,font=\tiny\ttfamily,text width=14cm] at(@.north west) {\begin{tabular}{rrrl}
+         {pid} & {ppid} & {cpuid} & {cmd} \\ % {lwp} & \rlap{\quad\ldots}
+   \midrule
+   25621 & \M<8->25618 &  \Q{\M<8->7} &\rlap{\Q{\MM<8->{\bbash{/bin/bash -c java -jar producer.jar 1000000 | java -jar consumer.jar | java -jar accountant.jar}}}}% align lap:
+   \phantom{\bbash{/bin/bash -c java -jar producer.jar 1000000 | parallel --pipe java -jar consumer.jar | java -jar a:ldots:}\kern-3pt}\\
+   \Q{\M<8->25622} & \Q{25621}  &  2 & \Q{\K{\bbash{java -jar producer.jar 1000000}}} \\
+   \Q{\M<8->25623} & \Q{25621}  &  \Q{ 14} & \Q{\K{\bbash{java -jar consumer.jar}}} \\
+   \Q{\M<8->25624} & \Q{25621}  &  \Q{ 13} & \Q{\K{\bbash{java -jar accountant.jar}}} \\
+   \Q{\M<8->25738} & \Q{\M<8->5113} &  \Q{\M<8->9} & \Q{\MM<8->{\bbash{ps -o pid,ppid,cpuid,cmd}}}
+      \end{tabular}};}
+\end{tikzpicture}
 %    grafik und Code
 % wann sinnvoll usw.
 % bank beispiel mit java  %  FELIX
