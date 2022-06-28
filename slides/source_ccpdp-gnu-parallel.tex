@@ -389,8 +389,10 @@ System.out.println(accounts);
 \SidebarReset
 
 \subsection{Distribution}
+{
+\lstset{add to literate={\$SERVER}{{{\color{gray}\textdollar SERVER}}}7 {\$SERVER1}{{{\color{gray}\textdollar SERVER1}}}7}
 \begin{frame}[fragile]{Distributed}
-   GNU parallel can run jobs on remote servers. It uses ssh to communicate with the remote machines.\\
+   GNU \LogoParallel can run jobs on remote servers. It uses ssh to communicate with the remote machines.\\
    \begin{minted}{bash}
       parallel -S $SERVER echo running on ::: $SERVER
    \end{minted}
@@ -447,7 +449,7 @@ System.out.println(accounts);
       Code Json, vs. yaml, vs...
    % objekte % FLORIAN (gson und so)
 \end{frame}
-
+}
 
 \subsection{Recap} % maybe not as separate bot in the bottom?
 \begin{frame}{Recap}
