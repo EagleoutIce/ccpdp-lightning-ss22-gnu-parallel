@@ -283,17 +283,32 @@ for (int i = 0; i < /*\Snode{n}*/n/*\Snode{n@}*/; i++) {
 % TODO: highlight n as number, names for constants and value
 \end{onlyenv}
 \begin{onlyenv}<14-17|handout:3>
+\begin{tikzpicture}[@O]
+   \onslide<15->{
+      \hlbehindcodeunder{from}{@from>}
+      \draw[T,-Kite] (@from>_up) to[bend left] ++(.5,.35) node[right] {0};
+   }
+   \onslide<16->{
+      \hlbehindcodeunder{to}{@to>}
+      \draw[T,-Kite] (@to>_up) to[bend left] ++(.5,.35) node[right] {1};
+   }
+
+   \onslide<17->{
+      \hlbehindcodeunder{value}{@value>}
+      \draw[T,-Kite] (@value>_down) to[bend left] ++(-.5,-.35) node[left] {2};
+   }
+\end{tikzpicture}
 \begin{minted}{java}
 /*\CodeFileMarker{Consumer.java}*/
-final var scan = new Scanner(System.in);
-while (scan.hasNextLine()) {
-   String[] s = scan.nextLine().split(" ");
-   System.out.println(Constants.NAMES[Integer.parseInt(s[FROM])]
-         + " " + -Integer.parseInt(s[VALUE]));
-   System.out.println(Constants.NAMES[Integer.parseInt(s[TO])]
-         + " " + Integer.parseInt(s[VALUE]));
+final var scanner = new Scanner(System.in);
+while (scanner.hasNextLine()) {
+   String[] s = scanner.nextLine().split(" ");/*\vspace{\medskipamount+1mm}*/
+   String from = NAMES[Integer.parseInt(s[/*\Snode{from}*/FROM/*\Snode{from@}*/])];
+   System.out.printf("%s -%d%n", from, Integer.parseInt(s[VALUE]));/*\vspace{\medskipamount+1mm}*/
+   String to = NAMES[Integer.parseInt(s[/*\Snode{to}*/TO/*\Snode{to@}*/])];
+   System.out.printf("%s %d%n", to, Integer.parseInt(s[/*\Snode{value}*/VALUE/*\Snode{value@}*/]));
 }
-scan.close();
+scanner.close();
 \end{minted}
 % TODO: markers for from to and value
 \end{onlyenv}

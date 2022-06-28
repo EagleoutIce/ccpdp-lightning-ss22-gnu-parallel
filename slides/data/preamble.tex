@@ -165,3 +165,6 @@
 \newcommand\hlbehindcodeunder[3][0pt]{\setbox0=\hbox{\pgfinterruptpicture\HStrut\endpgfinterruptpicture}\fill[\hlcolor,opacity=\hlopa,rounded corners=1pt] ([shift={(-\hlhs,-#1-1.6pt)}]pic cs:#2) rectangle ([shift={(\hlhs,#1+1.6pt)}]pic cs:#2@); \coordinate (#3) at (pic cs:#2@);
 \path ([shift={(-\hlhs,#1+.87\dp0)}]pic cs:#2) -- ([shift={(\hlhs,#1+.87\ht0)}]pic cs:#2@) coordinate[pos=.5,yshift=1mm] (#3_up);
 \path ([shift={(-\hlhs,-#1-.95\dp0)}]pic cs:#2) -- ([shift={(\hlhs,-#1+.95\ht0)}]pic cs:#2@) coordinate[pos=.5,yshift=-1mm-1.6pt] (#3_down); }
+
+% overwrite existing:
+\def\soljavaprintf#1{\solGet{keywordC}{#1}}

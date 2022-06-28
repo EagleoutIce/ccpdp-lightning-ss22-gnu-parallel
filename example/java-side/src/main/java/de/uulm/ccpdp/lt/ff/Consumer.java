@@ -12,8 +12,8 @@ public class Consumer {
         final var scan = new Scanner(System.in);
         while (scan.hasNextLine()) {
             String[] s = scan.nextLine().split(" ");
-            System.out.println(Constants.NAMES[Integer.parseInt(s[FROM])] + " " + -Integer.parseInt(s[VALUE]));
-            System.out.println(Constants.NAMES[Integer.parseInt(s[TO])] + " " + Integer.parseInt(s[VALUE]));
+            System.out.printf("%s -%d%n", Constants.NAMES[Integer.parseInt(s[FROM])], Integer.parseInt(s[VALUE]));
+            System.out.printf("%s %d%n", Constants.NAMES[Integer.parseInt(s[TO])], Integer.parseInt(s[VALUE]));
         }
         scan.close();
         /* { Consumer } */
