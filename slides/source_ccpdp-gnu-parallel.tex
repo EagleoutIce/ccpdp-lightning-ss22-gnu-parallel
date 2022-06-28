@@ -258,11 +258,15 @@ TODO: sources
 \begin{onlyenv}<10-|handout:2->
 \begin{layout-imageonly}
 \begin{onlyenv}<10-13|handout:2>
+\begin{tikzpicture}[overlay,remember picture]
+
+   \onslide<11->{\hlbehindcodeunder{n}{@n>}}
+\end{tikzpicture}
 \begin{minted}{java}
 /*\CodeFileMarker{Producer.java}*/
 final var rand = new Random();
 
-for (int i = 0; i < /*\Snode{n@}*/n/*\Snode{n@}*/; i++) {
+for (int i = 0; i < /*\Snode{n}*/n/*\Snode{n@}*/; i++) {
    int from = rand.nextInt(/*\Snode{names}*/NAMES/*\Snode{names@}*/.length);
    int to = rand.nextInt(NAMES.length);
    System.out.format("%d %d %d%n", from, to, /*\Snode{value}*/rand.nextInt(100) * 10/*\Snode{value@}*/);
