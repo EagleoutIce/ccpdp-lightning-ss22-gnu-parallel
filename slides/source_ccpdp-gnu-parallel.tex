@@ -295,7 +295,7 @@ for (int i = 0; i < /*\Snode{n}*/n/*\Snode{n@}*/; i++) {
 
    \onslide<17->{
       \hlbehindcodeunder{value}{@value>}
-      \draw[T,-Kite] (@value>_down) to[bend left] ++(-.5,-.35) node[left] {2};
+      \draw[T,-Kite] (@value>_up) to[bend left] ++(.5,.35) node[right] {2};
    }
 \end{tikzpicture}
 \begin{minted}{java}
@@ -304,9 +304,9 @@ final var scanner = new Scanner(System.in);
 while (scanner.hasNextLine()) {
    String[] s = scanner.nextLine().split(" ");/*\vspace{\medskipamount+1mm}*/
    String from = NAMES[Integer.parseInt(s[/*\Snode{from}*/FROM/*\Snode{from@}*/])];
-   System.out.printf("%s -%d%n", from, Integer.parseInt(s[VALUE]));/*\vspace{\medskipamount+1mm}*/
+   System.out.printf("%s -%d%n", from, Integer.parseInt(s[/*\Snode{value}*/VALUE/*\Snode{value@}*/]));/*\vspace{\medskipamount+1mm}*/
    String to = NAMES[Integer.parseInt(s[/*\Snode{to}*/TO/*\Snode{to@}*/])];
-   System.out.printf("%s %d%n", to, Integer.parseInt(s[/*\Snode{value}*/VALUE/*\Snode{value@}*/]));
+   System.out.printf("%s %d%n", to, Integer.parseInt(s[VALUE]));
 }
 scanner.close();
 \end{minted}
