@@ -1,0 +1,13 @@
+    PID    PPID CPUID CMD
+   5113    3983     4 /usr/bin/zsh
+   5880       1     2 /usr/bin/zsh
+   6614       1     8 /usr/bin/zsh
+   6615       1     2 /usr/bin/zsh
+   6619    5880     8 /home/limerent/.cache/gitstatus/gitstatusd-linux-x86_64 -G v1.5.1 -s -1 -u -1 -d -1 -c -1 -m -1 -v FATAL -t 32
+  16867       1     6 /usr/bin/okular /home/limerent/Uni/Studium/M2. Semester/Konzepte für nebenläufige, parallele und verteilte Programmierung/Lightning Talks/slides/noanim_ccpdp-gnu-parallel.pdf
+  33966    5113     7 make run-no-parallel
+  33969   33966     7 /bin/bash -c java -jar producer.jar 1000000 | java -jar consumer.jar | java -jar accountant.jar
+  33970   33969     6 java -jar producer.jar 1000000
+  33971   33969    15 java -jar consumer.jar
+  33972   33969     8 java -jar accountant.jar
+  34094    5113     8 ps -o pid,ppid,cpuid,cmd

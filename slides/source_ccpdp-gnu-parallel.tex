@@ -342,24 +342,46 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
 % \subsection{The Running-Example}
 {
 \lstset{add to literate={\\}{{{\color{codeouthl}{\textbackslash}}}}1}
+\def\K#1{\begin{colormixin}{30!black}#1\end{colormixin}}% i dunno, semes to look nice
+\def\M{\only<8->{\color{gray}}}
+\def\MM#1{\colorlet{@mixn}{black}\only<8->{\colorlet{@mixn}{gray}}\begin{colormixin}{0!@mixn}#1\end{colormixin}}% i dunno, semes to look nice
+\def\Q{\only<7->}
 \begin{frame}[fragile]{Running the Example}
 \centering\vspace*{.5em}
 \SetupLstHl
-\begin{onlyenv}<2-5|handout:1>
+\begin{onlyenv}<2-8|handout:1>
 \begin{minted}{bash}
 /*\onslide<3->*/java -jar producer.jar 1000000/*\onslide<4->*/\
 	| java -jar consumer.jar/*\onslide<5->*/\
 	| java -jar accountant.jar
 \end{minted}
+\begin{tikzpicture}[@O]
+   \onslide<6->{\node[above right,xshift=\beamer@leftmargin,yshift=1cm,font=\tiny\ttfamily,text width=14cm] at(current page.south west) {\begin{tabular}{rrrl}
+      {pid} & {ppid} & {cpuid} & {cmd} \\ % {lwp} & \rlap{\quad\ldots}
+\midrule
+25621 & \M25618 &  7 & \Q{\MM{\bbash{/bin/bash -c java -jar producer.jar 1000000 | java -jar consumer.jar | java -jar accountant.jar}}} \\
+\Q{\M25622} & \Q{25621}  &  \Q{\M2} & \Q{\K{\bbash{java -jar producer.jar 1000000}}} \\
+\Q{\M25623} & \Q{25621}  &  \Q{ 14} & \Q{\K{\bbash{java -jar consumer.jar}}} \\
+\Q{\M25624} & \Q{25621}  &  \Q{ 13} & \Q{\K{\bbash{java -jar accountant.jar}}} \\
+\Q{\M25738} & \Q{\M5113} &  \Q{\M9} & \Q{\MM{\bbash{ps -o pid,ppid,cpuid,cmd}}} \\
+   \end{tabular}};}
+\end{tikzpicture}
 \end{onlyenv}
-\begin{onlyenv}<6|handout:0>
+% TODO: did it in a makefile so that we see this statement as well (otherwise the host shell would do that)
+% ❯ make run-no-parallel& ; sleep 1; ps -o pid,ppid,cpuid,cmd > run.data
+% ❯ make run& ; sleep 1; ps -o pid,ppid,cpuid,cmd > run2.data
+% C is lastcpu | cpuid
+% lwp light weight process (thread)
+% PSR is currently assigned processor
+% ps -F
+\begin{onlyenv}<9|handout:0>
 \begin{minted}{bash}
 &ihl&java -jar producer.jar 1000000\&ihl&
 &ihl&	| java -jar consumer.jar&ihl&
 &ihl&	| java -jar accountant.jar&ihl&
 \end{minted}
 \end{onlyenv}
-\begin{onlyenv}<7-|handout:2>
+\begin{onlyenv}<10-|handout:2>
 \begin{minted}{bash}
 &ihl&java -jar producer.jar 1000000\&ihl&
 &ihl&	| &ihl&parallel --pipe &ihl&java -jar consumer.jar\&ihl&
@@ -371,7 +393,7 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
 % bank beispiel mit java  %  FELIX
 \begin{tikzpicture}[@O]
 \scope[shift={(current page.north east)},shift={(-4cm,-2cm)},codeouthl,xscale=2,K/.style={circle,fill,scale=1.25},scale=.5,every ndoe/.append style={transform shape}]
-      \only<2-6|handout:1>{{\only<3|handout:0>{\color{shadeA}}\node[K] (1) at (0,0) {};}
+      \only<2-9|handout:1>{{\only<3|handout:0>{\color{shadeA}}\node[K] (1) at (0,0) {};}
       {\only<4|handout:0>{\color{shadeA}}\node[K] (2) at (1,0) {};}
       {\only<5|handout:0>{\color{shadeA}}\node[K] (3c) at (2,0) {};}
 
@@ -379,7 +401,7 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
         \path(1) -- (2) coordinate[pos=.5] (@12);
         \path (2) -- (3c);
    \endscope}
-   \only<7-|handout:2>{
+   \only<10-|handout:2>{
       \node[K] (1) at (0,0) {};
       \node[K,codeouthl!60!white] (2) at (1,0) {};
       \node[K] (3a) at (2,2) {};
@@ -514,7 +536,7 @@ TODO:
 \begin{frame}{About pipes}
 \begin{itemize}
    \item Execute each program in own subshell
-   \item TODO: not sequential: \url{https://stackoverflow.com/a/32946581} os we execute al steps in parallel for free (producer-consumer) \url{https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html\#tag_02_09_02}
+   \item TODO: not sequential: \url{https://stackoverflow.com/a/32946581} os we execute al steps in parallel for free (producer-consumer) % TODO: \url{https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html\#tag_02_09_02}
    \item TODO: talk about redirection and sockets?
    \item load balacning \url{https://stackoverflow.com/questions/14039403/gnu-parallel-load-balancing}
    \item how does bash sync it?

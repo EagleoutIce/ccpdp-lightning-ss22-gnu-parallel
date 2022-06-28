@@ -19,7 +19,6 @@
 \sol@list@define@styles{%
   {keywordA: \@declaredcolor{sol@colors@lst@keywordA}\bfseries},%
 }
-\makeatother
 
 \RestyleAlgo{plain}
 \lstset{lineskip=5.5pt}
@@ -104,7 +103,6 @@
 \newcommand*\mb[2][0]{\only<#2|handout:#1>{\rlap{\smash{\raisebox{-.66\baselineskip}{\color{shadeA}\textbullet}}}}}
 \newcommand*\mh[2][0]{\only<#2|handout:#1>{\color{shadeA}\textbullet}}
 \newcommand*\mdl[2][0]{\only<#2|handout:#1>{\llap{\smash{\raisebox{-.5\baselineskip}{\tikz{\fill[shadeA,rounded corners=1pt] (0,-.65mm) rectangle ++(2.15\p@,\baselineskip+.65mm);}}~}}}}
-\makeatother
 
 
 \setcounter{tocdepth}{4}
@@ -134,6 +132,8 @@
 \def\bnode#1#2{\rnode{#1}{\sbasic{#2}}}%
 \def\rnode#1#2{\Snode{#1}#2\Snode{#1@}}
 \def\CodeFileMarker#1{{\color{gray}\sffamily\fontseries{l}\tiny\llap{\faFileCodeO~\thinspace}#1}}
+% TODO: links to all
+\def\CodeFileMarkerUrl#1#2{{\color{gray}\def\fancyulcolor{gray}\sffamily\fontseries{l}\tiny\llap{\faFileCodeO~\thinspace}\link{#1}{#2}}}
 
 \def\SetupLstHl{%
 \lstcolorlet{highlight}{codeouthl}%
@@ -168,3 +168,31 @@
 
 % overwrite existing:
 \def\soljavaprintf#1{\solGet{keywordC}{#1}}
+
+\usepackage{booktabs}
+
+% underline
+\let\hl\relax
+\usepackage{fancy-underline}
+
+\def\fancyul@depth{.85\p@}
+\def\fancyul@contour{.2\p@}
+\def\fancyulbackground{btdl@color@background}% so that it adapts with the beamer
+\colorlet{url@line@color}{paletteA!28!btdl@color@background}
+\fancyulcolor{url@line@color}
+\newdimen\ul@surround \ul@surround=1.35\p@
+% we make the auto detection of the depth bigger
+\def\update@ul{\setbox\z@\hbox{{(j}}\edef\fancyul@thickness{\the\dimexpr.2\dp\z@}}
+\def\rawlink#1{\leavevmode\kern-\ul@surround{\update@ul\kern\ul@surround\relax\fancyul{#1}}}
+% define a link macro that can be used with href and fancyul
+\DeclareRobustCommand*\link{\hyper@normalise\link@do}
+\def\link@do#1#2{\leavevmode\kern-\ul@surround\href{#1}{\update@ul\kern\ul@surround\relax\fancyul{#2}}}% thinspace for some nicer padding
+\DeclareRobustCommand*\hlink{\hyper@normalise\hlink@do}
+\def\hlink@do#1#2{\leavevmode\kern-\ul@surround\hyperlink{#1}{\update@ul\kern\ul@surround\relax\fancyul{#2}}}%
+\usepackage{letltxmacro}
+\LetLtxMacro\basicurl\url
+\def\url{\begingroup\catcode`{11\catcode`}11\obeyspaces\obeylines\url@do}%
+\def\url@do#1{\endgroup\link@do{#1}{#1}}%
+\AtBeginDocument{%
+\long\def\beamer@ref#1{\hlink@do{#1}{{\beamer@origref*{#1}}}}% the extra set of braces is for soul so that it can work with braces
+}
