@@ -381,6 +381,7 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
 &ihl&	| java -jar accountant.jar&ihl&/*\onslide<3->*/
 \end{minted}
 % TODO: different colors? for ppid -> pid
+% TODO: auf gleiche ids hinweise
 \end{onlyenv}
 \begin{tikzpicture}[@O,outer sep=0pt,inner sep=0pt]
 \onslide<11-|handout:2>{\node[above right,xshift=\beamer@leftmargin,yshift=1cm,font=\tiny\ttfamily,text width=14cm] (@) at(current page.south west) {\begin{tabular}{rrrl}
@@ -538,24 +539,33 @@ parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{sshdelay}*/ 0.2 echo ::: 1 2 3
 \subsection{Other Languages}
 \begin{frame}[fragile]{Other Languages}
    %Grafik und Code
+   % NOTE: bitte callbacks, arrow stile und so erwähnen.
+   % ich nutze von create iterface nicht auch noch output und write,
+   % da das sonst aus ieinem Grund nicht läuft^^
    \begin{minted}{javascript}
-      let accMap = new Map<String, number>();
+const accMap = new Map<string, number>();
+const rl = createInterface({ input: /*\Snode{in}*/process.stdin/*\Snode{in@}*/ });
 
-      const handleLine = (input: String) => {
-         const s = input.split(" ");
-         if (!accMap.has(s[0])) accMap.set(s[0], 0);
-         accMap.set(s[0], accMap.get(s[0])! + +s[1]);
-      };
+function handleLine(input: string): void {
+  const s = input.split(" ");
+  accMap.set(s[0], /*\Snode{lazy}*/accMap.get(s[0]) ?? 0/*\Snode{lazy@}*/ + Number(s[1]));
+}
 
-      readline.on("line", handleLine);
-
-   \end{minted}
-   \begin{minted}{bash}
-      java -jar producer.jar 1000000 | parallel --pipe java -jar consumer.jar | yarn --silent start
-      #java -jar producer.jar 1000000 | parallel --pipe java -jar consumer.jar | java -jar accountant.jar
+rl.on("line", /*\Snode{cb1}*/handleLine/*\Snode{cb1@}*/);
+rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);
    \end{minted}
    % verschiedene Sprache % FELIX
    % TODO: timeout option?
+\end{frame}
+
+\begin{frame}[fragile]{Integrating Javascript}
+\pause
+   \begin{minted}{bash}
+java -jar producer.jar 1000000
+   | parallel --pipe java -jar consumer.jar
+   | yarn --silent start
+   \end{minted}
+   % todo node yarn only runs tsc and node
 \end{frame}
 \subsection{Data Encoding}
 \begin{frame}{Data Encoding}
