@@ -408,12 +408,12 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
    \Q{\M<8->25738} & \Q{\M<8->5113} &  \Q{\M<8->9} & \Q{\MM<8->{\bbash{ps -o pid,ppid,cpuid,cmd}}}
       \end{tabular}};
    }
-   \only<handout:1>{% TODO: make comment in presentation manually?
+   \only<0|handout:1>{% TODO: make comment in presentation manually?
       % tikzmark is problematic due to nested tikz and me being lzy
       \draw[-Kite,T] ([xshift=1.5cm,yshift=-.75cm]@2.north) to[bend right] ++(.4,-.4) node[below right,xshift=.5ex,align=left,yshift=.25\baselineskip] {Ran from within a makefile\\(directly done by shell otherwise)};
       \draw[-Kite,T] ([xshift=-2.5cm,yshift=-1.75cm]@2.north) to[bend right] ++(.4,-.4) node[below right,xshift=.5ex,align=left,yshift=.25\baselineskip] {Produces (a superset of) this table};
    }
-   \only<handout:2>{%
+   \only<0|handout:2>{%
       % tikzmark is problematic due to nested tikz and me being lzy
       \draw[-Kite,T] ([xshift=-1cm,yshift=-2.75cm]@2.north) to[out=0,in=180] ++(.65,-.125) node[below right,xshift=.5ex,align=left,yshift=.2\baselineskip,scale=.8] {Used for generic splitting magic\\(e.g., not done with \bbash{--roundrobin})};
    }
