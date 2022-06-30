@@ -281,7 +281,7 @@ for (int i = 0; i < /*\Snode{n}*/n/*\Snode{n@}*/; i++) {
    int from = rand.nextInt(/*\Snode{names}*/NAMES/*\Snode{names@}*/.length);
    int to = rand.nextInt(NAMES.length);
    System.out.format("%d %d %d%n", from, to, /*\Snode{value}*/rand.nextInt(100) * 10/*\Snode{value@}*/);
-}
+}/*\onslide<1->*/
 \end{minted}
 % TODO: highlight n as number, names for constants and value
 \end{onlyenv}
@@ -310,7 +310,7 @@ while (scanner.hasNextLine()) {
    String to = NAMES[Integer.parseInt(s[/*\Snode{to}*/TO/*\Snode{to@}*/])];
    System.out.printf("%s %d%n", to, Integer.parseInt(s[VALUE]));
 }
-scanner.close();
+scanner.close();/*\onslide<1->*/
 \end{minted}
 \end{onlyenv}
 \begin{onlyenv}<18-20|handout:4>
@@ -335,7 +335,7 @@ while (scanner.hasNextLine()) {
    accounts.put(trans[0], old + Integer.parseInt(trans[1]));
 }
 scanner.close();
-System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
+System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);/*\onslide<1->*/
 \end{minted}
 \end{onlyenv}
 \end{layout-imageonly}
@@ -371,14 +371,14 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
 \begin{minted}{bash}
 &ihl&java -jar producer.jar 1000000\&ihl&
 &ihl&	| java -jar consumer.jar&ihl&
-&ihl&	| java -jar accountant.jar&ihl&/*\onslide<3->*/
+&ihl&	| java -jar accountant.jar&ihl&/*\onslide<1->*/
 \end{minted}
 \end{onlyenv}
 \begin{onlyenv}<10-|handout:2>
 \begin{minted}{bash}
 &ihl&java -jar producer.jar 1000000\&ihl&
 &ihl&	| &ihl&parallel --pipe &ihl&java -jar consumer.jar\&ihl&
-&ihl&	| java -jar accountant.jar&ihl&/*\onslide<3->*/
+&ihl&	| java -jar accountant.jar&ihl&/*\onslide<1->*/
 \end{minted}
 % TODO: different colors? for ppid -> pid
 % TODO: auf gleiche ids hinweise
@@ -492,22 +492,22 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
    \itemsep6pt
    % \item \flo{Felix wo hast du die Beispiele her? Quellen!}
    \item GNU \LogoParallel can run jobs on remote servers \begin{itemize}
-      \item It uses ssh to communicate with the remote machines
+      \item It uses ssh to communicate with the remote machines\pause
       \begin{minted}{bash}
-parallel -S $SERVER echo running on ::: $SERVER
+parallel -S $SERVER echo running on ::: $SERVER/*\onslide<1->*/
       \end{minted}
    \end{itemize}
-   \item Transfer Files using rsync:
+   \item Transfer Files using rsync:\pause
 \begin{itemize}
    \item Long version:
    \begin{minted}[deletekeywords={transferfile}]{bash}
 parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{return}*/ {}.out --transferfile\
-   {} --cleanup cat {} "/*\T{\solGet{literals}{>}}*/"{}.out ::: input_file
+   {} --cleanup cat {} "/*\T{\solGet{literals}{>}}*/"{}.out ::: input_file/*\onslide<1->*/
    \end{minted}
    \item Shorthands:
 \begin{minted}[deletekeywords={transferfile}]{bash}
 parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{trc}*/ {}.out cat {} "/*\T{\solGet{literals}{>}}*/"{}.out
-   ::: input_file
+   ::: input_file/*\onslide<1->*/
 \end{minted}
 \end{itemize}
 % \item TODO: beautiful shortant
@@ -522,7 +522,7 @@ parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{trc}*/ {}.out cat {} "/*\T{\solGet{li
    \itemsep3pt
    \item Prevent \T{sshd} overloading:\pause
 \begin{minted}{bash}
-parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{sshdelay}*/ 0.2 echo ::: 1 2 3
+parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{sshdelay}*/ 0.2 echo ::: 1 2 3/*\onslide<1->*/
 \end{minted}
    \item Multiplex connections with \bbash{--controlmaster}
    \item Transfer Files using rsync: \begin{itemize}
@@ -542,6 +542,7 @@ parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{sshdelay}*/ 0.2 echo ::: 1 2 3
    % NOTE: bitte callbacks, arrow stile und so erwähnen.
    % ich nutze von create iterface nicht auch noch output und write,
    % da das sonst aus ieinem Grund nicht läuft^^
+\begin{layout-imageonly}
    \begin{minted}{javascript}
 const accMap = new Map<string, number>();
 const rl = createInterface({ input: /*\Snode{in}*/process.stdin/*\Snode{in@}*/ });
@@ -552,18 +553,19 @@ function handleLine(input: string): void {
 }
 
 rl.on("line", /*\Snode{cb1}*/handleLine/*\Snode{cb1@}*/);
-rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);
+rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onslide<1->*/
    \end{minted}
+\end{layout-imageonly}
    % verschiedene Sprache % FELIX
    % TODO: timeout option?
 \end{frame}
 
-\begin{frame}[fragile]{Integrating Javascript}
+\begin{frame}[fragile]{Integrating JavaScript}
 \pause
    \begin{minted}{bash}
 java -jar producer.jar 1000000
    | parallel --pipe java -jar consumer.jar
-   | yarn --silent start
+   | yarn --silent start/*\onslide<1->*/
    \end{minted}
    % todo node yarn only runs tsc and node
 \end{frame}
