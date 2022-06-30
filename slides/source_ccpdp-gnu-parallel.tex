@@ -1,6 +1,8 @@
 \input{data/preamble}
 
-% git://git.savannah.gnu.org/parallel.gi
+% man spricht ihn Oler Tahng er [http://ole.tange.dk/personen/resume.html]
+
+% git://git.savannah.gnu.org/parallel.git
 \begin{document}
 \section{Motivation}
 % \SidebarCite{book:javase15-std}
@@ -461,6 +463,7 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
 
 \subsection{History}
 \SidebarCite{Tange2011a}
+\SidebarFakeCite{gnuHistoryParallel}
 \begin{frame}{History}
    \begin{itemize}[<+(1)->]
       \itemsep10pt
@@ -468,7 +471,10 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
          \itemsep5pt
          \item Parallel was originally a wrapper that generated a makefile and used \bbash{make -j} to do the parallelization
          \item xxargs and \LogoParallel got merged into parallel
-         \item New objective: replace xargs and run commands in \LogoParallel. \flo{klarer machen, dass xargs?}
+         \item Two objectives: \begin{itemize}
+            \item replace xargs % whitespace problems
+            \item run commands in parallel
+         \end{itemize}
       \end{itemize}
       \item In 2010, \LogoParallel was adopted as an official GNU tool, named GNU \LogoParallel.
    \end{itemize}
@@ -479,10 +485,11 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
 \subsection{Distribution}
 {
 \lstset{add to literate={\$SERVER}{{{\color{gray}\textdollar SERVER}}}7 {\$SERVER1}{{{\color{gray}\textdollar SERVER1}}}7 {\\}{{{\color{codeouthl}{\textbackslash}}}}1}
+\SidebarRaw{\link{https://www.gnu.org/software/parallel/parallel\_tutorial.html\#transferring-files}{{\faExternalLink}~parallel tutorial~[06/30/22]}}
 \begin{frame}[fragile]{Distributed}
 \begin{itemize}[<+(1)->]
    \itemsep6pt
-   \item \flo{Felix wo hast du die Beispiele her? Quellen!}
+   % \item \flo{Felix wo hast du die Beispiele her? Quellen!}
    \item GNU \LogoParallel can run jobs on remote servers \begin{itemize}
       \item It uses ssh to communicate with the remote machines
       \begin{minted}{bash}
@@ -506,8 +513,9 @@ parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{trc}*/ {}.out cat {} "/*\T{\solGet{li
 \end{itemize}
    % erweiterungen wei verteilt mehrere Systeme % FELIX (-ssh oder so)
 \end{frame}
+\SidebarReset
 
-\SidebarFakeCite{gnuParallelTutorial}
+\SidebarRaw{\link{https://www.gnu.org/software/parallel/parallel\_tutorial.html\#avoid-overloading-sshd}{{\faExternalLink}~parallel tutorial~[06/30/22]}}
 \begin{frame}[fragile]{Useful Flags}
 \begin{itemize}[<+(1)->]
    \itemsep3pt
