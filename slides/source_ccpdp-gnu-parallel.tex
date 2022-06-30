@@ -468,7 +468,7 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);
          \itemsep5pt
          \item Parallel was originally a wrapper that generated a makefile and used \bbash{make -j} to do the parallelization
          \item xxargs and \LogoParallel got merged into parallel
-         \item New objectives\flo{(s)?}: replace xargs and run commands in \LogoParallel. \flo{klarer machen, dass xargs?}
+         \item New objective: replace xargs and run commands in \LogoParallel. \flo{klarer machen, dass xargs?}
       \end{itemize}
       \item In 2010, \LogoParallel was adopted as an official GNU tool, named GNU \LogoParallel.
    \end{itemize}
@@ -493,37 +493,40 @@ parallel -S $SERVER echo running on ::: $SERVER
 \begin{itemize}
    \item Long version:
    \begin{minted}[deletekeywords={transferfile}]{bash}
-parallel -S $SERVER /*\T{-}*/-return {}.out --transferfile\
+parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{return}*/ {}.out --transferfile\
    {} --cleanup cat {} "/*\T{\solGet{literals}{>}}*/"{}.out ::: input_file
    \end{minted}
    \item Shorthands:
 \begin{minted}[deletekeywords={transferfile}]{bash}
-parallel -S $SERVER /*\T{-}*/-trc {}.out cat {} "/*\T{\solGet{literals}{>}}*/"{}.out
+parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{trc}*/ {}.out cat {} "/*\T{\solGet{literals}{>}}*/"{}.out
    ::: input_file
 \end{minted}
 \end{itemize}
 % \item TODO: beautiful shortant
 \end{itemize}
-TODO:
-   % Transfer Files using rsync:
-   % \begin{minted}{bash}
-   %    --basefile
-   %    --workdir
-   %    --onall
-   %    --nonall non argument onall
-   %    --tag for output
-   % \end{minted}
-   % Prevent sshd Overloading:
-   % \begin{minted}{bash}
-   %    parallel -S $SERVER1 --sshdelay 0.2 echo ::: 1 2 3
-   % \end{minted}
-   % Multiplex connections:
-   % \begin{minted}{bash}
-   %    --controlmaster
-   % \end{minted}
-   %grafik und Code
    % erweiterungen wei verteilt mehrere Systeme % FELIX (-ssh oder so)
 \end{frame}
+
+\SidebarFakeCite{gnuParallelTutorial}
+\begin{frame}[fragile]{Useful Flags}
+\begin{itemize}[<+(1)->]
+   \itemsep3pt
+   \item Prevent \T{sshd} overloading:\pause
+\begin{minted}{bash}
+parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{sshdelay}*/ 0.2 echo ::: 1 2 3
+\end{minted}
+   \item Multiplex connections with \bbash{--controlmaster}
+   \item Transfer Files using rsync: \begin{itemize}
+      \item \bbash{--basefile}, copy this file to each sshlogin % note: --cleanup
+      \item \bbash{--workdir}, change from login directory
+      \item \bbash{--onall}, run job on all sshlogins % only mention: /\bbash{--nonall},
+      % \item \bbash{--tag} not just for sshlogin
+   \end{itemize}
+\end{itemize}
+% grafik und Code
+\end{frame}
+\SidebarReset
+
 \subsection{Other Languages}
 \begin{frame}[fragile]{Other Languages}
    %Grafik und Code
