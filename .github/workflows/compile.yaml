@@ -29,9 +29,10 @@ jobs:
         pdftoppm -png -f 1 -l 1 ./noanim_ccpdp-gnu-parallel.pdf preview
     - name: Commit
       run: |
+        cp slides/*.pdf ./
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-         git add -f "slides/*.pdf" "slides/*.png"
+        git add -f "./*.pdf" "slides/*.png"
         git commit -m "Newly compiled data"
 # TODO: update 1.png if more slides
     - name: Push changes

@@ -4,9 +4,9 @@
 
 Waddle waddle!
 
-Slides should be [here](https://github.com/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/tree/gh-pages/slides).
+Slides should be [here](https://github.com/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/tree/gh-pages/).
 
-* Animated Version ([here](https://media.githubusercontent.com/media/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/gh-pages/slides/ccpdp-gnu-parallel.pdf) or [here](https://github.com/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/blob/gh-pages/slides/ccpdp-gnu-parallel.pdf))
-* Not-Animated Version (with enough extra slides to follow the original animations: [here](https://media.githubusercontent.com/media/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/gh-pages/slides/noanim_ccpdp-gnu-parallel.pdf) or [here](https://github.com/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/blob/gh-pages/slides/noanim_ccpdp-gnu-parallel.pdf))
+* Animated Version ([here](https://media.githubusercontent.com/media/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/gh-pages/ccpdp-gnu-parallel.pdf) or [here](https://github.com/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/blob/gh-pages/ccpdp-gnu-parallel.pdf))
+* Not-Animated Version (with enough extra slides to follow the original animations: [here](https://media.githubusercontent.com/media/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/gh-pages/noanim_ccpdp-gnu-parallel.pdf) or [here](https://github.com/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/blob/gh-pages/noanim_ccpdp-gnu-parallel.pdf))
 
-[<img src="https://github.com/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/blob/gh-pages/slides/preview-01.png?raw=true" width="650"/>](https://media.githubusercontent.com/media/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/gh-pages/slides/noanim_ccpdp-gnu-parallel.pdf)
+[<img src="https://github.com/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/blob/gh-pages/slides/preview-01.png?raw=true" width="650"/>](https://media.githubusercontent.com/media/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/gh-pages/noanim_ccpdp-gnu-parallel.pdf)
