@@ -6,7 +6,7 @@
 \begin{document}
 \section{Motivation}
 % \SidebarCite{book:javase15-std}
-\SidebarFakeCite{parallel-tool}
+\SidebarCite{parallel-tool}
 \begin{frame}[c]{Motivation}
 % FELIX&FLO
 \centering
@@ -16,7 +16,8 @@
 \SidebarReset
 \section{Background}
 \makeatletter % faulheit!
-\begin{frame}[c]{Pipes}
+\SidebarRaw{Chapter D-108}
+\begin{frame}[c]{Pipes\rhead{Unix Pipelines}}
 \centering
 % \begin{layout-imageonly}
 \begin{tikzpicture}[,codeouthl,every path/.append style={line cap=round,rounded corners=2pt}]
@@ -40,10 +41,11 @@
       \path (@@|-wc) node[darkgray,xshift=-1mm] {\sbfamily\T{|}};
       \endpgfinterruptboundingbox
    }
-   \only<10->{
-      \draw[decorate,decoration={brace,mirror,amplitude=2pt},thick,black,sharp corners] ([yshift=-1.25cm]@I) to[edge node={node[below=2pt] {Producer}}] ([yshift=-1.25cm]@o);
-      \draw[decorate,decoration={brace,mirror,amplitude=2pt},thick,black,sharp corners] ([yshift=-1.25cm]@i) to[edge node={node[below=2pt] {Consumer}}] ([yshift=-1.25cm]@O);
-   }
+   % i don't think, this is needed
+   % \only<10->{
+   %    \draw[decorate,decoration={brace,mirror,amplitude=2pt},thick,black,sharp corners] ([yshift=-1.25cm]@I) to[edge node={node[below=2pt] {Producer}}] ([yshift=-1.25cm]@o);
+   %    \draw[decorate,decoration={brace,mirror,amplitude=2pt},thick,black,sharp corners] ([yshift=-1.25cm]@i) to[edge node={node[below=2pt] {Consumer}}] ([yshift=-1.25cm]@O);
+   % }
    % TODO: next slide, connect them with the pipe symbol
    % TODO: make programs black to read them better
 \end{tikzpicture}
@@ -54,6 +56,7 @@
 % \endscope
 % \end{tikzpicture}
 \end{frame}
+\SidebarReset
 
 % TODO: example from: https://www.usenix.org/system/files/login/articles/105438-Tange.pdf
 \begin{frame}[c]{Pipes\rhead{II}}
@@ -464,7 +467,7 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);/*\onslide
 
 \subsection{History}
 \SidebarCite{Tange2011a}
-\SidebarFakeCite{gnuHistoryParallel}
+\SidebarCite{gnuHistoryParallel}
 \begin{frame}{History}
    \begin{itemize}[<+(1)->]
       \itemsep10pt
@@ -537,6 +540,7 @@ parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{sshdelay}*/ 0.2 echo ::: 1 2 3/*\onsl
 \SidebarReset
 
 \subsection{Other Languages}
+\SidebarRaw{Chapter E-30--32}
 \begin{frame}[fragile]{Other Languages}
    %Grafik und Code
    % NOTE: bitte callbacks, arrow stile und so erwähnen.
@@ -577,6 +581,7 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
    % verschiedene Sprache % FELIX
    % TODO: timeout option?
 \end{frame}
+\SidebarReset
 
 {
 
@@ -598,11 +603,12 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
 \begin{tikzpicture}[@O]
    \onslide<3->{\draw[T,-Kite] ([yshift=-.25mm]jobs.-40) to[bend right] ++(.5,-.33) node[right] {\T{-{}-jobs 4}};}
    \onslide<4->{
-      \draw[T,-Kite] ([yshift=1pt,xshift=-1pt]roundrobin.6) to[out=80,in=260] ++(.66,.85) node[above right,xshift=-1.2ex,yshift=-.325mm] (@n) {Distributes \setbox0=\hbox{records}\kern.5\wd0\clap{\copy0}\clap{\raisebox{\baselineskip}{\scriptsize\only<5->{\T{-{}-recstart ''{}''}, \T{-{}-recend ''\textbackslash n''}}}}\kern.5\wd0~amongst all jobs.};
-      \node[below right,yshift=2mm,xshift=5mm,T] at(@n.south west) {No longer guarantees order};
+      \draw[T,-Kite] ([yshift=1pt,xshift=-1pt]roundrobin.6) to[out=80,in=260] ++(.66,.85) node[above right,xshift=-1.2ex,yshift=-.325mm] (@n) {Distributes \setbox0=\hbox{records}\kern.5\wd0\clap{\copy0}\clap{\raisebox{\baselineskip}{\scriptsize\only<5->{\T{-{}-recend ''\textbackslash n''}}}}\kern.5\wd0~amongst all jobs.};
+      \node[below right,yshift=2mm,xshift=3.5mm,T] at(@n.south west) {No longer guarantees order.};
       % TODO: note that order is unimportant in this example
       % TODO: uss exactly the jobs given
       % TODO: note records default to one line (--recstart "" --recend "\n") can be used to label different records
+      %       whatever given decides where to split; Flo: es verbiete nicht beide, aber ich weiß nicht, was es dann tut ich
    }
    \onslide<6->{\draw[T,-Kite] ([yshift=.25mm,xshift=.15mm]yarn@) to[out=0,in=180] ++(.65,-.5) node[right,yshift=-.42mm] {Runs \T{tsc \&\& node consumer.js}};}
    % TODO: note that we use that only for typescript and package version management
@@ -612,7 +618,7 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
  258484 & \M{258481} &  3 & \MM{\bbash{/bin/bash -c java -jar producer.jar 1000000 | parallel --pipe}\textcolor{gray}{\,[\ldots]\!}\bbash{| yarn --silent start-consumer}} \\
  \M{\Q{258485}} & \Q{258484} & \Q{2} & \Q{\K{\bbash{java -jar producer.jar 1000000}}} \\
  \Q{258486} & \Q{258484} & \Q{9} & \Q{\K{\bbash{/usr/bin/perl /usr/bin/parallel --pipe --roundrobin -j4 java -jar consumer.jar}}} \\
- \Q{258487} & \Q{258484} & \Q{3} & \Q{\MM{node /home/lord-waddle/.nvm/versions/node/v16.15.1/bin/yarn --silent start-consumer}} \\
+ \Q{258487} & \Q{258484} & \Q{3} & \Q{\MM{node /home/lord-waddle/.nvm/versions/no:c:de/v16.15.1/bin/yarn --silent start-consumer}} \\
  \M{\Q{258519}} & \Q{258486} & \Q{11} & \Q{\K{\bbash{java -jar consumer.jar}}} \\
  \M{\Q{258520}} & \Q{258486} & \Q{ 3} & \Q{\K{\bbash{java -jar consumer.jar}}} \\
  \M{\Q{258522}} & \Q{258486} & \Q{ 7} & \Q{\K{\bbash{java -jar consumer.jar}}} \\
@@ -628,47 +634,66 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
    \draw[-Kite,T] ([xshift=.45cm,yshift=-2.5cm]@2.north) to[bend left] ++(.5,.25) node[right,xshift=.25ex,align=left,yshift=-.25mm] {Compilation (\T{tsc}) already completed};
  % TODO: note, compile process has already ended here, others would be there just the same (say that pipes buffer)
 }
+   \onslide<9->{\node[below right,T,xshift=-3mm,align=left,yshift=-.25mm,scale=.5] at ([yshift=-2.65cm]@2.north)  {Path on Florian's system};}
 \end{tikzpicture}
 \end{frame}
 }
 
 \subsection{Data Encoding}
+\SidebarCite{breg2003java}
+\SidebarRaw{\link{https://docs.oracle.com/en/java/javase/17/docs/specs/rmi/index.html}{{\faExternalLink}~Java RMI~[07/01/22]}}
+\SidebarRaw{\link{https://github.com/google/gson}{{\faExternalLink}~google/gson~[07/01/22]}}
 \begin{frame}[fragile]{Data Encoding}
    \begin{itemize}[<+(1)->]
-      \itemsep7pt
+      \itemsep8pt
       \item Pipes can be used to pass any data (plain text, binary,~\ldots)
       \item For example, we can use \textsc{json} to encode objects
-\begin{minted}{java}
-TOOD JAVA here
-\end{minted}
+      \item In Java, we can use Gson \begin{itemize}
+         \itemsep2pt
+         \item Serialization with \bjava{gson.toJson(obj)}
+         \item Deserialization with \bjava{gson.fromJson(input, :lan:Class:ran:)}
+         \item Common (de-)serialization problems (cf. \solGet{keywordC}{MarshalException} with Java RMI) % e.g. objects that can not be serialized % CCPDP F => Distributed
+      \end{itemize}
       \item However, pipes differ from networks \begin{itemize}
+         \itemsep2pt
          \item Inherently one-directional
          \item Connecting one input with one output (cf. GNU \LogoParallel)
       \end{itemize}
    \end{itemize}
+   % TODO: code-example here (live)
+   % TODO: talk about missing standardization (like with grpc proto buffers)
    % objekte % FLORIAN (gson und so)
 \end{frame}
+\SidebarReset
 }
 
 \subsection{Recap} % maybe not as separate bot in the bottom?
+\SidebarRaw{\link{https://grpc.io/}{{\faExternalLink}~gRPC~[07/01/22]}}
+\SidebarRaw{\link{https://developers.google.com/protocol-buffers/}{{\faExternalLink}~protocol buffers~[07/01/22]}}
 \begin{frame}{Recap}
    \begin{itemize}[<+(1)->]
       \itemsep12pt
-      \item Producer-Consumer
-      \item stream-based communication \begin{itemize}
+      \item Stream-based communication \begin{itemize}
          \item cf. Javas functional streams
          \item serialization and deserialization % TODO: talk about advantages and disadvantages
          \item decoupled programs (e.g., no shared memory)
       \end{itemize}
-      \item TODO: distribution @Felix (chapter F) stream based stuff
-      \item lock-free etc because producer-consumer
-      \item TODO: other stuff?
+      \item Allows distribution individual operators in the pipeline
+      \item Easy combination of different languages \begin{itemize}
+         \item Comparable with gRPC
+         \item But: no message standardization (cf. protocol buffers)
+         % TODO: note advantage: no setup required, but far more complex and error-prone in large systems and pipelines
+      \end{itemize}
+      \item Programs don't know anything of the parallelization
    \end{itemize}
 \end{frame}
+\SidebarReset
 
 \section{Inner Workings}
 % TOOD: siebar note for bash only https://devdocs.io/bash/pipelines | https://www.gnu.org/software/bash/manual/bash.pdf
-\begin{frame}{About pipes}
+%
+\SidebarRaw{\link{https://pubs.opengroup.org/onlinepubs/9699919799/functions/pipe.html}{{\faExternalLink}~posix/pipe~[07/01/22]}}
+\begin{frame}{About Pipelines\rhead{bash}} % and friends
 \begin{itemize}
    \item Execute each program in own subshell
    \item TODO: not sequential: \url{https://stackoverflow.com/a/32946581} os we execute al steps in parallel for free (producer-consumer) % TODO: \url{https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html\#tag_02_09_02}
@@ -676,7 +701,8 @@ TOOD JAVA here
    \item load balacning \url{https://stackoverflow.com/questions/14039403/gnu-parallel-load-balancing}
    \item how does bash sync it?
    \item pipes buffer
-   \item Parallel --pipe max out at 1Gbs in 100Mbs out
+   \item Parallel --pipe max out at 1Gbs in 100Mbs out NOTE CAPCTY \url{https://linux.die.net/man/7/pipe}
+   \item Inter-proces communication
    \item TODO: --roundrobin etc -L for multiple lines
 \end{itemize}
 % Semaphor => kann als solche verwendet werden
@@ -686,7 +712,9 @@ TOOD JAVA here
 % todo: unitprefix stuff
 % TODO: mention unidirectional pipes
 \end{frame}
-\begin{frame}
+\SidebarReset
+
+\begin{frame}{GNU Parallel}
  TODO: SPREADING BLOCKS OF DATA
  in \url{https://www.gnu.org/software/parallel/parallel.pdf}
  \$Global::JobQueue
