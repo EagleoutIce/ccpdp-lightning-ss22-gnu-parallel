@@ -564,7 +564,7 @@ parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{sshdelay}*/ 0.2 echo ::: 1 2 3/*\onsl
       \draw[T,-Kite] ([yshift=-.125mm]@cb2>_down) to[bend right] ++(.5,-.35) node[right] (@) {Anonymous callback for 'closed' event};
       \node[T,below right,yshift=1mm] at(@.south west) {(arrow style)};
    }
-\end{tikzpicture}\vspace*{-\baselineskip}
+\end{tikzpicture}\vspace*{-1.33\baselineskip} % some padding for the consumer.ts line
    \begin{minted}[morekeywords={[2]{string,Map}},morekeywords={[3]{console,process}}]{javascript}
 /*\onslide<2->*//*\CodeFileMarkerUrl{https://github.com/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/blob/main/example\%20object\%20and\%20js/consumer.ts}{consumer.ts}*/
 const accMap = new Map<string, number>();
