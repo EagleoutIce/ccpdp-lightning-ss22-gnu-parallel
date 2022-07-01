@@ -131,7 +131,6 @@
 \def\bnode#1#2{\rnode{#1}{\sbasic{#2}}}%
 \def\rnode#1#2{\Snode{#1}#2\Snode{#1@}}
 \def\CodeFileMarker#1{{\color{gray}\sffamily\fontseries{l}\tiny\llap{\faFileCodeO~\thinspace}#1}}
-% TODO: links to all
 \def\CodeFileMarkerUrl#1#2{{\color{gray}\def\fancyulcolor{gray}\sffamily\fontseries{l}\tiny\llap{\faFileCodeO~\thinspace}\link{#1}{#2}}}
 
 \def\SetupLstHl{%
@@ -175,9 +174,9 @@
 \usepackage{fancy-underline}
 
 \let\oldSidebarRaw\SidebarRaw
-\long\def\SidebarRaw#1{\oldSidebarRaw{\def\fancyul@depth{.46\p@}#1}}% hack deck
-\def\fancyul@depth{.75\p@}
-\def\fancyul@contour{.2\p@}
+\long\def\SidebarRaw#1{\oldSidebarRaw{\def\fancyul@depth{.46\p@}\def\fancyul@contour{.2\p@}#1}}% hack deck
+\def\fancyul@depth{1\p@}
+\def\fancyul@contour{.4\p@}
 \def\fancyulbackground{btdl@color@background}% so that it adapts with the beamer
 \colorlet{url@line@color}{paletteA!28!btdl@color@background}
 \fancyulcolor{url@line@color}
