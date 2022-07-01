@@ -1,19 +1,19 @@
     PID    PPID CPUID CMD
- 251469    5289     2 /usr/bin/zsh
- 251477       1     0 /usr/bin/zsh
- 251859       1     1 /usr/bin/zsh
- 251860       1    10 /usr/bin/zsh
- 251862  251477     1 /home/lord-waddle/.cache/gitstatus/gitstatusd-linux-x86_64 -G v1.5.4 -s -1 -u -1 -d -1 -c -1 -m -1 -v FATAL -t 24
- 255057  251469     4 zsh ./data.sh
- 255058  255057     0 make run
- 255061  255058     1 /bin/bash -c java -jar producer.jar 1000000 | parallel --pipe --roundrobin --jobs 4 java -jar consumer.jar | yarn --silent start-consumer
- 255062  255061     0 java -jar producer.jar 1000000
- 255063  255061     5 /usr/bin/perl /usr/bin/parallel --pipe --roundrobin --jobs 4 java -jar consumer.jar
- 255064  255061    10 node /home/lord-waddle/.nvm/versions/node/v16.15.1/bin/yarn --silent start-consumer
- 255096  255063     2 java -jar consumer.jar
- 255098  255063     8 java -jar consumer.jar
- 255099  255063    11 java -jar consumer.jar
- 255100  255063     6 java -jar consumer.jar
- 255177  255064    11 /bin/sh -c tsc && node consumer.js
- 255178  255177     2 /home/lord-waddle/.nvm/versions/node/v16.15.1/bin/node /home/lord-waddle/Github/Uni/ccpdp-lightning-ss22-gnu-parallel/example object and js/node_modules/.bin/tsc
- 255192  255057     3 ps -o pid,ppid,cpuid,cmd
+ 257541    5289     4 /usr/bin/zsh
+ 257546       1     0 /usr/bin/zsh
+ 257827       1     1 /usr/bin/zsh
+ 257828       1     8 /usr/bin/zsh
+ 257830  257546     5 /home/lord-waddle/.cache/gitstatus/gitstatusd-linux-x86_64 -G v1.5.4 -s -1 -u -1 -d -1 -c -1 -m -1 -v FATAL -t 24
+ 339079  257541     7 zsh ./data.sh
+ 339080  339079     4 make run
+ 339083  339080     1 /bin/bash -c java -jar producer.jar 1000000 | parallel --pipe --roundrobin -j4 java -jar consumer.jar | yarn --silent start-consumer
+ 339084  339083     6 java -jar producer.jar 1000000
+ 339085  339083     6 /usr/bin/perl /usr/bin/parallel --pipe --roundrobin -j4 java -jar consumer.jar
+ 339086  339083     7 node /home/lord-waddle/.nvm/versions/node/v16.15.1/bin/yarn --silent start-consumer
+ 339118  339085     5 java -jar consumer.jar
+ 339119  339085     6 java -jar consumer.jar
+ 339120  339085    11 java -jar consumer.jar
+ 339122  339085     5 java -jar consumer.jar
+ 339200  339086    10 /bin/sh -c tsc && node consumer.js
+ 339282  339200     0 /home/lord-waddle/.nvm/versions/node/v16.15.1/bin/node consumer.js
+ 339289  339079     8 ps -o pid,ppid,cpuid,cmd

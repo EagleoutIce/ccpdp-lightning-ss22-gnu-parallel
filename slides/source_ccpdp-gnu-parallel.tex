@@ -391,10 +391,10 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);/*\onslide
   \Y{\M<13->38280} & \Y{38279} &  \Y{6} & \Y{\K{\bbash{java -jar producer.jar 1000000}}} \\
   \Y{38281} & \Y{38279} & \Y{15} & \Y{\K{\bbash{perl /usr/bin/parallel --pipe java -jar consumer.jar}}} \\
   \Y{\M<13->38282} & \Y{38279} &  \Y{5} & \Y{\K{\bbash{java -jar accountant.jar}}} \\ % \smallskip\\
-  \Y{38344} & \Y{38281} & \Y{10} & \Y{\K{\bbash{perl -e if(sysread(STDIN,\$buf,1))\{open(\$fh }}\textcolor{gray}{\,[\ldots]\!}\K{\} \bbash{/usr/bin/bash -c java -jar consumer.jar}}} \\
-  \Y{\M<13->38345} & \Y{38281} &   \Y{\M<13->4} & \MM<13->{\Y{\K{\bbash{perl -e if(sysread(STDIN,\$buf,1))\{open(\$fh }}\textcolor{gray}{\,[\ldots]\!}\K{\} \bbash{/usr/bin/bash -c java -jar consumer.jar}}}} \\
+  \Y{38344} & \Y{38281} & \Y{10} & \Y{\K{\bbash{perl -e if(sysread(STDIN,\$buf,1))\{open(\$fh }}\textcolor{gray}{\,[\ldots]\!}\K{\bbash{\} /usr/bin/bash -c java -jar consumer.jar}}} \\
+  \Y{\M<13->38345} & \Y{38281} &   \Y{\M<13->4} & \MM<13->{\Y{\K{\bbash{perl -e if(sysread(STDIN,\$buf,1))\{open(\$fh }}\textcolor{gray}{\,[\ldots]\!}\K{\bbash{\} /usr/bin/bash -c java -jar consumer.jar}}}} \\
   \Q{\color{gray}\ldots} & \Q{\color{gray}\ldots} & \Q{\color{gray}\ldots} & \Q{\color{gray}\ldots} \\
-  \Y{\M<13->38363} & \Y{38281} &  \Y{\M<13->10} & \MM<13->{\Y{\K{\bbash{perl -e if(sysread(STDIN,\$buf,1))\{open(\$fh }}\textcolor{gray}{\,[\ldots]\!}\K{\} \bbash{/usr/bin/bash -c java -jar consumer.jar}}}} \\
+  \Y{\M<13->38363} & \Y{38281} &  \Y{\M<13->10} & \MM<13->{\Y{\K{\bbash{perl -e if(sysread(STDIN,\$buf,1))\{open(\$fh }}\textcolor{gray}{\,[\ldots]\!}\K{\bbash{\} /usr/bin/bash -c java -jar consumer.jar}}}} \\
   \Y{\M<13->38383}  & \Y{38281} &   \Y{\M<13->4} & \Y{\MM<13->{\bbash{perl /usr/bin/parallel --pipe java -jar consumer.jar}}} \\
   \Y{\M<13->38384}  & \Y{38344} &  \Y{2} & \Y{\K{\bbash{java -jar consumer.jar}}} \\
   \Y{\M<13->38438}  & \Y{\M<13->38136} &  \Y{\M<13->12} & \Y{\MM<13->{\bbash{ps -o pid,ppid,cpuid,cmd}}}
@@ -419,7 +419,7 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);/*\onslide
    }
    \only<0|handout:2>{%
       % tikzmark is problematic due to nested tikz and me being lzy
-      \draw[-Kite,T] ([xshift=-1cm,yshift=-2.75cm]@2.north) to[out=0,in=180] ++(.65,-.125) node[below right,xshift=.5ex,align=left,yshift=.2\baselineskip,scale=.8] {Used for generic splitting magic\\(e.g., not done with \bbash{--roundrobin})};
+      \draw[-Kite,T] ([xshift=-.75cm,yshift=-2.75cm]@2.north) to[out=270,in=180] ++(.65,-.125) node[below right,xshift=.5ex,align=left,yshift=.2\baselineskip,scale=.8] {Used for generic splitting magic\\(e.g., not done with \bbash{--roundrobin})};
    }
 \end{tikzpicture}
 % TODO: show roundrobin much simpler only java-jar etc-
@@ -543,8 +543,8 @@ parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{sshdelay}*/ 0.2 echo ::: 1 2 3/*\onsl
    % ich nutze von create iterface nicht auch noch output und write,
    % da das sonst aus ieinem Grund nicht läuft^^
 \begin{layout-imageonly}
-   \begin{minted}{javascript}
-const accMap = new Map<string, number>();
+   \begin{minted}[morekeywords={[2]{string}}]{javascript}
+/*\onslide<2->*/const accMap = new Map<string, number>();
 const rl = createInterface({ input: /*\Snode{in}*/process.stdin/*\Snode{in@}*/ });
 
 function handleLine(input: string): void {
@@ -560,15 +560,55 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
    % TODO: timeout option?
 \end{frame}
 
-\begin{frame}[fragile]{Integrating JavaScript}
-\pause
+{
+
+\lstset{add to literate={\\}{{{\color{codeouthl}{\textbackslash}}}}1}
+\def\K#1{\begin{colormixin}{30!black}#1\end{colormixin}}% i dunno, semes to look nice
+\newcommand\M{\only<9->{\color{gray}}}
+\newcommand\MM[1]{\colorlet{@mixn}{black}\only<9->{\colorlet{@mixn}{gray}}\begin{colormixin}{0!@mixn}#1\end{colormixin}}% i dunno, semes to look nice
+\def\Q{\only<8->}
+\begin{frame}[fragile,t]{Integrating JavaScript}
+\begin{layout-imageonly}[t]
    \begin{minted}{bash}
-java -jar producer.jar 1000000
-   | parallel --pipe java -jar consumer.jar
-   | yarn --silent start/*\onslide<1->*/
+/*\onslide<2->*/java -jar producer.jar 1000000\
+   | parallel --pipe /*\tikzmarknode{roundrobin}{\T{-{}-roundrobin}}*/ /*\tikzmarknode{jobs}{\T{-j\solGet{numbers}{4}}}*/ java -jar consumer.jar\
+   | /*\Snode{yarn}*/yarn --silent start/*\Snode{yarn@}*//*\onslide<1->*/
    \end{minted}
+% See also --use-cores-instead-of-threads and --use-sockets-instead-of-threads.
+\end{layout-imageonly}
    % todo node yarn only runs tsc and node
+\begin{tikzpicture}[@O]
+   \onslide<3->{\draw[T,-Kite] ([yshift=-.25mm]jobs.-40) to[bend right] ++(.5,-.33) node[right] {\T{-{}-jobs 4}};}
+   \onslide<4->{
+      \draw[T,-Kite] ([yshift=1pt,xshift=-1pt]roundrobin.6) to[out=80,in=260] ++(.33,.85) node[above right,xshift=-1.2ex,yshift=-.325mm] (@n) {Distributes \setbox0=\hbox{records}\kern.5\wd0\clap{\copy0}\clap{\raisebox{\baselineskip}{\scriptsize\only<5->{\T{-{}-recstart ''{}''}, \T{-{}-recend ''\textbackslash n''}}}}\kern.5\wd0~amongst all jobs};
+      \node[below right,yshift=2mm,xshift=5mm,T] at(@n.south west) {No longer guarantees order.};
+      % TODO: note that order is unimportant in this example
+      % TODO: uss exactly the jobs given
+      % TODO: note records default to one line (--recstart "" --recend "\n") can be used to label different records
+   }
+   \onslide<6->{\draw[T,-Kite] ([yshift=.25mm,xshift=.125mm]yarn@) to[out=0,in=180] ++(.65,-.5) node[right,yshift=-.33mm] {Runs \T{tsc \&\& node consumer.js}};}
+   \onslide<7->{\node[above right,xshift=\beamer@leftmargin,yshift=1cm,font=\tiny\ttfamily,text width=14cm] (@) at(current page.south west) {\begin{tabular}{rrrl}
+      {pid} & {ppid} & {cpuid} & {cmd} \\ % {lwp} & \rlap{\quad\ldots}
+\midrule
+ 258484 & \M{258481} &  3 & \MM{\bbash{/bin/bash -c java -jar producer.jar 1000000 | parallel --pipe}\textcolor{gray}{\,[\ldots]\!}\bbash{| yarn --silent start-consumer}} \\
+ \M{\Q{258485}} & \Q{258484} & \Q{2} & \Q{\K{\bbash{java -jar producer.jar 1000000}}} \\
+ \Q{258486} & \Q{258484} & \Q{9} & \Q{\K{\bbash{/usr/bin/perl /usr/bin/parallel --pipe --roundrobin -j4 java -jar consumer.jar}}} \\
+ \M{\Q{258487}} & \Q{258484} & \Q{3} & \MM{node /home/lord-waddle/.nvm/versions/node/v16.15.1/bin/yarn --silent start-consumer} \\
+  % TODO: note much more compact
+ \M{\Q{258519}} & \Q{258486} & \Q{11} & \Q{\K{\bbash{java -jar consumer.jar}}} \\
+ \M{\Q{258520}} & \Q{258486} & \Q{ 3} & \Q{\K{\bbash{java -jar consumer.jar}}} \\
+ \M{\Q{258522}} & \Q{258486} & \Q{ 7} & \Q{\K{\bbash{java -jar consumer.jar}}} \\
+ \M{\Q{258524}} & \Q{258486} & \Q{10} & \Q{\K{\bbash{java -jar consumer.jar}}} \\
+ \Q{258604} & \Q{258487} & \Q{11} & \Q{\K{\bbash{/bin/sh -c tsc \&\& node consumer.js}}} \\
+ % TODO: note, compile process has already ended here, others would be there just the same (pipes buffer)
+ \M{\Q{258605}} & \Q{258604} & \Q{ 4} & \MM{/home/lord-waddle/.nvm/versions/node/v16.15.1/bin/node consumer.js}\\
+ \M{\Q{258618}} & \M{\Q{258480}} & \Q{11} & \Q{\K{\bbash{ps -o pid,ppid,cpuid,cmd}}}
+   \end{tabular}};
+   }
+\end{tikzpicture}
 \end{frame}
+}
+
 \subsection{Data Encoding}
 \begin{frame}{Data Encoding}
       Code Json, vs. yaml, vs...
@@ -607,6 +647,8 @@ java -jar producer.jar 1000000
 % Semaphor => kann als solche verwendet werden
 % Semaphor, Rechner Sockets, % FLO
 % parallel nutzt die host-shell aus (deisgn: which shell to use, p11)
+% TODO: custom replacement strings with rpl --group-by etc
+% todo: unitprefix stuff
 \end{frame}
 \begin{frame}
  TODO: SPREADING BLOCKS OF DATA
@@ -628,6 +670,7 @@ java -jar producer.jar 1000000
 % sql support --sql-master etc.
 % table support
 % shebang
+% -N for max args etc
 \end{frame}
 
 \end{document}
