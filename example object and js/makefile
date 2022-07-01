@@ -3,9 +3,8 @@
 SHELL   := /bin/bash
 SOURCES := $(shell find . -name '*.java')
 
-# TODO: comparison without parallel?
-run-consumer: consumer.jar node_modules
-	java -jar producer.jar 100000 | parallel --pipe java -jar consumer.jar | yarn --silent start-consumer
+run: consumer.jar node_modules
+	java -jar producer.jar 1000000 | parallel --pipe --roundrobin --jobs 4 java -jar consumer.jar | yarn --silent start-consumer
 
 consumer.jar: $(SOURCES)
 	cd java-side && mvn clean compile package && cd ..
