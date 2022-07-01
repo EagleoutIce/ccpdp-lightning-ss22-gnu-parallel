@@ -175,7 +175,9 @@
 \let\hl\relax
 \usepackage{fancy-underline}
 
-\def\fancyul@depth{.48\p@}
+\let\oldSidebarRaw\SidebarRaw
+\long\def\SidebarRaw#1{\oldSidebarRaw{\def\fancyul@depth{.46\p@}#1}}% hack deck
+\def\fancyul@depth{.75\p@}
 \def\fancyul@contour{.2\p@}
 \def\fancyulbackground{btdl@color@background}% so that it adapts with the beamer
 \colorlet{url@line@color}{paletteA!28!btdl@color@background}

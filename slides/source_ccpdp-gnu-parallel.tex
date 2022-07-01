@@ -645,7 +645,7 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
 \SidebarRaw{\link{https://github.com/google/gson}{{\faExternalLink}~google/gson~[07/01/22]}}
 \begin{frame}[fragile]{Data Encoding}
    \begin{itemize}[<+(1)->]
-      \itemsep8pt
+      \itemsep12pt
       \item Pipes can be used to pass any data (plain text, binary,~\ldots)
       \item For example, we can use \textsc{json} to encode objects
       \item In Java, we can use Gson \begin{itemize}
@@ -654,11 +654,12 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
          \item Deserialization with \bjava{gson.fromJson(input, :lan:Class:ran:)}
          \item Common (de-)serialization problems (cf. \solGet{keywordC}{MarshalException} with Java RMI) % e.g. objects that can not be serialized % CCPDP F => Distributed
       \end{itemize}
-      \item However, pipes differ from networks \begin{itemize}
-         \itemsep2pt
-         \item Inherently one-directional
-         \item Connecting one input with one output (cf. GNU \LogoParallel)
-      \end{itemize}
+      % TODO:
+      % \item However, pipes differ from networks \begin{itemize}
+      %    \itemsep2pt
+      %    \item Pipes are by default one-directional
+      %    \item Connecting one input with one output (cf. GNU \LogoParallel)
+      % \end{itemize}
    \end{itemize}
    % TODO: code-example here (live)
    % TODO: talk about missing standardization (like with grpc proto buffers)
@@ -674,9 +675,9 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
    \begin{itemize}[<+(1)->]
       \itemsep12pt
       \item Stream-based communication \begin{itemize}
-         \item cf. Javas functional streams
-         \item serialization and deserialization % TODO: talk about advantages and disadvantages
-         \item decoupled programs (e.g., no shared memory)
+         \item Cf. Javas functional streams
+         \item Serialization and deserialization % TODO: talk about advantages and disadvantages
+         \item Decoupled programs (e.g., no shared memory)
       \end{itemize}
       \item Allows distribution individual operators in the pipeline
       \item Easy combination of different languages \begin{itemize}
@@ -690,20 +691,30 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
 \SidebarReset
 
 \section{Inner Workings}
-% TOOD: siebar note for bash only https://devdocs.io/bash/pipelines | https://www.gnu.org/software/bash/manual/bash.pdf
+% TOOD: siebar note for bash only  | https://www.gnu.org/software/bash/manual/bash.pdf
 %
 \SidebarRaw{\link{https://pubs.opengroup.org/onlinepubs/9699919799/functions/pipe.html}{{\faExternalLink}~posix/pipe~[07/01/22]}}
+\SidebarRaw{\link{https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3\_chap02.html\#tag\_18\_09\_02}{{\faExternalLink}~unix pipeline~[07/01/22]}}
+\SidebarRaw{\link{https://devdocs.io/bash/pipelines}{{\faExternalLink}~bash pipelines~[07/01/22]}}
+\SidebarRaw{\link{https://vivadifferences.com/difference-between-pipe-and-fifo-inter-process-communication/}{{\faExternalLink}~named pipes~[07/01/22]}}
+% https://unix.stackexchange.com/questions/353728/can-i-increase-the-system-pipe-buffer-max
+% https://stackoverflow.com/questions/51452321/how-does-buffer-in-bash-pipe-work-on-linux
 \begin{frame}{About Pipelines\rhead{bash}} % and friends
 \begin{itemize}
-   \item Execute each program in own subshell
-   \item TODO: not sequential: \url{https://stackoverflow.com/a/32946581} os we execute al steps in parallel for free (producer-consumer) % TODO: \url{https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html\#tag_02_09_02}
-   \item TODO: talk about redirection and sockets?
-   \item load balacning \url{https://stackoverflow.com/questions/14039403/gnu-parallel-load-balancing}
-   \item how does bash sync it?
-   \item pipes buffer
-   \item Parallel --pipe max out at 1Gbs in 100Mbs out NOTE CAPCTY \url{https://linux.die.net/man/7/pipe}
-   \item Inter-proces communication
-   \item TODO: --roundrobin etc -L for multiple lines
+   \itemsep10pt
+   \item Executes each program in own subshell% TODO: allgemein Unix: parallel
+   \item Buffer provided by the kernel \begin{itemize}
+      \itemsep1.5pt
+      \item Works on bytes (no known boundaries except max-size)
+      \item Limited capacity (\T{\link{https://www.man7.org/linux/man-pages/man7/pipe.7.html}{/proc/sys/fs/pipe-max-size}})
+      \item By default blocking read and write
+      \item Can be changed with \T{\link{https://www.man7.org/linux/man-pages/man7/pipe.7.html}{O{\raisebox{1pt}{\_}}NONBLOCK}} flag (\T{\link{https://www.man7.org/linux/man-pages/man2/pipe.2.html}{pipe2}}, \T{\link{https://www.man7.org/linux/man-pages/man2/fcntl.2.html}{fnctl}})
+      \item This sets \T{errno} to \T{EWOULDBLOCK} or \T{EAGAIN}
+   \end{itemize}
+   \item By default unidirectional \begin{itemize}
+      \item Named pipes (like \T{\link{https://man7.org/linux/man-pages/man7/fifo.7.html}{fifo}}) allow half duplex data flow
+   \end{itemize}
+   % TODO: talk about Additionaly they can be combined with redirections
 \end{itemize}
 % Semaphor => kann als solche verwendet werden
 % Semaphor, Rechner Sockets, % FLO
@@ -715,6 +726,11 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
 \SidebarReset
 
 \begin{frame}{GNU Parallel}
+   \begin{itemize}
+   \item load balacning \url{https://stackoverflow.com/questions/14039403/gnu-parallel-load-balancing}
+   \item TODO: --roundrobin etc -L for multiple lines
+   \item Parallel --pipe max out at 1Gbs in 100Mbs out NOTE CAPCTY \url{https://linux.die.net/man/7/pipe}
+   \end{itemize}
  TODO: SPREADING BLOCKS OF DATA
  in \url{https://www.gnu.org/software/parallel/parallel.pdf}
  \$Global::JobQueue
