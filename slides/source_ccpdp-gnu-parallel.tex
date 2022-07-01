@@ -542,8 +542,25 @@ parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{sshdelay}*/ 0.2 echo ::: 1 2 3/*\onsl
    % NOTE: bitte callbacks, arrow stile und so erwähnen.
    % ich nutze von create iterface nicht auch noch output und write,
    % da das sonst aus ieinem Grund nicht läuft^^
-\begin{layout-imageonly}
-   \begin{minted}[morekeywords={[2]{string}}]{javascript}
+\begin{layout-imageonly}% we don't really need ts here ^^
+\begin{tikzpicture}[@O]
+   \onslide<3->{\hlbehindcodeunder{in}{@in>}
+      \draw[T,-Kite] (@in>_up) to[bend left] ++(.5,.35) node[right] {Read from \textsc{stdin}};
+   }
+   \onslide<4->{\hlbehindcodeunder{lazy}{@lazy>}
+      \draw[T,-Kite] (@lazy>_down) to[bend right] ++(.5,-.35) node[right] {Use 0 as initial value};
+      % TODO: if value is not falsy: 'false, 0, 0n, '', null, undefined, NaN' <- none of which we care for in this case (just shorter)
+      % => we are "faul/lazy" (not lazy evaluation ^^ lazy programmer)
+   }
+
+   \onslide<5->{\hlbehindcodeunder{cb1}{@cb1>}
+      \draw[T,-Kite] (@cb1>_up) to[bend left] ++(.5,.35) node[right] {Register callback for 'line' event};
+   }
+   \onslide<6->{\hlbehindcodeunder{cb2}{@cb2>}
+      \draw[T,-Kite] (@cb1>_down) to[bend left] ++(.5,-.35) node[right] {Anonymous arrow style callback for 'closed' event};
+   }
+\end{tikzpicture}\vspace*{-\baselineskip}
+   \begin{minted}[morekeywords={[2]{string,Map}},morekeywords={[3]{console,process}}]{javascript}
 /*\onslide<2->*/const accMap = new Map<string, number>();
 const rl = createInterface({ input: /*\Snode{in}*/process.stdin/*\Snode{in@}*/ });
 
@@ -567,7 +584,7 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
 \newcommand\M{\only<9->{\color{gray}}}
 \newcommand\MM[1]{\colorlet{@mixn}{black}\only<9->{\colorlet{@mixn}{gray}}\begin{colormixin}{0!@mixn}#1\end{colormixin}}% i dunno, semes to look nice
 \def\Q{\only<8->}
-\begin{frame}[fragile,t]{Integrating JavaScript}
+\begin{frame}[fragile,t]{Integrating TypeScript}
 \begin{layout-imageonly}[t]
    \begin{minted}{bash}
 /*\onslide<2->*/java -jar producer.jar 1000000\
@@ -580,13 +597,14 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
 \begin{tikzpicture}[@O]
    \onslide<3->{\draw[T,-Kite] ([yshift=-.25mm]jobs.-40) to[bend right] ++(.5,-.33) node[right] {\T{-{}-jobs 4}};}
    \onslide<4->{
-      \draw[T,-Kite] ([yshift=1pt,xshift=-1pt]roundrobin.6) to[out=80,in=260] ++(.33,.85) node[above right,xshift=-1.2ex,yshift=-.325mm] (@n) {Distributes \setbox0=\hbox{records}\kern.5\wd0\clap{\copy0}\clap{\raisebox{\baselineskip}{\scriptsize\only<5->{\T{-{}-recstart ''{}''}, \T{-{}-recend ''\textbackslash n''}}}}\kern.5\wd0~amongst all jobs};
+      \draw[T,-Kite] ([yshift=1pt,xshift=-1pt]roundrobin.6) to[out=80,in=260] ++(.66,.85) node[above right,xshift=-1.2ex,yshift=-.325mm] (@n) {Distributes \setbox0=\hbox{records}\kern.5\wd0\clap{\copy0}\clap{\raisebox{\baselineskip}{\scriptsize\only<5->{\T{-{}-recstart ''{}''}, \T{-{}-recend ''\textbackslash n''}}}}\kern.5\wd0~amongst all jobs};
       \node[below right,yshift=2mm,xshift=5mm,T] at(@n.south west) {No longer guarantees order.};
       % TODO: note that order is unimportant in this example
       % TODO: uss exactly the jobs given
       % TODO: note records default to one line (--recstart "" --recend "\n") can be used to label different records
    }
    \onslide<6->{\draw[T,-Kite] ([yshift=.25mm,xshift=.15mm]yarn@) to[out=0,in=180] ++(.65,-.5) node[right,yshift=-.42mm] {Runs \T{tsc \&\& node consumer.js}};}
+   % TODO: note that we use that only for typescript and package version management
    \onslide<7->{\node[above right,xshift=\beamer@leftmargin,yshift=1cm,font=\tiny\ttfamily,text width=14cm] (@) at(current page.south west) {\begin{tabular}{rrrl}
       {pid} & {ppid} & {cpuid} & {cmd} \\ % {lwp} & \rlap{\quad\ldots}
 \midrule
@@ -605,8 +623,8 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
    }
 \only<0|handout:1>{%
    % tikzmark is problematic due to nested tikz and me being lzy
-   \draw[-Kite,T] ([xshift=-.85cm,yshift=-1.65cm]@2.north) to[out=0,in=185] ++(.5,-.15) node[right,xshift=.25ex,align=left] {Much simpler (reuses workers for records)};
-   \draw[-Kite,T] ([xshift=.45cm,yshift=-2.5cm]@2.north) to[bend left] ++(.5,.25) node[right,xshift=.25ex,align=left] {Compilation (\T{tsc}) already completed};
+   \draw[-Kite,T] ([xshift=-.85cm,yshift=-1.65cm]@2.north) to[out=0,in=180] ++(.5,-.15) node[right,xshift=.25ex,align=left] {Much simpler (reuses workers for records)};
+   \draw[-Kite,T] ([xshift=.45cm,yshift=-2.5cm]@2.north) to[bend left] ++(.5,.25) node[right,xshift=.25ex,align=left,yshift=-.25mm] {Compilation (\T{tsc}) already completed};
  % TODO: note, compile process has already ended here, others would be there just the same (say that pipes buffer)
 }
 \end{tikzpicture}
@@ -614,8 +632,15 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
 }
 
 \subsection{Data Encoding}
-\begin{frame}{Data Encoding}
-      Code Json, vs. yaml, vs...
+\begin{frame}[fragile]{Data Encoding}
+   \begin{itemize}[<+(1)->]
+      \item By using pipes we can pass on any data (e.g. plain text or binary)
+      \item For example, we can use \textsc{json} to encode objects
+\begin{minted}{java}
+
+\end{minted}
+      \item Unlike networks, pipes are inherently one-directional
+   \end{itemize}
    % objekte % FLORIAN (gson und so)
 \end{frame}
 }
@@ -654,6 +679,7 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
 % parallel nutzt die host-shell aus (deisgn: which shell to use, p11)
 % TODO: custom replacement strings with rpl --group-by etc
 % todo: unitprefix stuff
+% TODO: mention unidirectional pipes
 \end{frame}
 \begin{frame}
  TODO: SPREADING BLOCKS OF DATA
