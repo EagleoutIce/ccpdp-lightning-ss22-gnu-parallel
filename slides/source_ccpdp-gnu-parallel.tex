@@ -586,25 +586,29 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
       % TODO: uss exactly the jobs given
       % TODO: note records default to one line (--recstart "" --recend "\n") can be used to label different records
    }
-   \onslide<6->{\draw[T,-Kite] ([yshift=.25mm,xshift=.125mm]yarn@) to[out=0,in=180] ++(.65,-.5) node[right,yshift=-.33mm] {Runs \T{tsc \&\& node consumer.js}};}
+   \onslide<6->{\draw[T,-Kite] ([yshift=.25mm,xshift=.15mm]yarn@) to[out=0,in=180] ++(.65,-.5) node[right,yshift=-.42mm] {Runs \T{tsc \&\& node consumer.js}};}
    \onslide<7->{\node[above right,xshift=\beamer@leftmargin,yshift=1cm,font=\tiny\ttfamily,text width=14cm] (@) at(current page.south west) {\begin{tabular}{rrrl}
       {pid} & {ppid} & {cpuid} & {cmd} \\ % {lwp} & \rlap{\quad\ldots}
 \midrule
  258484 & \M{258481} &  3 & \MM{\bbash{/bin/bash -c java -jar producer.jar 1000000 | parallel --pipe}\textcolor{gray}{\,[\ldots]\!}\bbash{| yarn --silent start-consumer}} \\
  \M{\Q{258485}} & \Q{258484} & \Q{2} & \Q{\K{\bbash{java -jar producer.jar 1000000}}} \\
  \Q{258486} & \Q{258484} & \Q{9} & \Q{\K{\bbash{/usr/bin/perl /usr/bin/parallel --pipe --roundrobin -j4 java -jar consumer.jar}}} \\
- \M{\Q{258487}} & \Q{258484} & \Q{3} & \MM{node /home/lord-waddle/.nvm/versions/node/v16.15.1/bin/yarn --silent start-consumer} \\
-  % TODO: note much more compact
+ \Q{258487} & \Q{258484} & \Q{3} & \Q{\MM{node /home/lord-waddle/.nvm/versions/node/v16.15.1/bin/yarn --silent start-consumer}} \\
  \M{\Q{258519}} & \Q{258486} & \Q{11} & \Q{\K{\bbash{java -jar consumer.jar}}} \\
  \M{\Q{258520}} & \Q{258486} & \Q{ 3} & \Q{\K{\bbash{java -jar consumer.jar}}} \\
  \M{\Q{258522}} & \Q{258486} & \Q{ 7} & \Q{\K{\bbash{java -jar consumer.jar}}} \\
  \M{\Q{258524}} & \Q{258486} & \Q{10} & \Q{\K{\bbash{java -jar consumer.jar}}} \\
  \Q{258604} & \Q{258487} & \Q{11} & \Q{\K{\bbash{/bin/sh -c tsc \&\& node consumer.js}}} \\
- % TODO: note, compile process has already ended here, others would be there just the same (pipes buffer)
- \M{\Q{258605}} & \Q{258604} & \Q{ 4} & \MM{/home/lord-waddle/.nvm/versions/node/v16.15.1/bin/node consumer.js}\\
- \M{\Q{258618}} & \M{\Q{258480}} & \Q{11} & \Q{\K{\bbash{ps -o pid,ppid,cpuid,cmd}}}
+ \M{\Q{258605}} & \Q{258604} & \Q{ 4} & \Q{\K{\bbash{/home/lord-waddle/.nvm/versions/no:c:de/v16.15.1/bin/node consumer.js}}}\\
+ \M{\Q{258618}} & \M{\Q{258480}} & \Q{11} & \Q{\MM{\bbash{ps -o pid,ppid,cpuid,cmd}}}
    \end{tabular}};
    }
+\only<0|handout:1>{%
+   % tikzmark is problematic due to nested tikz and me being lzy
+   \draw[-Kite,T] ([xshift=-.85cm,yshift=-1.65cm]@2.north) to[out=0,in=185] ++(.5,-.15) node[right,xshift=.25ex,align=left] {Much simpler (reuses workers for records)};
+   \draw[-Kite,T] ([xshift=.45cm,yshift=-2.5cm]@2.north) to[bend left] ++(.5,.25) node[right,xshift=.25ex,align=left] {Compilation (\T{tsc}) already completed};
+ % TODO: note, compile process has already ended here, others would be there just the same (say that pipes buffer)
+}
 \end{tikzpicture}
 \end{frame}
 }
@@ -641,6 +645,7 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
    \item TODO: talk about redirection and sockets?
    \item load balacning \url{https://stackoverflow.com/questions/14039403/gnu-parallel-load-balancing}
    \item how does bash sync it?
+   \item pipes buffer
    \item Parallel --pipe max out at 1Gbs in 100Mbs out
    \item TODO: --roundrobin etc -L for multiple lines
 \end{itemize}
