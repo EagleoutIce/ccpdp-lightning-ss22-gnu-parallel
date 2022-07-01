@@ -277,7 +277,7 @@
    }
 \end{tikzpicture}
 \begin{minted}{java}
-/*\CodeFileMarker{Producer.java}*/
+/*\CodeFileMarkerUrl{https://github.com/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/blob/main/example/java-side/src/main/java/de/uulm/ccpdp/lt/ff/Producer.java}{Producer.java}*/
 final var rand = new Random();
 
 for (int i = 0; i < /*\Snode{n}*/n/*\Snode{n@}*/; i++) {
@@ -304,7 +304,7 @@ for (int i = 0; i < /*\Snode{n}*/n/*\Snode{n@}*/; i++) {
    }
 \end{tikzpicture}
 \begin{minted}{java}
-/*\CodeFileMarker{Consumer.java}*/
+/*\CodeFileMarkerUrl{https://github.com/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/blob/main/example/java-side/src/main/java/de/uulm/ccpdp/lt/ff/Consumer.java}{Consumer.java}*/
 final var scanner = new Scanner(System.in);
 while (scanner.hasNextLine()) {
    String[] s = scanner.nextLine().split(" ");/*\vspace{\medskipamount+1mm}*/
@@ -328,7 +328,7 @@ scanner.close();/*\onslide<1->*/
    }
 \end{tikzpicture}
 \begin{minted}{java}
-/*\CodeFileMarker{Accountant.java}*/
+/*\CodeFileMarkerUrl{https://github.com/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/blob/main/example/java-side/src/main/java/de/uulm/ccpdp/lt/ff/Accountant.java}{Accountant.java}*/
 final var scanner = new Scanner(System.in);
 final var accounts = new HashMap<String, Integer>();
 while (scanner.hasNextLine()) {
@@ -566,7 +566,8 @@ parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{sshdelay}*/ 0.2 echo ::: 1 2 3/*\onsl
    }
 \end{tikzpicture}\vspace*{-\baselineskip}
    \begin{minted}[morekeywords={[2]{string,Map}},morekeywords={[3]{console,process}}]{javascript}
-/*\onslide<2->*/const accMap = new Map<string, number>();
+/*\onslide<2->*//*\CodeFileMarkerUrl{https://github.com/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel/blob/main/example\%20object\%20and\%20js/consumer.ts}{consumer.ts}*/
+const accMap = new Map<string, number>();
 const rl = createInterface({ input: /*\Snode{in}*/process.stdin/*\Snode{in@}*/ });
 
 function handleLine(input: string): void {
@@ -781,7 +782,4 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
 %    \end{itemize}
 % \end{frame}
 % \SidebarReset
-
-
-% TODO: link files to the git repo on main
 \end{document}
