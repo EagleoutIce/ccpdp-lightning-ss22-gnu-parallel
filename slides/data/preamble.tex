@@ -109,13 +109,11 @@
 \setcounter{tocdepth}{4}
 \newsavebox\pinguA \newsavebox\pinguB \newsavebox\pinguC
 
-\usepackage[link]{qrcode}
-% TODO
-\outroright{% \smash{\raisebox{1.33cm/2}{
-% \qrcode[height=1.33cm]{https://github.com/EagleoutIce/Episode-Recursion}}}\begin{tikzpicture}[remember picture,overlay]
-% \node[above left,btdl@color@white,scale=.475] at (current page.south east) {\href{https://github.com/EagleoutIce/Episode-Recursion}{Slides and \LaTeX-sources on GitHub!}};
-% \end{tikzpicture}
-}
+\usepackage{tikz-qr}
+% we need no gradient
+\outroright{\smash{\raisebox{1.85cm/2}{\fancyqr[height=1.85cm,l color=btdl@color@white,r color=btdl@color@white!85!btdl@color@background,gradient angle=45]{https://github.com/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel}}}\begin{tikzpicture}[remember picture,overlay]
+  \node[above left=,btdl@color@white,scale=.475] at (current page.south east) {\def\fancyulbackground{paletteA}\def\fancyulcolor{btdl@color@white}\link{https://github.com/EagleoutIce/ccpdp-lightning-ss22-gnu-parallel}{Slides and {\LaTeX}-sources on GitHub!}};
+\end{tikzpicture}}
 
 \long\def\commy#1{\smash{\tiny\fboxsep=1pt\fcolorbox{pingu@purple}{pingu@purple!10!white}{\bfseries #1}}}
 \long\def\flo#1{\commy{Flo:~#1}}
