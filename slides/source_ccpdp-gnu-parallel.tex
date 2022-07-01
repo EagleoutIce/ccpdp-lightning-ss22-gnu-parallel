@@ -691,6 +691,7 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
 \SidebarReset
 
 \section{Inner Workings}
+\subsection{Bash Pipelines}
 % TOOD: siebar note for bash only  | https://www.gnu.org/software/bash/manual/bash.pdf
 %
 \SidebarRaw{\link{https://pubs.opengroup.org/onlinepubs/9699919799/functions/pipe.html}{{\faExternalLink}~posix/pipe~[07/01/22]}}
@@ -700,7 +701,7 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
 % https://unix.stackexchange.com/questions/353728/can-i-increase-the-system-pipe-buffer-max
 % https://stackoverflow.com/questions/51452321/how-does-buffer-in-bash-pipe-work-on-linux
 \begin{frame}{About Pipelines\rhead{bash}} % and friends
-\begin{itemize}
+\begin{itemize}[<+(1)->]
    \itemsep10pt
    \item Executes each program in own subshell% TODO: allgemein Unix: parallel
    \item Buffer provided by the kernel \begin{itemize}
@@ -716,34 +717,52 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
    \end{itemize}
    % TODO: talk about Additionaly they can be combined with redirections
 \end{itemize}
-% Semaphor => kann als solche verwendet werden
-% Semaphor, Rechner Sockets, % FLO
-% parallel nutzt die host-shell aus (deisgn: which shell to use, p11)
-% TODO: custom replacement strings with rpl --group-by etc
-% todo: unitprefix stuff
-% TODO: mention unidirectional pipes
 \end{frame}
 \SidebarReset
 
+\subsection{GNU Parallel}
+\SidebarRaw{\link{https://www.gnu.org/software/parallel/parallel\_design.pdf}{{\faExternalLink}~parallel design~[07/01/22]}}
+\SidebarRaw{\link{https://catern.com/posts/pipes.html}{{\faExternalLink}~unbuffered output~[07/01/22]}}
 \begin{frame}{GNU Parallel}
-   \begin{itemize}
-   \item load balacning \url{https://stackoverflow.com/questions/14039403/gnu-parallel-load-balancing}
-   \item TODO: --roundrobin etc -L for multiple lines
-   \item Parallel --pipe max out at 1Gbs in 100Mbs out NOTE CAPCTY \url{https://linux.die.net/man/7/pipe}
+   \begin{itemize}[<+(1)->]
+      \itemsep8pt
+      \item Mixes tabs and spaces for padding~\smash{\raisebox{-2pt}{\resizebox*!{\baselineskip}{\tikz\pingu[wings shock,eyes shock,tie=pingu@black,body type=chubby];}}}
+      \item Supplied as a single file (object-oriented Perl)% TODO: why perl? Ole Tange says it appeared to be everywhere and can therefore run without a compiler uses rather old constructs for backwards compatibility
+      \begin{itemize}
+         \item Runs wherever there is a Perl interpreter
+         \item Rather slow, 3--10\,\unit{\milli\second} per job and \qty{1}{\milli\second\per\mega\byte} output % NOTE: minimum
+         \item Uses busy wait (with exponential sleeping times)% NOTE: up to one second
+         \item A lot of support for the hosting shell % TODO: NOTE: custom envs for a lot of shells env_parallel.{zsh,csh,fish,...}
+      \end{itemize}
+   \item Buffers output on disk for distinction
+   \item GNU \LogoParallel parses processes everything from stdin \begin{itemize}
+      \item E.g., this limits the throughput of \T{-{}-pipe}
+   \end{itemize} % TODO: note max out at 1Gbs in 100Mbs out
    \end{itemize}
- TODO: SPREADING BLOCKS OF DATA
- in \url{https://www.gnu.org/software/parallel/parallel.pdf}
- \$Global::JobQueue
- TODO: groupby
- %  synchinc
 \end{frame}
+\SidebarReset
 
-\section{Outlook?}
-\begin{frame}{Look Out!}
+\section{Outlook}
+\SidebarRaw{\link{https://www.gnu.org/software/parallel/parallel\_tutorial.html\#semaphore}{{\faExternalLink}~parallel tutorial~[06/30/22]}}
+\SidebarRaw{\link{https://www.gnu.org/software/parallel/parallel_alternatives.pdf}{{\faExternalLink}~parallel alternatives~[06/30/22]}}
+\begin{frame}{It can do more!}
+\begin{itemize}[<+(1)->]
+   \itemsep4pt
+   \item Different spreading strategies (\T{-{}-shard}, \T{-{}-bin},~\ldots) for \T{-{}-pipe}
+   \item Replacement strings (\T{\{\}}, \T{\{\%\}},~\ldots)% {= <perl> =}
+   \item Compression of buffer data (\T{-{}-compress}) % TODO: other problem with tempfiels
+   \item Comfort-Support for named pipes (\T{-{}-fifo})
+   \item Support for unfair counting semaphore with timeout \begin{itemize}
+      \item With options (\T{-{}-semaphore})
+      \item As alternative Program (\T{sem})
+   \end{itemize}
+   \item Load Balancing (\T{-{-}limit}, \T{-{}-load},~\ldots)
+   \item And so much more (Tables, SQL, Shebang,~\ldots) % TODO: NOTE Eierlegende wollmilchsau entgegen der ursprünglichen toolbox idee
+\end{itemize}
+% todo: unitprefix stuff
 % FELIX&FLO
 % praktische Anwendungen
-% optionen die wir nicht vorstellen
-% gibt es eine geplante Weiterentwicklung? <- ne
+% gibt es eine geplante Weiterentwicklung? <- joa (design ganz unten)
 % Alternativen: https://www.gnu.org/software/parallel/parallel_alternatives.pdf
 % xargs hat -P, makefiles etc.
 % -pipe vs pipepart, disk buffering
@@ -752,5 +771,19 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
 % shebang
 % -N for max args etc
 \end{frame}
+\SidebarReset
+% TODO: note perls open3 (https://perldoc.perl.org/IPC::Open3) which GNU parallel uses is slow
+% TODO: nur wenn wir noch zeit haben, sonst erwähnen
+% \SidebarRaw{\link{https://www.gnu.org/software/parallel/parallel_alternatives.pdf}{{\faExternalLink}~parallel alternatives~[06/30/22]}}
+% \begin{frame}{Alternatives}% and Future Plans} future plans are there, but technical
+%    \begin{itemize}[<+(1)->]
+%       \item \T{xargs}
+%    \end{itemize}
+% \end{frame}
+% \SidebarReset
 
+
+% TODO: link files to the git repo on main
+% TODO: check animations
+% TODO: outro QR code to the git repo!
 \end{document}
