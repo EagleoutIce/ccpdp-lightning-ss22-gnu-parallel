@@ -504,14 +504,10 @@ parallel -S $SERVER echo running on ::: $SERVER/*\onslide<1->*/
 \begin{itemize}
    \item Long version:
    \begin{minted}[deletekeywords={transferfile}]{bash}
-parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{return}*/ {}.out --transferfile\
-   {} --cleanup cat {} "/*\T{\solGet{literals}{>}}*/"{}.out ::: input_file/*\onslide<1->*/
+parallel -S 2/"sshpass -p '$SECRET_PW' ssh limerent@localhost"\
+   --transferfile {} --return {}.gz --cleanup gzip ::: README.txt/*\onslide<1->*/
    \end{minted}
-   \item Shorthands:
-\begin{minted}[deletekeywords={transferfile}]{bash}
-parallel -S $SERVER /*\T{-}*//*\T{-}*//*\T{trc}*/ {}.out cat {} "/*\T{\solGet{literals}{>}}*/"{}.out
-   ::: input_file/*\onslide<1->*/
-\end{minted}
+   \item Shorthands like \T{-trc} (transferfile, return, cleanup)
 \end{itemize}
 % \item TODO: beautiful shortant
 \end{itemize}
