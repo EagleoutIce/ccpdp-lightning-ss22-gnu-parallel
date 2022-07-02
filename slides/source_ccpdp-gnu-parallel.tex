@@ -290,15 +290,15 @@ for (int i = 0; i < /*\Snode{n}*/n/*\Snode{n@}*/; i++) {
 \end{onlyenv}
 \begin{onlyenv}<14-17|handout:3>
 \begin{tikzpicture}[@O]
-   \onslide<15->{
+   \onslide<0>{
       \hlbehindcodeunder{from}{@from>}
       \draw[T,-Kite] (@from>_up) to[bend left] ++(.5,.35) node[right] {0};
    }
-   \onslide<16->{
+   \onslide<0>{
       \hlbehindcodeunder{to}{@to>}
       \draw[T,-Kite] (@to>_up) to[bend left] ++(.5,.35) node[right] {1};
    }
-   \onslide<17->{
+   \onslide<0>{
       \hlbehindcodeunder{value}{@value>}
       \draw[T,-Kite] (@value>_up) to[bend left] ++(.5,.35) node[right] {2};
    }
@@ -465,6 +465,7 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);/*\onslide
 \end{frame}
 }
 
+\begin{cut-from-main}
 \subsection{History}
 \SidebarCite{Tange2011a}
 \SidebarCite{gnuHistoryParallel}
@@ -485,6 +486,7 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);/*\onslide
    % Single-file to work easily, perl because seems to be widespread, problem: overhead (--tag option+, https://www.gnu.org/software/parallel/parallel_design.pdf)
 \end{frame}
 \SidebarReset
+\end{cut-from-main}
 
 \subsection{Distribution}
 {
@@ -636,6 +638,8 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
 \end{frame}
 }
 
+
+\begin{cut-from-main}
 \subsection{Data Encoding}
 \SidebarCite{breg2003java}
 \SidebarRaw{\link{https://docs.oracle.com/en/java/javase/17/docs/specs/rmi/index.html}{{\faExternalLink}~Java RMI~[07/01/22]}}
@@ -663,6 +667,7 @@ rl.on("close", /*\Snode{cb2}*/() => console.log(accMap)/*\Snode{cb2@}*/);/*\onsl
    % objekte % FLORIAN (gson und so)
 \end{frame}
 \SidebarReset
+\end{cut-from-main}
 }
 
 \subsection{Recap} % maybe not as separate bot in the bottom?

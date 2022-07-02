@@ -196,3 +196,24 @@
 \AtBeginDocument{%
 \long\def\beamer@ref#1{\hlink@do{#1}{{\beamer@origref*{#1}}}}% the extra set of braces is for soul so that it can work with braces
 }
+
+
+\usepackage{environ}
+% fake a number to show skips and consume contents otherwise
+\NewEnviron{cut-from-main}{\edef\insertframenumber{\the\numexpr\insertframenumber+1}}
+
+\mode
+<handout>
+
+\renewenvironment{cut-from-main}{%
+\begingroup
+\colorlet{btdl@color@primary}{gray}
+\BeforeBeginEnvironment{frame}{\colorlet{btdl@color@background}{lightgray}%
+\setbeamercolor{background canvas}{bg=btdl@color@background}}
+\AfterEndEnvironment{frame}{\colorlet{btdl@color@background}{btdl@color@primary!1!}%
+\setbeamercolor{background canvas}{bg=btdl@color@background}}
+}{%
+\endgroup
+}
+\mode
+<all>
