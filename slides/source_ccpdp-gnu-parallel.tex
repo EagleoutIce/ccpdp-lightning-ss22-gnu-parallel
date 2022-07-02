@@ -238,14 +238,14 @@
 \scope[shift={(current page.north east)},shift={(-4cm,-2cm)},codeouthl,xscale=2,K/.style={circle,fill,scale=1.25},scale=.5,every ndoe/.append style={transform shape}]
       {\only<10-13|handout:2>{\color{shadeA}} \node[K] (1) at (0,0) {};}
       \node[K,codeouthl!60!white] (2) at (1,0) {};
-      {\only<14-17|handout:3>{\color{shadeA}}
+      {\only<14|handout:3>{\color{shadeA}}
          \node[K] (3a) at (2,2) {};
          \node[K] (3b) at (2,1) {};
          \node[K] (3c) at (2,0) {};
          \node[K] (3d) at (2,-1) {};
          \node[K] (3e) at (2,-2) {};
       }
-      {\only<18-20|handout:4>{\color{shadeA}}
+      {\only<15-17|handout:4>{\color{shadeA}}
          \node[K] (4) at (3,0) {};
       }
 
@@ -288,7 +288,7 @@ for (int i = 0; i < /*\Snode{n}*/n/*\Snode{n@}*/; i++) {
 \end{minted}
 % TODO: highlight n as number, names for constants and value
 \end{onlyenv}
-\begin{onlyenv}<14-17|handout:3>
+\begin{onlyenv}<14|handout:3>
 \begin{tikzpicture}[@O]
    \onslide<0>{
       \hlbehindcodeunder{from}{@from>}
@@ -316,13 +316,13 @@ while (scanner.hasNextLine()) {
 scanner.close();/*\onslide<1->*/
 \end{minted}
 \end{onlyenv}
-\begin{onlyenv}<18-20|handout:4>
+\begin{onlyenv}<15-17|handout:4>
 \begin{tikzpicture}[@O]
-   \onslide<19->{
+   \onslide<16->{
       \hlbehindcodeunder{getOrDefault}{@getOrDefault>}
       \draw[T,-Kite] ([yshift=.125mm]@getOrDefault>_up) to[bend left] ++(.5,.35) node[right] {Arbitrary initialization};
    }
-   \onslide<20->{
+   \onslide<17->{
       \hlbehindcodeunder{accounts}{@accounts>}
       \draw[T,-Kite] (@accounts>_up) to[bend left] ++(.5,.35) node[right] {\T{AbstractMap.toString()}};
    }
