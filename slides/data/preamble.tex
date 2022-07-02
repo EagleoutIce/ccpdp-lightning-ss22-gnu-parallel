@@ -200,7 +200,7 @@
 
 \usepackage{environ}
 % fake a number to show skips and consume contents otherwise
-\NewEnviron{cut-from-main}{\edef\insertframenumber{\the\numexpr\insertframenumber+1}}
+\NewEnviron{cut-from-main}{\stepcounter{framenumber}}
 
 \mode
 <handout>
