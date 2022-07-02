@@ -208,10 +208,8 @@
 \renewenvironment{cut-from-main}{%
 \begingroup
 \colorlet{btdl@color@primary}{gray}
-\BeforeBeginEnvironment{frame}{\colorlet{btdl@color@background}{lightgray}%
-\setbeamercolor{background canvas}{bg=btdl@color@background}}
-\AfterEndEnvironment{frame}{\colorlet{btdl@color@background}{btdl@color@primary!1!}%
-\setbeamercolor{background canvas}{bg=btdl@color@background}}
+\colorlet{btdl@color@background}{gray!21!white}
+\setbeamercolor{background canvas}{bg=btdl@color@background}
 }{%
 \endgroup
 }
