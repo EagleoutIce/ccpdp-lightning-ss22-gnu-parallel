@@ -488,7 +488,7 @@ System.out.println(/*\Snode{accounts}*/accounts/*\Snode{accounts@}*/);/*\onslide
 
 \subsection{Distribution}
 {
-\lstset{add to literate={\$SERVER}{{{\color{gray}\textdollar SERVER}}}7 {\$SERVER1}{{{\color{gray}\textdollar SERVER1}}}7 {\\}{{{\color{codeouthl}{\textbackslash}}}}1}
+\lstset{add to literate={\$SERVER}{{{\color{gray}\textdollar SERVER}}}7 {\$SECRET_PW}{{{\color{gray}\textdollar SECRET\textunderscore PW}}}9 {\$SERVER1}{{{\color{gray}\textdollar SERVER1}}}7 {\\}{{{\color{codeouthl}{\textbackslash}}}}1}
 \SidebarRaw{\link{https://www.gnu.org/software/parallel/parallel\_tutorial.html\#transferring-files}{{\faExternalLink}~parallel tutorial~[06/30/22]}}
 \begin{frame}[fragile]{Distributed}
 \begin{itemize}[<+(1)->]
@@ -504,8 +504,8 @@ parallel -S $SERVER echo running on ::: $SERVER/*\onslide<1->*/
 \begin{itemize}
    \item Long version:
    \begin{minted}[deletekeywords={transferfile}]{bash}
-parallel -S 2/"sshpass -p '$SECRET_PW' ssh limerent@localhost"\
-   --transferfile {} --return {}.gz --cleanup gzip ::: README.txt/*\onslide<1->*/
+parallel -S 1/"sshpass -p '$SECRET_PW' /*\solGet{literals}{ssh}*//*\solGet{literals}{\textvisiblespace}*//*\solGet{literals}{limerent@localhost}*/" /*\T{-{}-transferfile}*/ {}\
+   /*\T{-{}-return}*/ {}./*\T{gz}*/ /*\T{-{}-cleanup}*/ gzip ::: README.txt/*\onslide<1->*/
    \end{minted}
    \item Shorthands like \T{-trc} (transferfile, return, cleanup)
 \end{itemize}
