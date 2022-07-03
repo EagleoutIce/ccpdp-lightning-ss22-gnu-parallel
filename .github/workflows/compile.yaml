@@ -4,7 +4,7 @@ name: Build the slides
     branches:
     - master
     - main
-
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
